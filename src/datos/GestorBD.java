@@ -137,9 +137,9 @@ public class GestorBD {
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the data: %s", ex.getMessage()));
+			System.err.println(String.format("* Error adding the game data: %s", ex.getMessage()));
 			ex.printStackTrace();						
-		}				
+		}	
 	}
 	
 	///////// USERS DATABASE /////////
@@ -152,23 +152,21 @@ public class GestorBD {
 			String sql = "INSERT INTO GAMES (USERNAME, EMAIL, PASSWORD, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
 					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d','%s', '%s');";
 			
-			System.out.println("- Adding games...");
+			System.out.println("- Adding users...");
 			
 			//Se recorren los clientes y se insertan uno a uno
 			for (Usuario user : usuarios) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getUsername(),
-						user.getPassword(), user.getPegi(), user.getGenre1(), 
-						user.getGenre2(), user.getPrice(), user.getDescription(), 
-						user.getImg_link()))) {					
-					System.out.println(String.format(" - Game added: %s", user.toString()));
+						user.getEmail(), user.getPassword(), user.getCountry(), user.getLastTimePlayed(), user.getTotalTimePlayed()))) {					
+					System.out.println(String.format(" - User added: %s", user.toString()));
 				} else {
-					System.out.println(String.format(" - Game was not added: %s", user.toString()));
+					System.out.println(String.format(" - User was not added: %s", user.toString()));
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the data: %s", ex.getMessage()));
+			System.err.println(String.format("* Error adding the user data: %s", ex.getMessage()));
 			ex.printStackTrace();						
-		}				
+		}	
 	}
 	
 	///////// PROPERTY DATABASE /////////
