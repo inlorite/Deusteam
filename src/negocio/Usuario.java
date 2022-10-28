@@ -13,13 +13,13 @@ public class Usuario {
 	protected String country;
 	protected Date lastTimePlayed;
 	protected int totalTimePlayed;
-	protected ArrayList<Integer> amigos;
-	protected ArrayList<Juego> juegos;
+	protected ArrayList<Integer> friends;
+	protected ArrayList<Juego> games;
 	
 
 
 	public Usuario(int id, String username, String email, String passsword, String country, Date lastTimePlayed,
-			int totalTimePlayed, ArrayList<Integer> amigos, ArrayList<Juego> juegos) {
+			int totalTimePlayed, ArrayList<Integer> friends, ArrayList<Juego> games) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -28,8 +28,8 @@ public class Usuario {
 		this.country = country;
 		this.lastTimePlayed = lastTimePlayed;
 		this.totalTimePlayed = totalTimePlayed;
-		this.amigos = amigos;
-		this.juegos = juegos;
+		this.friends = friends;
+		this.games = games;
 	}
 
 	public int getId() {
@@ -64,12 +64,12 @@ public class Usuario {
 		this.passsword = passsword;
 	}
 
-	public ArrayList<Juego> getJuegos() {
-		return juegos;
+	public ArrayList<Juego> getgames() {
+		return games;
 	}
 
-	public void setJuegos(ArrayList<Juego> juegos) {
-		this.juegos = juegos;
+	public void setgames(ArrayList<Juego> games) {
+		this.games = games;
 	}
 	
 
@@ -81,12 +81,12 @@ public class Usuario {
 		this.country = country;
 	}
 
-	public ArrayList<Integer> getAmigos() {
-		return amigos;
+	public ArrayList<Integer> getfriends() {
+		return friends;
 	}
 
-	public void setAmigos(ArrayList<Integer> amigos) {
-		this.amigos = amigos;
+	public void setfriends(ArrayList<Integer> friends) {
+		this.friends = friends;
 	}
 
 	public String getUsername() {
@@ -134,7 +134,7 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", passsword=" + passsword
 				+ ", country=" + country + ", lastTimePlayed=" + lastTimePlayed + ", totalTimePlayed=" + totalTimePlayed
-				+ ", amigos=" + amigos + ", juegos=" + juegos + "]";
+				+ ", friends=" + friends + ", games=" + games + "]";
 	}
 
 	
