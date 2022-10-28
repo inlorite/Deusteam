@@ -1,31 +1,33 @@
 package negocio;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class Usuario {
 	
 	protected int id;
-	protected String name;
+	protected String username;
 	protected String email;
 	protected String passsword;
 	protected String country;
-	protected int gameNum;
-	protected Double hoursPerGame;
+	protected Date lastTimePlayed;
+	protected int totalTimePlayed;
 	protected ArrayList<Integer> amigos;
 	protected ArrayList<Juego> juegos;
 	
 
-	public Usuario(int id, String name, String email, String passsword, String country, int gameNum,
-			Double hoursPerGame, ArrayList<Integer> amigos, ArrayList<Juego> juegos) {
+
+	public Usuario(int id, String username, String email, String passsword, String country, Date lastTimePlayed,
+			int totalTimePlayed, ArrayList<Integer> amigos, ArrayList<Juego> juegos) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.username = username;
 		this.email = email;
 		this.passsword = passsword;
 		this.country = country;
-		this.gameNum = gameNum;
-		this.hoursPerGame = hoursPerGame;
+		this.lastTimePlayed = lastTimePlayed;
+		this.totalTimePlayed = totalTimePlayed;
 		this.amigos = amigos;
 		this.juegos = juegos;
 	}
@@ -38,12 +40,12 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getusername() {
+		return username;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setusername(String username) {
+		this.username = username;
 	}
 
 	public String getEmail() {
@@ -79,28 +81,36 @@ public class Usuario {
 		this.country = country;
 	}
 
-	public int getGameNum() {
-		return gameNum;
-	}
-
-	public void setGameNum(int gameNum) {
-		this.gameNum = gameNum;
-	}
-
-	public Double getHoursPerGame() {
-		return hoursPerGame;
-	}
-
-	public void setHoursPerGame(Double hoursPerGame) {
-		this.hoursPerGame = hoursPerGame;
-	}
-
 	public ArrayList<Integer> getAmigos() {
 		return amigos;
 	}
 
 	public void setAmigos(ArrayList<Integer> amigos) {
 		this.amigos = amigos;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public Date getLastTimePlayed() {
+		return lastTimePlayed;
+	}
+
+	public void setLastTimePlayed(Date lastTimePlayed) {
+		this.lastTimePlayed = lastTimePlayed;
+	}
+
+	public int getTotalTimePlayed() {
+		return totalTimePlayed;
+	}
+
+	public void setTotalTimePlayed(int totalTimePlayed) {
+		this.totalTimePlayed = totalTimePlayed;
 	}
 
 	@Override
@@ -122,9 +132,10 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", name=" + name + ", email=" + email + ", passsword=" + passsword + ", country="
-				+ country + ", gameNum=" + gameNum + ", hoursPerGame=" + hoursPerGame + ", amigos=" + amigos
-				+ ", juegos=" + juegos + "]";
+		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", passsword=" + passsword
+				+ ", country=" + country + ", lastTimePlayed=" + lastTimePlayed + ", totalTimePlayed=" + totalTimePlayed
+				+ ", amigos=" + amigos + ", juegos=" + juegos + "]";
 	}
+
 	
 }
