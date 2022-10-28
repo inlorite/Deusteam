@@ -3,7 +3,7 @@ package negocio;
 import java.util.Objects;
 
 public class Juego {
-	protected int id_game;
+	protected int id;
 	protected String name;
 	protected String company;
 	protected Pegi pegi;
@@ -11,12 +11,12 @@ public class Juego {
 	protected CategoriaJuego genre2;
 	protected double price;
 	protected String description;
-	protected String img_link;
+	protected String imgLink;
 
-	public Juego(int id_game, String name, String company, Pegi pegi, CategoriaJuego genre1, CategoriaJuego genre2,
-			double price, String description, String img_link) {
+	public Juego(int id, String name, String company, Pegi pegi, CategoriaJuego genre1, CategoriaJuego genre2,
+			double price, String description, String imgLink) {
 		super();
-		this.id_game = id_game;
+		this.id = id;
 		this.name = name;
 		this.company = company;
 		this.pegi = pegi;
@@ -24,15 +24,15 @@ public class Juego {
 		this.genre2 = genre2;
 		this.price = price;
 		this.description = description;
-		this.img_link = img_link;
+		this.imgLink = imgLink;
 	}
 
-	public int getId_game() {
-		return id_game;
+	public int getid() {
+		return id;
 	}
 
-	public void setId_game(int id_game) {
-		this.id_game = id_game;
+	public void setid(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -91,17 +91,17 @@ public class Juego {
 		this.description = description;
 	}
 
-	public String getImg_link() {
-		return img_link;
+	public String getimgLink() {
+		return imgLink;
 	}
 
-	public void setImg_link(String img_link) {
-		this.img_link = img_link;
+	public void setimgLink(String imgLink) {
+		this.imgLink = imgLink;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id_game);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -113,14 +113,14 @@ public class Juego {
 		if (getClass() != obj.getClass())
 			return false;
 		Juego other = (Juego) obj;
-		return id_game == other.id_game;
+		return id == other.id;
 	}
 
 	@Override
 	public String toString() {
-		return "Juego [id_game=" + id_game + ", name=" + name + ", company=" + company + ", pegi=" + pegi + ", genre1="
-				+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", img_link="
-				+ img_link + "]";
+		return "Juego [id=" + id + ", name=" + name + ", company=" + company + ", pegi=" + pegi + ", genre1="
+				+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
+				+ imgLink + "]";
 	}
 
 }
