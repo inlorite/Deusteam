@@ -1,29 +1,39 @@
 package datos;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class GestorBD {
 	
+	/*
 	protected static final String DRIVER_NAME = "org.sqlite.JDBC";
 	protected static final String DATABASE_FILE = "db/database.db";
 	protected static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
+	*/
+	protected static Properties properties;
 	
 	public GestorBD() {		
 		try {
+			properties = new Properties();
+			properties.load(new FileReader("conf/config.properties"));
 			//Cargar el diver SQLite
-			Class.forName(DRIVER_NAME);
+			Class.forName(properties.getProperty("DRIVER_NAME"));
 		} catch (ClassNotFoundException ex) {
 			System.err.println(String.format("* Error al cargar el driver de BBDD: %s", ex.getMessage()));
 			ex.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void crearBBDD() {
 		//Se abre la conexión y se obtiene el Statement
 		//Al abrir la conexión, si no existía el fichero, se crea la base de datos
-		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			
 	        String sql = "CREATE TABLE IF NOT EXISTS GAMES (\n"
