@@ -2,10 +2,14 @@ package datos;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.Properties;
+
+import negocio.Juego;
 
 public class GestorBD {
 	
@@ -71,12 +75,76 @@ public class GestorBD {
 					   + ");";
 	        	        
 	        if (!stmt.execute(sql)) {
-	        	System.out.println("- Games chart successfuly created");
+	        	System.out.println("- Successfuly created 4 charts (Games, Users, Property, Friends)");
 	        }
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error al crear la BBDD: %s", ex.getMessage()));
+			System.err.println(String.format("* Error creating database: %s", ex.getMessage()));
 			ex.printStackTrace();			
 		}
 	}
+	
+	public void borrarBBDD() {
+		//Se abre la conexión y se obtiene el Statement
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			
+	        String sql = "DROP TABLE IF EXISTS GAMES"
+	        			+ "DROP TABLE IF EXISTS USERS"
+	        			+ "DROP TABLE IF EXISTS PROPERTY"
+	        			+ "DROP TABLE IF EXISTS FRIENDS";
+			
+	        //Se ejecuta la sentencia de creación de la tabla Estudiantes
+	        if (!stmt.execute(sql)) {
+	        	System.out.println("- Successfuly deleted 4 charts (Games, Users, Property, Friends)");
+	        }
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error deleting database: %s", ex.getMessage()));
+			ex.printStackTrace();			
+		}
+		
+		try {
+			//Se borra el fichero de la BBDD
+			Files.delete(Paths.get(properties.getProperty("DATABASE_FILE")));
+			System.out.println("- Database file successfuly deleted");
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error deleting the database file: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}
+	}
+	
+	///////// GAMES DATABASE /////////
+	
+	public void insertarDatosGames(Juego... juegos ) {
+		//Se abre la conexión y se obtiene el Statement
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			//Se define la plantilla de la sentencia SQL
+			String sql = "INSERT INTO GAMES (NAME, COMPANY, PEGI, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
+					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d','%s', '%s');";
+			
+			System.out.println("- Adding games...");
+			
+			//Se recorren los clientes y se insertan uno a uno
+			for (Juego game : juegos) {
+				if (1 == stmt.executeUpdate(String.format(sql, game.getName(),
+						game.getCompany(), game.getPegi(), game.getGenre1(), 
+						game.getGenre2(), game.getPrice(), game.getDescription(), 
+						game.getImg_link()))) {					
+					System.out.println(String.format(" - Game added: %s", game.toString()));
+				} else {
+					System.out.println(String.format(" - Game was not added: %s", game.toString()));
+				}
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error adding the data: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}				
+	}
+	
+	///////// USERS DATABASE /////////
+	
+	///////// PROPERTY DATABASE /////////
+	
+	///////// FRIENDS DATABASE /////////
 	
 }
