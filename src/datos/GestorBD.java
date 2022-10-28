@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import negocio.Juego;
+import negocio.Usuario;
 
 public class GestorBD {
 	
@@ -142,6 +143,33 @@ public class GestorBD {
 	}
 	
 	///////// USERS DATABASE /////////
+	
+	public void insertarDatosUsers(Usuario... usuarios ) {
+		//Se abre la conexión y se obtiene el Statement
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			//Se define la plantilla de la sentencia SQL
+			String sql = "INSERT INTO GAMES (USERNAME, EMAIL, PASSWORD, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
+					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d','%s', '%s');";
+			
+			System.out.println("- Adding games...");
+			
+			//Se recorren los clientes y se insertan uno a uno
+			for (Usuario user : usuarios) {
+				if (1 == stmt.executeUpdate(String.format(sql, user.getUsername(),
+						user.getPassword(), user.getPegi(), user.getGenre1(), 
+						user.getGenre2(), user.getPrice(), user.getDescription(), 
+						user.getImg_link()))) {					
+					System.out.println(String.format(" - Game added: %s", user.toString()));
+				} else {
+					System.out.println(String.format(" - Game was not added: %s", user.toString()));
+				}
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error adding the data: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}				
+	}
 	
 	///////// PROPERTY DATABASE /////////
 	

@@ -9,7 +9,7 @@ public class Usuario {
 	protected int id;
 	protected String username;
 	protected String email;
-	protected String passsword;
+	protected String password;
 	protected Pais country;
 	protected Date lastTimePlayed;
 	protected int totalTimePlayed;
@@ -17,13 +17,13 @@ public class Usuario {
 	protected ArrayList<Juego> games;
 	
 	
-	public Usuario(int id, String username, String email, String passsword, Pais country, Date lastTimePlayed,
+	public Usuario(int id, String username, String email, String password, Pais country, Date lastTimePlayed,
 			int totalTimePlayed, ArrayList<Integer> friends, ArrayList<Juego> games) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.email = email;
-		this.passsword = passsword;
+		this.password = password;
 		this.country = country;
 		this.lastTimePlayed = lastTimePlayed;
 		this.totalTimePlayed = totalTimePlayed;
@@ -55,12 +55,12 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public String getPasssword() {
-		return passsword;
+	public String getpassword() {
+		return password;
 	}
 
-	public void setPasssword(String passsword) {
-		this.passsword = passsword;
+	public void setpassword(String password) {
+		this.password = password;
 	}
 
 	public ArrayList<Juego> getgames() {
@@ -131,7 +131,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", passsword=" + passsword
+		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", country=" + country + ", lastTimePlayed=" + lastTimePlayed + ", totalTimePlayed=" + totalTimePlayed
 				+ ", friends=" + friends + ", games=" + games + "]";
 	}
