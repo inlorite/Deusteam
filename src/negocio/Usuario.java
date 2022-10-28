@@ -10,15 +10,14 @@ public class Usuario {
 	protected String username;
 	protected String email;
 	protected String passsword;
-	protected String country;
+	protected Pais country;
 	protected Date lastTimePlayed;
 	protected int totalTimePlayed;
 	protected ArrayList<Integer> friends;
 	protected ArrayList<Juego> games;
 	
-
-
-	public Usuario(int id, String username, String email, String passsword, String country, Date lastTimePlayed,
+	
+	public Usuario(int id, String username, String email, String passsword, Pais country, Date lastTimePlayed,
 			int totalTimePlayed, ArrayList<Integer> friends, ArrayList<Juego> games) {
 		super();
 		this.id = id;
@@ -73,11 +72,11 @@ public class Usuario {
 	}
 	
 
-	public String getCountry() {
+	public Pais getCountry() {
 		return country;
 	}
 
-	public void setCountry(String country) {
+	public void setCountry(Pais country) {
 		this.country = country;
 	}
 
