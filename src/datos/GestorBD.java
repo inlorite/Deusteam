@@ -56,8 +56,8 @@ public class GestorBD {
 					   + ");"
 					   
 					   + "CREATE TABLE IF NOT EXISTS FRIENDS (\n"
-					   + " ID_USER1 INTEGER,\n"
-					   + " ID_USER2 INTEGER,\n"
+					   + " ID_USER1 INTEGER FOREIGN KEY,\n"
+					   + " ID_USER2 INTEGER FOREIGN KEY,\n"
 					   + ");";
 	        	        
 	        if (!stmt.execute(sql)) {
