@@ -39,11 +39,11 @@ public class Usuario {
 		this.id = id;
 	}
 
-	public String getusername() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setusername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -55,19 +55,19 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public String getpassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setpassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public ArrayList<Juego> getgames() {
+	public ArrayList<Juego> getGames() {
 		return games;
 	}
 
-	public void setgames(ArrayList<Juego> games) {
+	public void setGames(ArrayList<Juego> games) {
 		this.games = games;
 	}
 	
@@ -80,20 +80,12 @@ public class Usuario {
 		this.country = country;
 	}
 
-	public ArrayList<Integer> getfriends() {
+	public ArrayList<Integer> getFriends() {
 		return friends;
 	}
 
-	public void setfriends(ArrayList<Integer> friends) {
+	public void setFriends(ArrayList<Integer> friends) {
 		this.friends = friends;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public Date getLastTimePlayed() {
