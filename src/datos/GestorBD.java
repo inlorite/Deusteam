@@ -25,10 +25,10 @@ public class GestorBD {
 		try {
 			properties = new Properties();
 			properties.load(new FileReader("conf/config.properties"));
-			//Cargar el diver SQLite
+			// SQLite diver charging
 			Class.forName(properties.getProperty("DRIVER_NAME"));
 		} catch (ClassNotFoundException ex) {
-			System.err.println(String.format("* Error al cargar el driver de BBDD: %s", ex.getMessage()));
+			System.err.println(String.format("* Error charging database driver: %s", ex.getMessage()));
 			ex.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -36,8 +36,8 @@ public class GestorBD {
 	}
 	
 	public void crearBBDD() {
-		//Se abre la conexi贸n y se obtiene el Statement
-		//Al abrir la conexi贸n, si no exist铆a el fichero, se crea la base de datos
+		// Connection is established and the Statement is obtained
+		// If file does not exist, database is created
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			
@@ -65,16 +65,17 @@ public class GestorBD {
 	                   
 					   + "CREATE TABLE IF NOT EXISTS PROPERTY (\n"
 					   + " INSTALLED INTEGER NOT NULL,\n"
-					   + " TOTAL_TIME_PLAYED DECIMAL(),\n"
-					   + " ID_GAME INTEGER FOREIGN KEY,\n"
-					   + " ID_GAME INTEGER FOREIGN KEY,\n"
+					   + " TOTAL_TIME_PLAYED INT NOT NULL,\n"
+					   + " ID_GAME INTEGER FOREIGN KEY NOT NULL,\n"
+					   + " ID_USER INTEGER FOREIGN KEY NOT NULL,\n"
 					   + ");"
 					   
 					   + "CREATE TABLE IF NOT EXISTS FRIENDS (\n"
-					   + " ID_USER1 INTEGER FOREIGN KEY,\n"
-					   + " ID_USER2 INTEGER FOREIGN KEY,\n"
+					   + " ID_USER1 INTEGER FOREIGN KEY NOT NULL,\n"
+					   + " ID_USER2 INTEGER FOREIGN KEY NOT NULL,\n"
 					   + ");";
-	        	        
+	        
+	        // Chart-creating sentence is executed
 	        if (!stmt.execute(sql)) {
 	        	System.out.println("- Successfuly created 4 charts (Games, Users, Property, Friends)");
 	        }
@@ -85,7 +86,7 @@ public class GestorBD {
 	}
 	
 	public void borrarBBDD() {
-		//Se abre la conexi贸n y se obtiene el Statement
+		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			
@@ -94,7 +95,7 @@ public class GestorBD {
 	        			+ "DROP TABLE IF EXISTS PROPERTY"
 	        			+ "DROP TABLE IF EXISTS FRIENDS";
 			
-	        //Se ejecuta la sentencia de creaci贸n de la tabla Estudiantes
+	        // Chart-deleting sentence is executed
 	        if (!stmt.execute(sql)) {
 	        	System.out.println("- Successfuly deleted 4 charts (Games, Users, Property, Friends)");
 	        }
@@ -104,7 +105,7 @@ public class GestorBD {
 		}
 		
 		try {
-			//Se borra el fichero de la BBDD
+			// Database file is erased
 			Files.delete(Paths.get(properties.getProperty("DATABASE_FILE")));
 			System.out.println("- Database file successfuly deleted");
 		} catch (Exception ex) {
@@ -116,24 +117,24 @@ public class GestorBD {
 	///////// GAMES DATABASE /////////
 	
 	public void insertarDatosGames(Juego... juegos ) {
-		//Se abre la conexi贸n y se obtiene el Statement
+		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
-			//Se define la plantilla de la sentencia SQL
+			// SQL sentence is defined
 			String sql = "INSERT INTO GAMES (NAME, COMPANY, PEGI, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
 					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d','%s', '%s');";
 			
 			System.out.println("- Adding games...");
 			
-			//Se recorren los clientes y se insertan uno a uno
+			// Info is added to the chart
 			for (Juego game : juegos) {
 				if (1 == stmt.executeUpdate(String.format(sql, game.getName(),
 						game.getCompany(), game.getPegi(), game.getGenre1(), 
 						game.getGenre2(), game.getPrice(), game.getDescription(), 
-						game.getImg_link()))) {					
+						game.getimgLink()))) {					
 					System.out.println(String.format(" - Game added: %s", game.toString()));
 				} else {
-					System.out.println(String.format(" - Game was not added: %s", game.toString()));
+					System.out.println(String.format(" - Game could not be added: %s", game.toString()));
 				}
 			}
 		} catch (Exception ex) {
@@ -145,22 +146,23 @@ public class GestorBD {
 	///////// USERS DATABASE /////////
 	
 	public void insertarDatosUsers(Usuario... usuarios ) {
-		//Se abre la conexi贸n y se obtiene el Statement
+		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
-			//Se define la plantilla de la sentencia SQL
-			String sql = "INSERT INTO GAMES (USERNAME, EMAIL, PASSWORD, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
-					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d','%s', '%s');";
+			// SQL sentence is defined
+			String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD, COUNTRY, LAST_TIME_PLAYED, TOTAL_TIME_PLAYED) "
+					+ "VALUES ('%s', '%s', '%s','%s', '%t', '%d');";
 			
 			System.out.println("- Adding users...");
 			
-			//Se recorren los clientes y se insertan uno a uno
+			// Info is added to the chart
 			for (Usuario user : usuarios) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getUsername(),
-						user.getEmail(), user.getPassword(), user.getCountry(), user.getLastTimePlayed(), user.getTotalTimePlayed()))) {					
+						user.getEmail(), user.getPassword(), user.getCountry(), 
+						user.getLastTimePlayed(), user.getTotalTimePlayed()))) {					
 					System.out.println(String.format(" - User added: %s", user.toString()));
 				} else {
-					System.out.println(String.format(" - User was not added: %s", user.toString()));
+					System.out.println(String.format(" - User could not be added: %s", user.toString()));
 				}
 			}
 		} catch (Exception ex) {
@@ -170,6 +172,28 @@ public class GestorBD {
 	}
 	
 	///////// PROPERTY DATABASE /////////
+	
+	public void insertarDatosProperty(Juego game, Usuario user) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "INSERT INTO PROPERTY (INSTALLED, TOTAL_TIME_PLAYED, ID_GAME, ID_USER) "
+					+ "VALUES ('%x', '%x', '%x','%x');";
+			
+			System.out.println("- Adding game to user磗 library...");
+			
+			// Info is added to the chart
+			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, game.getId(), user.getId()))) {					
+				System.out.println(String.format(" - Game added to library: %s", game.getName(), user.getUsername()));
+			} else {
+				System.out.println(String.format(" - Game could not be added to library: %s", game.getName(), user.getUsername()));
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error adding the user data: %s", ex.getMessage()));
+			ex.printStackTrace();				
+		}
+	}
 	
 	///////// FRIENDS DATABASE /////////
 	
