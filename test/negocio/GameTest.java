@@ -45,7 +45,7 @@ public class GameTest {
 		assertEquals(genre2, game.getGenre2());
 		assertEquals(price, game.getPrice(), 0.0);
 		assertEquals(description, game.getDescription());
-		assertEquals(imgLink, game.imgLink);
+		assertEquals(imgLink, game.getImgLink());
 	}
 
 	@Test
