@@ -1,5 +1,5 @@
 package negocio;
 
-public enum TipoMerch {
+public enum MerchType {
 	soundtrack, artbook;
 }

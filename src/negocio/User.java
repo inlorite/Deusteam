@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-public class Usuario {
+public class User {
 	
 	protected int id;
 	protected String username;
 	protected String email;
 	protected String password;
-	protected Pais country;
+	protected Country country;
 	protected Date lastTimePlayed;
 	protected int totalTimePlayed;
 	protected ArrayList<Integer> friends;
-	protected ArrayList<Juego> games;
+	protected ArrayList<Game> games;
 	
 	
-	public Usuario(int id, String username, String email, String password, Pais country, Date lastTimePlayed,
-			int totalTimePlayed, ArrayList<Integer> friends, ArrayList<Juego> games) {
+	public User(int id, String username, String email, String password, Country country, Date lastTimePlayed,
+			int totalTimePlayed, ArrayList<Integer> friends, ArrayList<Game> games) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -31,13 +31,13 @@ public class Usuario {
 		this.games = games;
 	}
 	
-	public Usuario() {
+	public User() {
 		super();
 		this.id = 0;
 		this.username = "";
 		this.email = "";
 		this.password = "";
-		this.country = Pais.Spain;
+		this.country = Country.Spain;
 		this.lastTimePlayed = null;
 		this.totalTimePlayed = 0;
 		this.friends = null;
@@ -76,20 +76,20 @@ public class Usuario {
 		this.password = password;
 	}
 
-	public ArrayList<Juego> getGames() {
+	public ArrayList<Game> getGames() {
 		return games;
 	}
 
-	public void setGames(ArrayList<Juego> games) {
+	public void setGames(ArrayList<Game> games) {
 		this.games = games;
 	}
 	
 
-	public Pais getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
-	public void setCountry(Pais country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 
@@ -130,7 +130,7 @@ public class Usuario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		User other = (User) obj;
 		return id == other.id;
 	}
 

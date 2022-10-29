@@ -1,12 +1,12 @@
 package negocio;
 
-import datos.GestorBD;
+import datos.DBManager;
 
-public class Principal {
+public class Main {
 
 	public static void main(String[] args) {
 		
-		GestorBD gestor = new GestorBD();
+		DBManager gestor = new DBManager();
 		
 		// creacion
 		

@@ -2,18 +2,18 @@ package negocio;
 
 import java.util.Objects;
 
-public class Juego {
+public class Game {
 	protected int id;
 	protected String name;
 	protected String company;
 	protected Pegi pegi;
-	protected CategoriaJuego genre1;
-	protected CategoriaJuego genre2;
+	protected GameGenre genre1;
+	protected GameGenre genre2;
 	protected double price;
 	protected String description;
 	protected String imgLink;
 
-	public Juego(int id, String name, String company, Pegi pegi, CategoriaJuego genre1, CategoriaJuego genre2,
+	public Game(int id, String name, String company, Pegi pegi, GameGenre genre1, GameGenre genre2,
 			double price, String description, String imgLink) {
 		super();
 		this.id = id;
@@ -27,14 +27,14 @@ public class Juego {
 		this.imgLink = imgLink;
 	}
 	
-	public Juego() {
+	public Game() {
 		super();
 		this.id = 0;
 		this.name = "";
 		this.company = "";
 		this.pegi = Pegi.PEGI18;
-		this.genre1 = CategoriaJuego.Action;
-		this.genre2 = CategoriaJuego.Multiplayer;
+		this.genre1 = GameGenre.Action;
+		this.genre2 = GameGenre.Multiplayer;
 		this.price = 0.0;
 		this.description = "";
 		this.imgLink = "";
@@ -72,19 +72,19 @@ public class Juego {
 		this.pegi = pegi;
 	}
 
-	public CategoriaJuego getGenre1() {
+	public GameGenre getGenre1() {
 		return genre1;
 	}
 
-	public void setGenre1(CategoriaJuego genre1) {
+	public void setGenre1(GameGenre genre1) {
 		this.genre1 = genre1;
 	}
 
-	public CategoriaJuego getGenre2() {
+	public GameGenre getGenre2() {
 		return genre2;
 	}
 
-	public void setGenre2(CategoriaJuego genre2) {
+	public void setGenre2(GameGenre genre2) {
 		this.genre2 = genre2;
 	}
 
@@ -125,7 +125,7 @@ public class Juego {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Juego other = (Juego) obj;
+		Game other = (Game) obj;
 		return id == other.id;
 	}
 

@@ -1,6 +1,6 @@
 package negocio;
 
-public enum Pais {
+public enum Country {
 	Albania, Andorra, Armenia, Austria, Azerbaijan, Belarus, Belgium, BosniaAndHerzegovina, Bulgaria,
 	Croatia, Cyprus, Czechia, Denmark, Estonia, Finland, France, Georgia, Germany, Greece, Hungary,
 	Iceland, Ireland, Italy, Kazakhstan, Kosovo, Latvia, Liechtenstein, Lithuania, Luxembourg,

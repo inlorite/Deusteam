@@ -13,10 +13,10 @@ import java.util.Properties;
 
 import es.deusto.prog3.practica3c.Cliente;
 import es.deusto.prog3.practica3c.ResultSet;
-import negocio.Juego;
-import negocio.Usuario;
+import negocio.Game;
+import negocio.User;
 
-public class GestorBD {
+public class DBManager {
 	
 	/*
 	protected static final String DRIVER_NAME = "org.sqlite.JDBC";
@@ -25,7 +25,7 @@ public class GestorBD {
 	*/
 	protected static Properties properties;
 	
-	public GestorBD() {		
+	public DBManager() {		
 		try {
 			properties = new Properties();
 			properties.load(new FileReader("conf/config.properties"));
@@ -39,7 +39,7 @@ public class GestorBD {
 		}
 	}
 	
-	public void crearBBDD() {
+	public void createDatabase() {
 		// Connection is established and the Statement is obtained
 		// If file does not exist, database is created
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -89,7 +89,7 @@ public class GestorBD {
 		}
 	}
 	
-	public void borrarBBDD() {
+	public void deleteDatabase() {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
@@ -120,7 +120,7 @@ public class GestorBD {
 	
 	///////// GAMES DATABASE /////////
 	
-	public void insertarDatosGames(Juego... juegos ) {
+	public void insertDataGames(Game... juegos ) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
@@ -131,7 +131,7 @@ public class GestorBD {
 			System.out.println("- Adding games...");
 			
 			// Info is added to the chart
-			for (Juego game : juegos) {
+			for (Game game : juegos) {
 				if (1 == stmt.executeUpdate(String.format(sql, game.getName(),
 						game.getCompany(), game.getPegi(), game.getGenre1(), 
 						game.getGenre2(), game.getPrice(), game.getDescription(), 
@@ -147,8 +147,8 @@ public class GestorBD {
 		}	
 	}
 	
-	public List<Juego> obtenerDatosGames() {
-		List<Juego> games = new ArrayList<>();
+	public List<Game> obtainDataGames() {
+		List<Game> games = new ArrayList<>();
 		
 		//Se abre la conexión y se obtiene el Statement
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -157,11 +157,11 @@ public class GestorBD {
 			
 			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
 			ResultSet rs = stmt.executeQuery(sql);
-			Juego game;
+			Game game;
 			
 			//Se recorre el ResultSet y se crean objetos Cliente
 			while (rs.next()) {
-				game = new Juego();
+				game = new Game();
 				
 				game.setId(rs.getInt("ID_GAME"));
 				game.setName(rs.getString("NAME"));
@@ -191,7 +191,7 @@ public class GestorBD {
 	
 	///////// USERS DATABASE /////////
 	
-	public void insertarDatosUsers(Usuario... usuarios ) {
+	public void insertDataUsers(User... usuarios ) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
@@ -202,7 +202,7 @@ public class GestorBD {
 			System.out.println("- Adding users...");
 			
 			// Info is added to the chart
-			for (Usuario user : usuarios) {
+			for (User user : usuarios) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getUsername(),
 						user.getEmail(), user.getPassword(), user.getCountry(), 
 						user.getLastTimePlayed(), user.getTotalTimePlayed()))) {					
@@ -219,7 +219,7 @@ public class GestorBD {
 	
 	///////// PROPERTY DATABASE /////////
 	
-	public void insertarDatosProperty(Juego game, Usuario user) {
+	public void insertDataProperty(Game game, User user) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
@@ -243,7 +243,7 @@ public class GestorBD {
 	
 	///////// FRIENDS DATABASE /////////
 	
-	public void insertarDatosFriends(Usuario user1, Usuario user2) {
+	public void insertDataFriends(User user1, User user2) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {

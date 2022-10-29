@@ -4,11 +4,11 @@ public class Merch {
 
 	protected int id;
 	protected String game;
-	protected TipoMerch type;
+	protected MerchType type;
 	protected double price;
 	
 	
-	public Merch(int id, String game, TipoMerch type, double price) {
+	public Merch(int id, String game, MerchType type, double price) {
 		super();
 		this.id = id;
 		this.game = game;
@@ -32,11 +32,11 @@ public class Merch {
 		this.game = game;
 	}
 
-	public TipoMerch getType() {
+	public MerchType getType() {
 		return type;
 	}
 
-	public void setType(TipoMerch type) {
+	public void setType(MerchType type) {
 		this.type = type;
 	}
 
