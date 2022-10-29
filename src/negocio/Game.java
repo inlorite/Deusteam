@@ -104,11 +104,11 @@ public class Game {
 		this.description = description;
 	}
 
-	public String getimgLink() {
+	public String getImgLink() {
 		return imgLink;
 	}
 
-	public void setimgLink(String imgLink) {
+	public void setImgLink(String imgLink) {
 		this.imgLink = imgLink;
 	}
 
