@@ -30,6 +30,19 @@ public class Usuario {
 		this.friends = friends;
 		this.games = games;
 	}
+	
+	public Usuario() {
+		super();
+		this.id = 0;
+		this.username = "";
+		this.email = "";
+		this.password = "";
+		this.country = Pais.Spain;
+		this.lastTimePlayed = null;
+		this.totalTimePlayed = 0;
+		this.friends = null;
+		this.games = null;
+	}
 
 	public int getId() {
 		return id;

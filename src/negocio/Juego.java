@@ -26,6 +26,19 @@ public class Juego {
 		this.description = description;
 		this.imgLink = imgLink;
 	}
+	
+	public Juego() {
+		super();
+		this.id = 0;
+		this.name = "";
+		this.company = "";
+		this.pegi = Pegi.PEGI18;
+		this.genre1 = CategoriaJuego.Action;
+		this.genre2 = CategoriaJuego.Multiplayer;
+		this.price = 0.0;
+		this.description = "";
+		this.imgLink = "";
+	}
 
 	public int getId() {
 		return id;
