@@ -171,7 +171,7 @@ public class DBManager {
 				game.setGenre2(rs.getString("GENRE2"));
 				game.setPrice(rs.getInt("PRICE"));
 				game.setDescription(rs.getString("DESCRIPTION"));
-				game.setimgLink(rs.getString("IMG_LINK"));
+				game.setImgLink(rs.getString("IMG_LINK"));
 				
 				// Game object addition
 				games.add(game);
