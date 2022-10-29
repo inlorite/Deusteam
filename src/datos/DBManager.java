@@ -10,9 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import es.deusto.prog3.practica3c.Cliente;
-import es.deusto.prog3.practica3c.ResultSet;
+import java.sql.ResultSet;
 import negocio.Game;
 import negocio.User;
 
