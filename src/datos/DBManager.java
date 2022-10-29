@@ -265,7 +265,7 @@ public class DBManager {
 			String sql = "INSERT INTO PROPERTY (INSTALLED, TOTAL_TIME_PLAYED, ID_GAME, ID_USER) "
 					+ "VALUES ('%x', '%x', '%x','%x');";
 			
-			System.out.println("- Adding game to user�s library...");
+			System.out.println("- Adding game to user's library...");
 			
 			// Info is added to the chart
 			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, game.getId(), user.getId()))) {					
@@ -289,7 +289,7 @@ public class DBManager {
 			String sql = "INSERT INTO FRIENDS (ID_USER1, ID_USER2) "
 					+ "VALUES ('%x', '%x');";
 			
-			System.out.println("- Adding friend to user�s friendlist...");
+			System.out.println("- Adding friend to user's friendlist...");
 			
 			// Info is added to the chart
 			if (1 == stmt.executeUpdate(String.format(sql, user1.getId(), user2.getId()))) {					
