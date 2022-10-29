@@ -190,11 +190,33 @@ public class GestorBD {
 				System.out.println(String.format(" - Game could not be added to library: %s", game.getName(), user.getUsername()));
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the user data: %s", ex.getMessage()));
+			System.err.println(String.format("* Error adding the game/user data: %s", ex.getMessage()));
 			ex.printStackTrace();				
 		}
 	}
 	
 	///////// FRIENDS DATABASE /////////
+	
+	public void insertarDatosFriends(Usuario user1, Usuario user2) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "INSERT INTO FRIENDS (ID_USER1, ID_USER2) "
+					+ "VALUES ('%x', '%x');";
+			
+			System.out.println("- Adding friend to user´s friendlist...");
+			
+			// Info is added to the chart
+			if (1 == stmt.executeUpdate(String.format(sql, user1.getId(), user2.getId()))) {					
+				System.out.println(String.format(" - Friend added correctly: %s", user1.getUsername(), user2.getUsername()));
+			} else {
+				System.out.println(String.format(" - Friend could not be added: %s", user1.getUsername(), user2.getUsername()));
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error adding the users data: %s", ex.getMessage()));
+			ex.printStackTrace();				
+		}
+	}
 	
 }
