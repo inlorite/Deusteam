@@ -150,16 +150,16 @@ public class DBManager {
 	public List<Game> obtainDataGames() {
 		List<Game> games = new ArrayList<>();
 		
-		//Se abre la conexión y se obtiene el Statement
+		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			String sql = "SELECT * FROM GAMES WHERE ID >= 0";
 			
-			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
 			Game game;
 			
-			//Se recorre el ResultSet y se crean objetos Cliente
+			// Game objects created
 			while (rs.next()) {
 				game = new Game();
 				
@@ -169,15 +169,15 @@ public class DBManager {
 				game.setPegi(rs.getString("PEGI"));
 				game.setGenre1(rs.getString("GENRE1"));
 				game.setGenre2(rs.getString("GENRE2"));
-				game.setPrice(rs.getString("PRICE"));
+				game.setPrice(rs.getInt("PRICE"));
 				game.setDescription(rs.getString("DESCRIPTION"));
 				game.setimgLink(rs.getString("IMG_LINK"));
 				
-				//Se inserta cada nuevo cliente en la lista de clientes
+				// Game object addition
 				games.add(game);
 			}
 			
-			//Se cierra el ResultSet
+			// ResultSet closing
 			rs.close();
 			
 			System.out.println(String.format("- Se han recuperado %d clientes...", games.size()));			
@@ -215,6 +215,46 @@ public class DBManager {
 			System.err.println(String.format("* Error adding the user data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}	
+	}
+	
+	public List<User> obtainDataUsers() {
+		List<User> users = new ArrayList<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM USERS WHERE ID >= 0";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			User user;
+			
+			// User objects created
+			while (rs.next()) {
+				user = new User();
+				
+				user.setId(rs.getInt("ID_USER"));
+				user.setUsername(rs.getString("USERNAME"));
+				user.setEmail(rs.getString("EMAIL"));
+				user.setPassword(rs.getString("PASSWORD"));
+				user.setCountry(rs.getString("COUNTRY"));
+				user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
+				user.setTotalTimePlayed(rs.getString("TOTAL_TIME_PLAYED"));
+				
+				// User object addition
+				users.add(user);
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- Se han recuperado %d clientes...", users.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error al obtener datos de la BBDD: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return users;
 	}
 	
 	///////// PROPERTY DATABASE /////////
