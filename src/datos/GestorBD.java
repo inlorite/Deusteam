@@ -7,8 +7,12 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import es.deusto.prog3.practica3c.Cliente;
+import es.deusto.prog3.practica3c.ResultSet;
 import negocio.Juego;
 import negocio.Usuario;
 
@@ -141,6 +145,48 @@ public class GestorBD {
 			System.err.println(String.format("* Error adding the game data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}	
+	}
+	
+	public List<Juego> obtenerDatosGames() {
+		List<Juego> games = new ArrayList<>();
+		
+		//Se abre la conexión y se obtiene el Statement
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM GAMES WHERE ID >= 0";
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = stmt.executeQuery(sql);
+			Juego game;
+			
+			//Se recorre el ResultSet y se crean objetos Cliente
+			while (rs.next()) {
+				game = new Juego();
+				
+				game.setId(rs.getInt("ID_GAME"));
+				game.setName(rs.getString("NAME"));
+				game.setCompany(rs.getString("COMPANY"));
+				game.setPegi(rs.getString("PEGI"));
+				game.setGenre1(rs.getString("GENRE1"));
+				game.setGenre2(rs.getString("GENRE2"));
+				game.setPrice(rs.getString("PRICE"));
+				game.setDescription(rs.getString("DESCRIPTION"));
+				game.setimgLink(rs.getString("IMG_LINK"));
+				
+				//Se inserta cada nuevo cliente en la lista de clientes
+				games.add(game);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			System.out.println(String.format("- Se han recuperado %d clientes...", games.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error al obtener datos de la BBDD: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return games;
 	}
 	
 	///////// USERS DATABASE /////////
