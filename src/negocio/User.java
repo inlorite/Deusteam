@@ -1,5 +1,6 @@
 package negocio;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -107,6 +108,12 @@ public class User {
 
 	public Date getLastTimePlayed() {
 		return lastTimePlayed;
+	}
+	
+	public String getLastTimePlayedFormat() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		
+		return sdf.format(this.getLastTimePlayed());
 	}
 
 	public void setLastTimePlayed(Date lastTimePlayed) {
