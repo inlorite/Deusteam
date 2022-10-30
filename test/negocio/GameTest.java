@@ -9,6 +9,7 @@ import org.junit.Test;
 public class GameTest {
 
 	private Game game;
+	private Game game2;
 	private int id = 0;
 	private String name = "Name";
 	private String company = "Company";
@@ -22,6 +23,7 @@ public class GameTest {
 	@Before
 	public void setUp() throws Exception {
 		game = new Game(id, name, company, pegi, genre1, genre2, price, description, imgLink);
+		game2 = new Game(id, name, company, pegi, genre1, genre2, price, description, imgLink);
 	}
 
 	@After
@@ -31,7 +33,7 @@ public class GameTest {
 
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		assertEquals(game.hashCode(), game2.hashCode());
 	}
 
 	@Test
@@ -167,12 +169,16 @@ public class GameTest {
 
 	@Test
 	public void testEqualsObject() {
-		fail("Not yet implemented");
+		assertEquals(game.getId(), game2.getId());
 	}
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		String toString = "Juego [id=" + id + ", name=" + name + ", company=" + company + ", pegi=" + pegi + ", genre1="
+				+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
+				+ imgLink + "]";
+		
+		assertEquals(toString, game.toString());
 	}
 
 }
