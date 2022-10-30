@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Properties;
 import java.sql.ResultSet;
 import negocio.Game;
+import negocio.Merch;
 import negocio.User;
 
 public class DBManager {
@@ -65,9 +66,9 @@ public class DBManager {
 	                   + " TOTAL_TIME_PLAYED INT NOT NULL,\n"
 	                   + ");"
 	                   
-					   + "CREATE TABLE IF NOT EXISTS PROPERTY (\n"
+					   + "CREATE TABLE IF NOT EXISTS PROPERTY_GAMES (\n"
 					   + " INSTALLED INTEGER NOT NULL,\n"
-					   + " TOTAL_TIME_PLAYED INT NOT NULL,\n"
+					   + " TIME_PLAYED INT NOT NULL,\n"
 					   + " ID_GAME INTEGER FOREIGN KEY NOT NULL,\n"
 					   + " ID_USER INTEGER FOREIGN KEY NOT NULL,\n"
 					   + ");"
@@ -75,6 +76,18 @@ public class DBManager {
 					   + "CREATE TABLE IF NOT EXISTS FRIENDS (\n"
 					   + " ID_USER1 INTEGER FOREIGN KEY NOT NULL,\n"
 					   + " ID_USER2 INTEGER FOREIGN KEY NOT NULL,\n"
+					   + ");"
+					   
+					   + "CREATE TABLE IF NOT EXISTS MERCH (\n"
+					   + " ID_MERCH INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+					   + " NAME TEXT NOT NULL,\n"
+					   + " TYPE TEXT NOT NULL,\n"
+					   + " PRICE DECIMAL(5, 2),\n"
+					   + ");"
+					   
+					   + "CREATE TABLE IF NOT EXISTS PROPERTY_MERCH (\n"
+					   + " ID_USER INTEGER FOREIGN KEY NOT NULL,\n"
+					   + " ID_MERCH INTEGER FOREIGN KEY NOT NULL,\n"
 					   + ");";
 	        
 	        // Chart-creating sentence is executed
@@ -94,12 +107,14 @@ public class DBManager {
 			
 	        String sql = "DROP TABLE IF EXISTS GAMES"
 	        			+ "DROP TABLE IF EXISTS USERS"
-	        			+ "DROP TABLE IF EXISTS PROPERTY"
-	        			+ "DROP TABLE IF EXISTS FRIENDS";
+	        			+ "DROP TABLE IF EXISTS PROPERTY_GAMES"
+	        			+ "DROP TABLE IF EXISTS FRIENDS"
+	        			+ "DROP TABLE IF EXISTS MERCH"
+	        			+ "DROP TABLE IF EXISTS PROPERTY_MERCH";
 			
 	        // Chart-deleting sentence is executed
 	        if (!stmt.execute(sql)) {
-	        	System.out.println("- Successfuly deleted 4 charts (Games, Users, Property, Friends)");
+	        	System.out.println("- Successfuly deleted 6 charts (Games, Users, Property_Games, Friends, Merch, Property_Merch)");
 	        }
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error deleting database: %s", ex.getMessage()));
@@ -255,14 +270,14 @@ public class DBManager {
 		return users;
 	}
 	
-	///////// PROPERTY DATABASE /////////
+	///////// PROPERTY_GAMES DATABASE /////////
 	
-	public void insertDataProperty(Game game, User user) {
+	public void insertDataPropertyGames(Game game, User user) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "INSERT INTO PROPERTY (INSTALLED, TOTAL_TIME_PLAYED, ID_GAME, ID_USER) "
+			String sql = "INSERT INTO PROPERTY_GAMES (INSTALLED, TIME_PLAYED, ID_GAME, ID_USER) "
 					+ "VALUES ('%x', '%x', '%x','%x');";
 			
 			System.out.println("- Adding game to user's library...");
@@ -299,6 +314,57 @@ public class DBManager {
 			}
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error adding the users data: %s", ex.getMessage()));
+			ex.printStackTrace();				
+		}
+	}
+	
+	///////// MERCH DATABASE /////////
+	
+	public void insertDataMerch(Merch... merchlist) {
+		// Connection is established and the Statement is obtained
+				try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+				     Statement stmt = con.createStatement()) {
+					// SQL sentence is defined
+					String sql = "INSERT INTO MERCH (NAME, TYPE, PRICE) "
+							+ "VALUES ('%s', '%s', '%d');";
+					
+					System.out.println("- Adding merch...");
+					
+					// Info is added to the chart
+					for (Merch merch : merchlist) {
+						if (1 == stmt.executeUpdate(String.format(sql, merch.getName(),
+								merch.getType(), merch.getPrice()))) {					
+							System.out.println(String.format(" - Merch added: %s", merch.toString()));
+						} else {
+							System.out.println(String.format(" - Merch could not be added: %s", merch.toString()));
+						}
+					}
+				} catch (Exception ex) {
+					System.err.println(String.format("* Error adding the merch data: %s", ex.getMessage()));
+					ex.printStackTrace();						
+				}	
+	}
+	
+	///////// PROPERTY_MERCH DATABASE /////////
+	
+	public void insertDataPropertyMerch(Merch merch, User user) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "INSERT INTO PROPERTY_MERCH (INSTALLED, TIME_PLAYED, ID_GAME, ID_USER) "
+					+ "VALUES ('%x', '%x', '%x','%x');";
+			
+			System.out.println("- Adding merch to user's library...");
+			
+			// Info is added to the chart
+			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, merch.getId(), user.getId()))) {					
+				System.out.println(String.format(" - Merch added to library: %s", merch.getName(), user.getUsername()));
+			} else {
+				System.out.println(String.format(" - Merch could not be added to library: %s", merch.getName(), user.getUsername()));
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error adding the merch/user data: %s", ex.getMessage()));
 			ex.printStackTrace();				
 		}
 	}
