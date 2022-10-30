@@ -9,6 +9,7 @@ import org.junit.Test;
 public class MerchTest {
 	
 	private Merch merch;
+	private Merch merch2;
 	private int id = 0;
 	private String name = "name";
 	private MerchType type = MerchType.soundtrack;
@@ -17,11 +18,13 @@ public class MerchTest {
 	@Before
 	public void setUp() throws Exception {
 		merch = new Merch(id, name, type, price);
+		merch2 = new Merch(id, name, type, price);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		merch=null;
+		merch = null;
+		merch2  = null;
 	}
 
 	@Test
@@ -87,12 +90,14 @@ public class MerchTest {
 
 	@Test
 	public void testEqualsObject() {
-		fail("Not yet implemented");
+		assertEquals(merch.getId(), merch2.getId());
 	}
 	
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		String toString = "Merch [id=" + id + ", name=" + name + ", type=" + type + ", price=" + price + "]";
+		
+		assertEquals(toString, merch.toString());
 	}
 
 }
