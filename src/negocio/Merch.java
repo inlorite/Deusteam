@@ -5,15 +5,15 @@ import java.util.Objects;
 public class Merch {
 
 	protected int id;
-	protected String game;
+	protected String name;
 	protected MerchType type;
 	protected double price;
 	
 	
-	public Merch(int id, String game, MerchType type, double price) {
+	public Merch(int id, String name, MerchType type, double price) {
 		super();
 		this.id = id;
-		this.game = game;
+		this.name = name;
 		this.type = type;
 		this.price = price;
 	}
@@ -26,12 +26,12 @@ public class Merch {
 		this.id = id;
 	}
 
-	public String getGame() {
-		return game;
+	public String getname() {
+		return name;
 	}
 
-	public void setGame(String game) {
-		this.game = game;
+	public void setname(String name) {
+		this.name = name;
 	}
 
 	public MerchType getType() {
@@ -71,7 +71,7 @@ public class Merch {
 
 	@Override
 	public String toString() {
-		return "Merch [id=" + id + ", game=" + game + ", type=" + type + ", price=" + price + "]";
+		return "Merch [id=" + id + ", name=" + name + ", type=" + type + ", price=" + price + "]";
 	}
 	
 }
