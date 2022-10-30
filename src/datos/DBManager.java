@@ -354,6 +354,40 @@ public class DBManager {
 		}
 	}
 	
+	public Map<Integer, List<Integer>> obtainDataFriends() {
+		Map<Integer, List<Integer>> friends = new HashMap<Integer, List<Integer>>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM FRIENDS WHERE ID_USER1 >= 0";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding IDs to map
+			while (rs.next()) {
+				
+				if (friends.containsKey(rs.getInt("ID_USER1"))) {
+					friends.get(rs.getInt("ID_USER1")).add(rs.getInt("ID_USER2"));
+				} else {
+					friends.put(rs.getInt("ID_USER1"), new ArrayList<Integer>(rs.getInt("ID_USER2")));
+				}
+				
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- %d user's friends retrieved...", friends.size()));	
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return friends;
+	}
+	
 	///////// MERCH DATABASE /////////
 	
 	public void insertDataMerch(Merch... merchlist) {
