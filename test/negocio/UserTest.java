@@ -12,6 +12,7 @@ import org.junit.Test;
 public class UserTest {
 
 	private User user;
+	private User user2;
 	private int id = 0;
 	private String username = "Username";
 	private String email = "email";
@@ -25,16 +26,18 @@ public class UserTest {
 	@Before
 	public void setUp() throws Exception {
 		user = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, friends, games);
+		user2 = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, friends, games);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		user = null;
+		user2 = null;
 	}
 
 	@Test
 	public void testHashCode() {
-		fail("Not yet implemented");
+		assertEquals(user.hashCode(), user2.hashCode());
 	}
 
 	@Test
@@ -155,7 +158,11 @@ public class UserTest {
 
 	@Test
 	public void testSetLastTimePlayed() {
-		fail("Not yet implemented");
+		Date date = new Date();
+		
+		user.setLastTimePlayed(date);
+		
+		assertEquals(date, user.getLastTimePlayed());
 	}
 
 	@Test
@@ -173,12 +180,16 @@ public class UserTest {
 
 	@Test
 	public void testEqualsObject() {
-		fail("Not yet implemented");
+		assertEquals(user.getId(), user2.getId());
 	}
 
 	@Test
 	public void testToString() {
-		fail("Not yet implemented");
+		String toString = "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
+				+ ", country=" + country + ", lastTimePlayed=" + lastTimePlayed + ", totalTimePlayed=" + totalTimePlayed
+				+ ", friends=" + friends + ", games=" + games + "]";
+		
+		assertEquals(toString, user.toString());
 	}
 
 }
