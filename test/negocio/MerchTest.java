@@ -10,13 +10,13 @@ public class MerchTest {
 	
 	private Merch merch;
 	private int id = 0;
-	private String game = "game";
+	private String name = "name";
 	private MerchType type = MerchType.soundtrack;
 	private double price = 0.0;
 
 	@Before
 	public void setUp() throws Exception {
-		merch = new Merch(id, game, type, price);
+		merch = new Merch(id, name, type, price);
 	}
 
 	@After
@@ -28,7 +28,7 @@ public class MerchTest {
 	public void testMerch() {
 		assertNotNull(merch);
 		assertEquals(id, merch.getId());
-		assertEquals(game, merch.getGame());
+		assertEquals(name, merch.getName());
 		assertEquals(type, merch.getType());
 		assertEquals(price, merch.getPrice(),0.0);
 	}
@@ -48,15 +48,15 @@ public class MerchTest {
 
 	@Test
 	public void testGetGame() {
-		assertEquals(game, merch.getGame());
+		assertEquals(name, merch.getName());
 	}
 
 	@Test
 	public void testSetGame() {
-		String newGame= "game2";
-		merch.setGame(newGame);
+		String newName= "name2";
+		merch.setName(newName);
 		
-		assertEquals(newGame, merch.getGame());
+		assertEquals(newName, merch.getName());
 	}
 
 	@Test
