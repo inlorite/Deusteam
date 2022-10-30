@@ -476,4 +476,38 @@ public class DBManager {
 		}
 	}
 	
+	public Map<Integer, List<Integer>> obtainDataPropertyMerch() {
+		Map<Integer, List<Integer>> userMerch = new HashMap<Integer, List<Integer>>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM PROPERTY_MERCH WHERE ID_USER >= 0";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding IDs to map
+			while (rs.next()) {
+				
+				if (userMerch.containsKey(rs.getInt("ID_USER"))) {
+					userMerch.get(rs.getInt("ID_USER")).add(rs.getInt("ID_MERCH"));
+				} else {
+					userMerch.put(rs.getInt("ID_USER"), new ArrayList<Integer>(rs.getInt("ID_MERCH")));
+				}
+				
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- %d user's merch retrieved...", userMerch.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return userMerch;
+	}
+	
 }
