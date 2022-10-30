@@ -49,6 +49,10 @@ public class Merch {
 	public void setType(MerchType type) {
 		this.type = type;
 	}
+	
+	public void setType(String type) {
+		this.type = MerchType.valueOf(type);
+	}
 
 	public double getPrice() {
 		return price;

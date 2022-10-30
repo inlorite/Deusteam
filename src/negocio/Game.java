@@ -71,6 +71,10 @@ public class Game {
 	public void setPegi(Pegi pegi) {
 		this.pegi = pegi;
 	}
+	
+	public void setPegi(String pegi) {
+		this.pegi = Pegi.valueOf(pegi);
+	}
 
 	public GameGenre getGenre1() {
 		return genre1;
@@ -79,6 +83,10 @@ public class Game {
 	public void setGenre1(GameGenre genre1) {
 		this.genre1 = genre1;
 	}
+	
+	public void setGenre1(String genre1) {
+		this.genre1 = GameGenre.valueOf(genre1);
+	}
 
 	public GameGenre getGenre2() {
 		return genre2;
@@ -86,6 +94,10 @@ public class Game {
 
 	public void setGenre2(GameGenre genre2) {
 		this.genre2 = genre2;
+	}
+	
+	public void setGenre2(String genre2) {
+		this.genre2 = GameGenre.valueOf(genre2);
 	}
 
 	public double getPrice() {

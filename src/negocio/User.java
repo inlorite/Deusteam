@@ -92,6 +92,10 @@ public class User {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
+	
+	public void setCountry(String country) {
+		this.country = Country.valueOf(country);
+	}
 
 	public ArrayList<Integer> getFriends() {
 		return friends;
