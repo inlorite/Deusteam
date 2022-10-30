@@ -253,8 +253,8 @@ public class DBManager {
 				user.setEmail(rs.getString("EMAIL"));
 				user.setPassword(rs.getString("PASSWORD"));
 				user.setCountry(rs.getString("COUNTRY"));
-				user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
-				user.setTotalTimePlayed(rs.getString("TOTAL_TIME_PLAYED"));
+				user.setLastTimePlayed(rs.getDate("LAST_TIME_PLAYED"));
+				user.setTotalTimePlayed(rs.getInt("TOTAL_TIME_PLAYED"));
 				
 				// User object addition
 				users.add(user);
