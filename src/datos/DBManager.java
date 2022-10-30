@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.sql.ResultSet;
 import negocio.Game;
@@ -69,8 +71,8 @@ public class DBManager {
 					   + "CREATE TABLE IF NOT EXISTS PROPERTY_GAMES (\n"
 					   + " INSTALLED INTEGER NOT NULL,\n"
 					   + " TIME_PLAYED INT NOT NULL,\n"
-					   + " ID_GAME INTEGER FOREIGN KEY NOT NULL,\n"
 					   + " ID_USER INTEGER FOREIGN KEY NOT NULL,\n"
+					   + " ID_GAME INTEGER FOREIGN KEY NOT NULL,\n"
 					   + ");"
 					   
 					   + "CREATE TABLE IF NOT EXISTS FRIENDS (\n"
@@ -92,7 +94,7 @@ public class DBManager {
 	        
 	        // Chart-creating sentence is executed
 	        if (!stmt.execute(sql)) {
-	        	System.out.println("- Successfuly created 4 charts (Games, Users, Property, Friends)");
+	        	System.out.println("- Successfuly created 6 charts (Games, Users, Property_Games, Friends, Merch, Property_Merch)");
 	        }
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error creating database: %s", ex.getMessage()));
@@ -166,7 +168,7 @@ public class DBManager {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
-			String sql = "SELECT * FROM GAMES WHERE ID >= 0";
+			String sql = "SELECT * FROM GAMES WHERE ID_GAME >= 0";
 			
 			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
@@ -193,9 +195,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- Se han recuperado %d clientes...", games.size()));			
+			System.out.println(String.format("- %d games retrieved...", games.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error al obtener datos de la BBDD: %s", ex.getMessage()));
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -236,7 +238,7 @@ public class DBManager {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
-			String sql = "SELECT * FROM USERS WHERE ID >= 0";
+			String sql = "SELECT * FROM USERS WHERE ID_USER >= 0";
 			
 			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
@@ -261,9 +263,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- Se han recuperado %d clientes...", users.size()));			
+			System.out.println(String.format("- %d users retrieved...", users.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error al obtener datos de la BBDD: %s", ex.getMessage()));
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -272,26 +274,60 @@ public class DBManager {
 	
 	///////// PROPERTY_GAMES DATABASE /////////
 	
-	public void insertDataPropertyGames(Game game, User user) {
+	public void insertDataPropertyGames(User user, Game game) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "INSERT INTO PROPERTY_GAMES (INSTALLED, TIME_PLAYED, ID_GAME, ID_USER) "
+			String sql = "INSERT INTO PROPERTY_GAMES (INSTALLED, TIME_PLAYED, ID_USER, ID_GAME) "
 					+ "VALUES ('%x', '%x', '%x','%x');";
 			
 			System.out.println("- Adding game to user's library...");
 			
 			// Info is added to the chart
-			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, game.getId(), user.getId()))) {					
-				System.out.println(String.format(" - Game added to library: %s", game.getName(), user.getUsername()));
+			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, user.getId(), game.getId()))) {					
+				System.out.println(String.format(" - Game added to library: %s", user.getUsername(), game.getName()));
 			} else {
-				System.out.println(String.format(" - Game could not be added to library: %s", game.getName(), user.getUsername()));
+				System.out.println(String.format(" - Game could not be added to library: %s", user.getUsername(), game.getName()));
 			}
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error adding the game/user data: %s", ex.getMessage()));
 			ex.printStackTrace();				
 		}
+	}
+	
+	public Map<Integer, List<Integer>> obtainDataPropertyGames() {
+		Map<Integer, List<Integer>> userGames = new HashMap<Integer, List<Integer>>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER >= 0";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding IDs to map
+			while (rs.next()) {
+				
+				if (userGames.containsKey(rs.getInt("ID_USER"))) {
+					userGames.get(rs.getInt("ID_USER")).add(rs.getInt("ID_GAME"));
+				} else {
+					userGames.put(rs.getInt("ID_USER"), new ArrayList<Integer>(rs.getInt("ID_GAME")));
+				}
+				
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- %d user's games retrieved...", userGames.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return userGames;
 	}
 	
 	///////// FRIENDS DATABASE /////////
@@ -322,27 +358,64 @@ public class DBManager {
 	
 	public void insertDataMerch(Merch... merchlist) {
 		// Connection is established and the Statement is obtained
-				try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
-				     Statement stmt = con.createStatement()) {
-					// SQL sentence is defined
-					String sql = "INSERT INTO MERCH (NAME, TYPE, PRICE) "
-							+ "VALUES ('%s', '%s', '%d');";
-					
-					System.out.println("- Adding merch...");
-					
-					// Info is added to the chart
-					for (Merch merch : merchlist) {
-						if (1 == stmt.executeUpdate(String.format(sql, merch.getName(),
-								merch.getType(), merch.getPrice()))) {					
-							System.out.println(String.format(" - Merch added: %s", merch.toString()));
-						} else {
-							System.out.println(String.format(" - Merch could not be added: %s", merch.toString()));
-						}
-					}
-				} catch (Exception ex) {
-					System.err.println(String.format("* Error adding the merch data: %s", ex.getMessage()));
-					ex.printStackTrace();						
-				}	
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "INSERT INTO MERCH (NAME, TYPE, PRICE) "
+					+ "VALUES ('%s', '%s', '%d');";
+			
+			System.out.println("- Adding merch...");
+			
+			// Info is added to the chart
+			for (Merch merch : merchlist) {
+				if (1 == stmt.executeUpdate(String.format(sql, merch.getName(),
+						merch.getType(), merch.getPrice()))) {					
+					System.out.println(String.format(" - Merch added: %s", merch.toString()));
+				} else {
+					System.out.println(String.format(" - Merch could not be added: %s", merch.toString()));
+				}
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error adding the merch data: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}	
+	}
+	
+	public List<Merch> obtainDataMerch() {
+		List<Merch> merchlist = new ArrayList<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM MERCH WHERE ID_MERCH >= 0";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			Merch merch;
+			
+			// User objects created
+			while (rs.next()) {
+				merch = new Merch();
+				
+				merch.setId(rs.getInt("ID_MERCH"));
+				merch.setName(rs.getString("NAME"));
+				merch.setType(rs.getString("TYPE"));
+				merch.setPrice(rs.getInt("PRICE"));
+				
+				// User object addition
+				merchlist.add(merch);
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- %d merch products retrieved...", merchlist.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return merchlist;
 	}
 	
 	///////// PROPERTY_MERCH DATABASE /////////
@@ -352,8 +425,8 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "INSERT INTO PROPERTY_MERCH (INSTALLED, TIME_PLAYED, ID_GAME, ID_USER) "
-					+ "VALUES ('%x', '%x', '%x','%x');";
+			String sql = "INSERT INTO PROPERTY_MERCH (ID_MERCH, ID_USER) "
+					+ "VALUES ('%x', '%x');";
 			
 			System.out.println("- Adding merch to user's library...");
 			

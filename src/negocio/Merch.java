@@ -17,6 +17,14 @@ public class Merch {
 		this.type = type;
 		this.price = price;
 	}
+	
+	public Merch() {
+		super();
+		this.id = 0;
+		this.name = "";
+		this.type = MerchType.soundtrack;
+		this.price = 0;
+	}
 
 	public int getId() {
 		return id;
