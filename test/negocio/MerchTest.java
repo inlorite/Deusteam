@@ -47,12 +47,12 @@ public class MerchTest {
 	}
 
 	@Test
-	public void testGetGame() {
+	public void testGetName() {
 		assertEquals(name, merch.getName());
 	}
 
 	@Test
-	public void testSetGame() {
+	public void testSetName() {
 		String newName= "name2";
 		merch.setName(newName);
 		
