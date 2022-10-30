@@ -204,6 +204,29 @@ public class DBManager {
 		return games;
 	}
 	
+	public void deleteDataGames(Game... games) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "DELETE FROM GAMES WHERE ID_GAME = '%d';";
+			
+			System.out.println("- Deleting games...");
+			
+			// Games are deleted from the table
+			for (Game game : games) {
+				if (1 == stmt.executeUpdate(String.format(sql, game.getId()))) {					
+					System.out.println(String.format(" - Game deleted: %s", game.toString()));
+				} else {
+					System.out.println(String.format(" - Game could not be deleted: %s", game.toString()));
+				}
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error deleting the game data: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}
+	}
+	
 	///////// USERS DATABASE /////////
 	
 	public void insertDataUsers(User... usuarios ) {
@@ -270,6 +293,29 @@ public class DBManager {
 		}		
 		
 		return users;
+	}
+	
+	public void deleteDataUsers(User... users) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "DELETE FROM USERS WHERE ID_USER = '%d';";
+			
+			System.out.println("- Deleting users...");
+			
+			// Games are deleted from the table
+			for (User user: users) {
+				if (1 == stmt.executeUpdate(String.format(sql, user.getId()))) {					
+					System.out.println(String.format(" - User deleted: %s", user.toString()));
+				} else {
+					System.out.println(String.format(" - User could not be deleted: %s", user.toString()));
+				}
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error deleting the user data: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}
 	}
 	
 	///////// PROPERTY_GAMES DATABASE /////////
