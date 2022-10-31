@@ -96,11 +96,19 @@ public class GameTest {
 	}
 
 	@Test
-	public void testSetPegi() {
+	public void testSetPegiPegi() {
 		Pegi newPegi = Pegi.PEGI3;
 		game.setPegi(newPegi);
 		
 		assertEquals(newPegi, game.getPegi());
+	}
+	
+	@Test
+	public void testSetPegiString() {
+		String newPegi = "PEGI3";
+		game.setPegi(newPegi);
+		
+		assertEquals(Pegi.valueOf(newPegi), game.getPegi());
 	}
 
 	@Test
@@ -109,11 +117,19 @@ public class GameTest {
 	}
 
 	@Test
-	public void testSetGenre1() {
+	public void testSetGenre1GameGenre() {
 		GameGenre newGenre1 = GameGenre.RPG;
 		game.setGenre1(newGenre1);
 		
 		assertEquals(newGenre1, game.getGenre1());
+	}
+	
+	@Test
+	public void testSetGenre1String() {
+		String newGenre1 = "RPG";
+		game.setGenre1(newGenre1);
+		
+		assertEquals(GameGenre.valueOf(newGenre1), game.getGenre1());
 	}
 
 	@Test
@@ -122,11 +138,19 @@ public class GameTest {
 	}
 
 	@Test
-	public void testSetGenre2() {
+	public void testSetGenre2GameGenre() {
 		GameGenre newGenre2 = GameGenre.MMORPG;
 		game.setGenre2(newGenre2);
 		
 		assertEquals(newGenre2, game.getGenre2());
+	}
+	
+	@Test
+	public void testSetGenre2String() {
+		String newGenre2 = "RPG";
+		game.setGenre2(newGenre2);
+		
+		assertEquals(GameGenre.valueOf(newGenre2), game.getGenre2());
 	}
 
 	@Test
