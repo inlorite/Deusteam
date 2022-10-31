@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import java.sql.ResultSet;
 import negocio.Game;
 import negocio.Merch;
@@ -225,6 +226,22 @@ public class DBManager {
 			System.err.println(String.format("* Error deleting the game data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
+	}
+	
+	public void updateGamePrice(Game game, Double price) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Se ejecuta la sentencia de borrado de datos
+			String sql = "UPDATE GAMES SET PRICE = '%s' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, price, game.getId()));
+			
+			System.out.println(String.format("- Game price updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
 	}
 	
 	///////// USERS DATABASE /////////
