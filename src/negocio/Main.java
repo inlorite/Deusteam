@@ -83,4 +83,35 @@ public class Main {
 		return users;
 	}
 	
+	public static List<Game> initGames(){
+		ArrayList<Game> games= new ArrayList();
+		
+		Game game = new Game();
+		game.setId(1);
+		game.setName("binding of yeray");
+		game.setCompany("company");
+		game.setPegi(Pegi.PEGI12);
+		game.setGenre1(GameGenre.Action);
+		game.setGenre2(GameGenre.Adventure);
+		game.setPrice(10.0);
+		game.setDescription("description1");
+		game.setImgLink("link");
+		games.add(game);
+		
+		game = new Game();
+		game.setId(2);
+		game.setName("space adrian");
+		game.setCompany("company");
+		game.setPegi(Pegi.PEGI7);
+		game.setGenre1(GameGenre.Action);
+		game.setGenre2(GameGenre.Arcade);
+		game.setPrice(12.0);
+		game.setDescription("description2");
+		game.setImgLink("link");
+		games.add(game);
+		
+		return games;
+		
+	}
+	
 }
