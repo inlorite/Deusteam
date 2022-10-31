@@ -7,7 +7,10 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +29,7 @@ public class DBManager {
 	protected static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
 	*/
 	protected static Properties properties;
+	protected static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
 	public DBManager() {		
 		try {
@@ -48,7 +52,7 @@ public class DBManager {
 		     Statement stmt = con.createStatement()) {
 			
 	        String sql = "CREATE TABLE IF NOT EXISTS GAMES (\n"
-	                   + " ID_GAME INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+	                   + " ID_GAME INTEGER PRIMARY KEY AUTOINCREMENT ON DELETE CASCADE,\n"
 	                   + " NAME TEXT NOT NULL,\n"
 	                   + " COMPANY TEXT NOT NULL,\n"
 	                   + " PEGI TEXT NOT NULL,\n"
@@ -60,7 +64,7 @@ public class DBManager {
 	                   + ");"
 	                   
 	                   + "CREATE TABLE IF NOT EXISTS USERS (\n"
-	                   + " ID_USER INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+	                   + " ID_USER INTEGER PRIMARY KEY AUTOINCREMENT ON DELETE CASCADE,\n"
 	                   + " USERNAME TEXT NOT NULL,\n"
 	                   + " EMAIL TEXT NOT NULL,\n"
 	                   + " PASSWORD TEXT NOT NULL,\n"
@@ -82,7 +86,7 @@ public class DBManager {
 					   + ");"
 					   
 					   + "CREATE TABLE IF NOT EXISTS MERCH (\n"
-					   + " ID_MERCH INTEGER PRIMARY KEY AUTOINCREMENT,\n"
+					   + " ID_MERCH INTEGER PRIMARY KEY AUTOINCREMENT ON DELETE CASCADE,\n"
 					   + " NAME TEXT NOT NULL,\n"
 					   + " TYPE TEXT NOT NULL,\n"
 					   + " PRICE DECIMAL(5, 2),\n"
@@ -333,6 +337,22 @@ public class DBManager {
 			System.err.println(String.format("* Error deleting the user data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
+	}
+	
+	public void updateUserLastTimePlayed(User user, Date date) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "UPDATE USERS SET LAST_TIME_PLAYED = '%s' WHERE ID_USER = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, sdf.format(date), user.getId()));
+			
+			System.out.println(String.format("- User's last time played updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating user data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
 	}
 	
 	///////// PROPERTY_GAMES DATABASE /////////
