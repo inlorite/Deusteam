@@ -535,6 +535,29 @@ public class DBManager {
 		return merchlist;
 	}
 	
+	public void deleteDataMerch(Merch... merchlist) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "DELETE FROM MERCH WHERE ID_MERCH = '%d';";
+			
+			System.out.println("- Deleting merch...");
+			
+			// Merch products are deleted from the table
+			for (Merch merch: merchlist) {
+				if (1 == stmt.executeUpdate(String.format(sql, merch.getId()))) {					
+					System.out.println(String.format(" - Merch product deleted: %s", merch.toString()));
+				} else {
+					System.out.println(String.format(" - Merch product could not be deleted: %s", merch.toString()));
+				}
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error deleting the merch data: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}
+	}
+	
 	///////// PROPERTY_MERCH DATABASE /////////
 	
 	public void insertDataPropertyMerch(User user, Merch merch) {
