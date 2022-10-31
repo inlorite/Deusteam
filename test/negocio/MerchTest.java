@@ -68,11 +68,24 @@ public class MerchTest {
 	}
 
 	@Test
-	public void testSetType() {
+	public void testSetTypeMerchType() {
 		MerchType newType = MerchType.artbook;
 		merch.setType(newType);
 		
 		assertEquals(newType, merch.getType());
+	}
+	
+	@Test
+	public void testSetTypeString() {
+		String newType = "artbook";
+		merch.setType(newType);
+		
+		assertEquals(MerchType.valueOf(newType), merch.getType());
+	}
+	
+	@Test
+	public void testHashCode() {
+		assertEquals(merch.hashCode(), merch2.hashCode());
 	}
 
 	@Test
