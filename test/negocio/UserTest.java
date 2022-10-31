@@ -2,6 +2,7 @@ package negocio;
 
 import static org.junit.Assert.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ public class UserTest {
 	private String email = "email";
 	private String password = "Password";
 	private Country country = Country.Spain;
-	private Date lastTimePlayed;
+	private Date lastTimePlayed = new Date();
 	private int totalTimePlayed = 1;
 	private ArrayList<Integer> friends;
 	private ArrayList<Game> games;
@@ -128,13 +129,21 @@ public class UserTest {
 	}
 
 	@Test
-	public void testSetCountry() {
+	public void testSetCountryCountry() {
 		Country newCountry = Country.Albania;
 		user.setCountry(newCountry);
 		
 		assertEquals(newCountry, user.getCountry());
 	}
 
+	@Test
+	public void testSetCountryString() {
+		String newCountry = "Albania";
+		user.setCountry(newCountry);
+		
+		assertEquals(Country.valueOf(newCountry), user.getCountry());
+	}
+	
 	@Test
 	public void testGetFriends() {
 		assertEquals(friends, user.getFriends());
@@ -156,6 +165,14 @@ public class UserTest {
 		assertEquals(lastTimePlayed, user.getLastTimePlayed());
 	}
 
+	@Test
+	public void getLastTimePlayedFormat() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+		String testSDF = sdf.format(lastTimePlayed);
+		
+		assertEquals(testSDF, user.getLastTimePlayedFormat());
+	}
+	
 	@Test
 	public void testSetLastTimePlayed() {
 		Date date = new Date();
