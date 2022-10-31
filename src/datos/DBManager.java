@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -442,6 +441,28 @@ public class DBManager {
 			System.out.println(String.format("- Property game installation updated", result));
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error updating property game installation: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
+	public void incrementPropertyGamesTimePlayed(Integer id_user, Integer id_game, Integer timePlayed) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "UPDATE PROPERTY_GAMES SET TOTAL_TIME_PLAYED = '%x' WHERE ID_USER = %d AND ID_GAME = %d;";
+			
+			String sql2 = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user.toString();
+			
+			// ResultSet to get previous time and Sentence execution
+			ResultSet rs = stmt.executeQuery(sql2);
+			Integer previusTime = rs.getInt("TOTAL_TIME_PLAYED");
+			
+			int result = stmt.executeUpdate(String.format(sql, previusTime + timePlayed, id_user, id_game));
+			
+			System.out.println(String.format("- Property game total time played updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating property game total time played: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
