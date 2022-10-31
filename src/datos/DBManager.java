@@ -235,7 +235,7 @@ public class DBManager {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
-			// Se ejecuta la sentencia de borrado de datos
+			// Statement execution
 			String sql = "UPDATE GAMES SET PRICE = '%s' WHERE ID_GAME = %d;";
 			
 			int result = stmt.executeUpdate(String.format(sql, price, game.getId()));
@@ -324,7 +324,7 @@ public class DBManager {
 			
 			System.out.println("- Deleting users...");
 			
-			// Games are deleted from the table
+			// Users are deleted from the table
 			for (User user: users) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getId()))) {					
 					System.out.println(String.format(" - User deleted: %s", user.toString()));
@@ -525,6 +525,27 @@ public class DBManager {
 		return friends;
 	}
 	
+	public void deleteDataFriends(Integer user1, Integer user2) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "DELETE FROM FRIENDS WHERE ID_USER1 = '%x' AND ID_USER2 = '%x';";
+			
+			System.out.println("- Deleting friend...");
+			
+			// Friend is deleted from the table
+			if (1 == stmt.executeUpdate(String.format(sql, user1, user2))) {					
+				System.out.println(String.format(" - Friend deleted: %s", user2));
+			} else {
+				System.out.println(String.format(" - Friend could not be deleted: %s", user2));
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error deleting the friend data: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}
+	}
+	
 	///////// MERCH DATABASE /////////
 	
 	public void insertDataMerch(Merch... merchlist) {
@@ -594,7 +615,7 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "DELETE FROM MERCH WHERE ID_MERCH = '%d';";
+			String sql = "DELETE FROM MERCH WHERE ID_MERCH = '%x';";
 			
 			System.out.println("- Deleting merch...");
 			
@@ -617,7 +638,7 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "UPDATE MERCH SET PRICE = '%d' WHERE ID_MERCH = %d;";
+			String sql = "UPDATE MERCH SET PRICE = '%d' WHERE ID_MERCH = %x;";
 			
 			int result = stmt.executeUpdate(String.format(sql, price, merch.getId()));
 			
