@@ -355,6 +355,22 @@ public class DBManager {
 		}		
 	}
 	
+	public void updateUserTotalTimePlayed(User user, Integer time) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "UPDATE USERS SET TOTAL_TIME_PLAYED = '%x' WHERE ID_USER = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, time, user.getId()));
+			
+			System.out.println(String.format("- User's total time played updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating user data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
 	///////// PROPERTY_GAMES DATABASE /////////
 	
 	public void insertDataPropertyGames(User user, Game game) {
