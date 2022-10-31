@@ -500,21 +500,21 @@ public class DBManager {
 	
 	///////// PROPERTY_MERCH DATABASE /////////
 	
-	public void insertDataPropertyMerch(Merch merch, User user) {
+	public void insertDataPropertyMerch(User user, Merch merch) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "INSERT INTO PROPERTY_MERCH (ID_MERCH, ID_USER) "
+			String sql = "INSERT INTO PROPERTY_MERCH (ID_USER, ID_MERCH) "
 					+ "VALUES ('%x', '%x');";
 			
 			System.out.println("- Adding merch to user's library...");
 			
 			// Info is added to the chart
-			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, merch.getId(), user.getId()))) {					
-				System.out.println(String.format(" - Merch added to library: %s", merch.getName(), user.getUsername()));
+			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, user.getId(), merch.getId()))) {					
+				System.out.println(String.format(" - Merch added to library: %s", user.getUsername(), merch.getName()));
 			} else {
-				System.out.println(String.format(" - Merch could not be added to library: %s", merch.getName(), user.getUsername()));
+				System.out.println(String.format(" - Merch could not be added to library: %s", user.getUsername(), merch.getName()));
 			}
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error adding the merch/user data: %s", ex.getMessage()));
