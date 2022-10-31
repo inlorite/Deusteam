@@ -429,6 +429,23 @@ public class DBManager {
 		return userGames;
 	}
 	
+	public void updatePropertyGamesInstalled(Integer id_user, Integer id_game, Integer installed) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "UPDATE PROPERTY_GAMES SET INSTALLED = '%x' WHERE ID_USER = %d AND ID_GAME = %d;";
+			
+			// Installed if true = 1, if false = 0
+			int result = stmt.executeUpdate(String.format(sql, installed, id_user, id_game));
+			
+			System.out.println(String.format("- Property game installation updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating property game installation: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
 	///////// FRIENDS DATABASE /////////
 	
 	public void insertDataFriends(User user1, User user2) {
