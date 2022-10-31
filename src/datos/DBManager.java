@@ -574,6 +574,22 @@ public class DBManager {
 		}
 	}
 	
+	public void updateMerchPrice(Merch merch, Double price) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// SQL sentence is defined
+			String sql = "UPDATE MERCH SET PRICE = '%d' WHERE ID_MERCH = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, price, merch.getId()));
+			
+			System.out.println(String.format("- Merch price updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
 	///////// PROPERTY_MERCH DATABASE /////////
 	
 	public void insertDataPropertyMerch(User user, Merch merch) {
