@@ -30,6 +30,11 @@ public class DBManager {
 	protected static Properties properties;
 	protected static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
+	/** Construye una nueva ventana gráfica con fondo blanco y la visualiza en el centro de la pantalla
+	 * @param anchura	Anchura en píxels (valor positivo) de la zona de pintado
+	 * @param altura	Altura en píxels (valor positivo) de la zona de pintado
+	 * @param titulo	Título de la ventana
+	 */
 	public DBManager() {		
 		try {
 			properties = new Properties();
@@ -44,6 +49,17 @@ public class DBManager {
 		}
 	}
 	
+	/** Creates a new Database that contains the following charts:
+	 * GAMES: contains Game class objects @see Game
+	 * USERS: contains User class objects @see User
+	 * PROPERTY_GAMES: contains the relationship between a user and the games owned,
+	 * 		as well as INSTALLED (1 if true, 0 if false) and TIME_PLAYED (time played 
+	 * 		by the user to this game, in miliseconds) attributes
+	 * FRIENDS: contains the relationship between two User class objects. Has the id of
+	 * 		both users
+	 * MERCH: contains Merch class objects @see Merch
+	 * PROPERTY_MERCH: contains the relationship between a user and the merch owned
+	 */
 	public void createDatabase() {
 		// Connection is established and the Statement is obtained
 		// If file does not exist, database is created
@@ -106,6 +122,8 @@ public class DBManager {
 		}
 	}
 	
+	/** Deletes all charts for this Database
+	 */
 	public void deleteDatabase() {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -139,7 +157,10 @@ public class DBManager {
 	
 	///////// GAMES DATABASE /////////
 	
-	public void insertDataGames(Game... juegos ) {
+	/** Inserts an array of games in the GAMES chart
+	 * @param games		Array of Game class objects
+	 */
+	public void insertDataGames(Game... games ) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
@@ -150,7 +171,7 @@ public class DBManager {
 			System.out.println("- Adding games...");
 			
 			// Info is added to the chart
-			for (Game game : juegos) {
+			for (Game game : games) {
 				if (1 == stmt.executeUpdate(String.format(sql, game.getName(),
 						game.getCompany(), game.getPegi(), game.getGenre1(), 
 						game.getGenre2(), game.getPrice(), game.getDescription(), 
@@ -166,6 +187,9 @@ public class DBManager {
 		}	
 	}
 	
+	/** Obtains the list of games from the GAMES chart
+	 * @return	ArrayList of Game class objects
+	 */
 	public List<Game> obtainDataGames() {
 		List<Game> games = new ArrayList<>();
 		
@@ -208,6 +232,9 @@ public class DBManager {
 		return games;
 	}
 	
+	/** Deletes games from the GAMES chart that are included in the array
+	 * @param games		Array of Game class objects
+	 */
 	public void deleteDataGames(Game... games) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -231,6 +258,10 @@ public class DBManager {
 		}
 	}
 	
+	/** Updates the price for a set game in the GAMES chart
+	 * @param game		Game class object
+	 * @param price		Double of the price
+	 */
 	public void updateGamePrice(Game game, Double price) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -249,6 +280,9 @@ public class DBManager {
 	
 	///////// USERS DATABASE /////////
 	
+	/** Inserts an array of users in the USERS chart
+	 * @param users		Array of User class objects
+	 */
 	public void insertDataUsers(User... usuarios ) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -275,6 +309,9 @@ public class DBManager {
 		}	
 	}
 	
+	/** Obtains the list of users from the USERS chart
+	 * @return	ArrayList of User class objects
+	 */
 	public List<User> obtainDataUsers() {
 		List<User> users = new ArrayList<>();
 		
@@ -315,6 +352,9 @@ public class DBManager {
 		return users;
 	}
 	
+	/** Deletes users from the USERS chart that are included in the array
+	 * @param users		Array of User class objects
+	 */
 	public void deleteDataUsers(User... users) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -338,6 +378,10 @@ public class DBManager {
 		}
 	}
 	
+	/** Updates the user's last time played date
+	 * @param user		User class object
+	 * @param date		Date class object
+	 */
 	public void updateUserLastTimePlayed(User user, Date date) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -354,6 +398,11 @@ public class DBManager {
 		}		
 	}
 	
+	/** Increments the user's total time played by a set amount of time.
+	 * 	Automatically gets called by @see DBManager#incrementPropertyGamesTimePLayed(Integer, Integer)
+	 * @param id_user		Integer of the user id
+	 * @param time			Integer of the time  to be increased in miliseconds
+	 */
 	public void incrementUserTotalTimePlayed(Integer id_user, Integer time) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -378,6 +427,10 @@ public class DBManager {
 	
 	///////// PROPERTY_GAMES DATABASE /////////
 	
+	/** Adds a relation of property between a user and a game in the PROPERTY_GAME chart
+	 * @param user			User class object
+	 * @param game			Game class object
+	 */
 	public void insertDataPropertyGames(User user, Game game) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -400,6 +453,10 @@ public class DBManager {
 		}
 	}
 	
+	/** Obtains a map from PROPERTY_GAMES chart where the keys are
+	 * 	users' ids and values are a list of each user's games' ids
+	 * @return userGames	HashMap<Integer, ArrayList<Integer>>
+	 */
 	public Map<Integer, List<Integer>> obtainDataPropertyGames() {
 		Map<Integer, List<Integer>> userGames = new HashMap<Integer, List<Integer>>();
 		
@@ -434,6 +491,11 @@ public class DBManager {
 		return userGames;
 	}
 	
+	/** Updates the installed attribute for a set user and game relationship
+	 * @param id_user		Integer of the user id
+	 * @param id_game		Integer of the game id
+	 * @param installed		Integer, 1 if true, 0 if false
+	 */
 	public void updatePropertyGamesInstalled(Integer id_user, Integer id_game, Integer installed) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -451,33 +513,43 @@ public class DBManager {
 		}		
 	}
 	
+	/** Increments the user's time played in a set game by a set amount of time.
+	 * 	Automatically calls @see DBManager#incrementUserTotalTimePLayed(Integer, Integer)
+	 * @param id_user		Integer of the user id
+	 * @param id_game		Integer of the game id
+	 * @param time			Integer of the time  to be increased in miliseconds
+	 */
 	public void incrementPropertyGamesTimePlayed(Integer id_user, Integer id_game, Integer timePlayed) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "UPDATE PROPERTY_GAMES SET TOTAL_TIME_PLAYED = '%x' WHERE ID_USER = %d AND ID_GAME = %d;";
+			String sql = "UPDATE PROPERTY_GAMES SET TIME_PLAYED = '%x' WHERE ID_USER = %d AND ID_GAME = %d;";
 			
 			String sql2 = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user;
 			
 			// ResultSet to get previous time and Sentence execution
 			ResultSet rs = stmt.executeQuery(sql2);
-			Integer previousTime = rs.getInt("TOTAL_TIME_PLAYED");
+			Integer previousTime = rs.getInt("TIME_PLAYED");
 			
 			int result = stmt.executeUpdate(String.format(sql, previousTime + timePlayed, id_user, id_game));
 			
 			// Update of the user's individual data
 			incrementUserTotalTimePlayed(id_user, timePlayed);
 			
-			System.out.println(String.format("- Property game total time played updated", result));
+			System.out.println(String.format("- Property game time played updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating property game total time played: %s", ex.getMessage()));
+			System.err.println(String.format("* Error updating property game time played: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
 	
 	///////// FRIENDS DATABASE /////////
 	
+	/** Adds a relation of friendship between two users in the FRIENDS chart
+	 * @param user			User class object
+	 * @param game			Game class object
+	 */
 	public void insertDataFriends(User user1, User user2) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -489,10 +561,10 @@ public class DBManager {
 			System.out.println("- Adding friend to user's friendlist...");
 			
 			// Info is added to the chart
-			if (1 == stmt.executeUpdate(String.format(sql, user1.getId(), user2.getId()))) {					
-				System.out.println(String.format(" - Friend added correctly: %s", user1.getUsername(), user2.getUsername()));
+			if (1 == stmt.executeUpdate(String.format(sql, user1.getId(), user2.getId())) && 1 == stmt.executeUpdate(String.format(sql, user2.getId(), user1.getId()))) {					
+				System.out.println(String.format(" - Friends added correctly: %s", user1.getUsername(), user2.getUsername()));
 			} else {
-				System.out.println(String.format(" - Friend could not be added: %s", user1.getUsername(), user2.getUsername()));
+				System.out.println(String.format(" - Friends could not be added: %s", user1.getUsername(), user2.getUsername()));
 			}
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error adding the users data: %s", ex.getMessage()));
@@ -500,6 +572,10 @@ public class DBManager {
 		}
 	}
 	
+	/** Obtains a map from FRIENDS chart where the keys are
+	 * 	users' ids and values are a list of each user's friends' ids
+	 * @return friends		HashMap<Integer, ArrayList<Integer>>
+	 */
 	public Map<Integer, List<Integer>> obtainDataFriends() {
 		Map<Integer, List<Integer>> friends = new HashMap<Integer, List<Integer>>();
 		
@@ -534,6 +610,10 @@ public class DBManager {
 		return friends;
 	}
 	
+	/** Deletes the relation of friendship between two users
+	 * @param user1			Integer of the first user
+	 * @param user2			Integer of the second user
+	 */
 	public void deleteDataFriends(Integer user1, Integer user2) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -544,10 +624,10 @@ public class DBManager {
 			System.out.println("- Deleting friend...");
 			
 			// Friend is deleted from the table
-			if (1 == stmt.executeUpdate(String.format(sql, user1, user2))) {					
-				System.out.println(String.format(" - Friend deleted: %s", user2));
+			if (1 == stmt.executeUpdate(String.format(sql, user1, user2)) && 1 == stmt.executeUpdate(String.format(sql, user2, user1))) {					
+				System.out.println(String.format(" - Friend deleted: %s", user1, user2));
 			} else {
-				System.out.println(String.format(" - Friend could not be deleted: %s", user2));
+				System.out.println(String.format(" - Friend could not be deleted: %s", user1, user2));
 			}
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error deleting the friend data: %s", ex.getMessage()));
@@ -557,6 +637,9 @@ public class DBManager {
 	
 	///////// MERCH DATABASE /////////
 	
+	/** Inserts an array of merch in the MERCH chart
+	 * @param merchlist		Array of Merch class objects
+	 */
 	public void insertDataMerch(Merch... merchlist) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -582,6 +665,9 @@ public class DBManager {
 		}	
 	}
 	
+	/** Obtains the list of merch from the MERCH chart
+	 * @return	ArrayList of Merch class objects
+	 */
 	public List<Merch> obtainDataMerch() {
 		List<Merch> merchlist = new ArrayList<>();
 		
@@ -619,6 +705,9 @@ public class DBManager {
 		return merchlist;
 	}
 	
+	/** Deletes merch from the Merch chart that are included in the array
+	 * @param merchlist		Array of Merch class objects
+	 */
 	public void deleteDataMerch(Merch... merchlist) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -642,6 +731,10 @@ public class DBManager {
 		}
 	}
 	
+	/** Updates the price for a set merch in the MERCH chart
+	 * @param merch		Merch class object
+	 * @param price		Double of the price
+	 */
 	public void updateMerchPrice(Merch merch, Double price) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -660,6 +753,10 @@ public class DBManager {
 	
 	///////// PROPERTY_MERCH DATABASE /////////
 	
+	/** Adds a relation of property between a user and a merch in the PROPERTY_MERCH chart
+	 * @param user			User class object
+	 * @param merch			Merch class object
+	 */
 	public void insertDataPropertyMerch(User user, Merch merch) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -682,6 +779,10 @@ public class DBManager {
 		}
 	}
 	
+	/** Obtains a map from PROPERTY_MERCH chart where the keys are
+	 * 	users' ids and values are a list of each user's merch ids
+	 * @return userMerch	HashMap<Integer, ArrayList<Integer>>
+	 */
 	public Map<Integer, List<Integer>> obtainDataPropertyMerch() {
 		Map<Integer, List<Integer>> userMerch = new HashMap<Integer, List<Integer>>();
 		
