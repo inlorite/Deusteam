@@ -84,7 +84,7 @@ public class DBManager {
 	                   + " EMAIL TEXT NOT NULL,\n"
 	                   + " PASSWORD TEXT NOT NULL,\n"
 	                   + " COUNTRY TEXT NOT NULL,\n"
-	                   + " LAST_TIME_PLAYED DATE NOT NULL,\n"
+	                   + " LAST_TIME_PLAYED TEXT NOT NULL,\n"
 	                   + " TOTAL_TIME_PLAYED INT NOT NULL,\n"
 	                   + ");"
 	                   
