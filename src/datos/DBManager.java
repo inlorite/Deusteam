@@ -61,8 +61,6 @@ public class DBManager {
 	 * PROPERTY_MERCH: contains the relationship between a user and the merch owned
 	 */
 	public void createDatabase() {
-		// Connection is established and the Statement is obtained
-		// If file does not exist, database is created
 		ArrayList<String> tables = new ArrayList<>();
 		
 		tables.add("CREATE TABLE IF NOT EXISTS GAMES (\n"
@@ -123,6 +121,8 @@ public class DBManager {
 	}
 	
 	public void createTable(String sql) {
+		// Connection is established and the Statement is obtained
+		// If file does not exist, database is created
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 			 Statement stmt = con.createStatement()) {
 		        
@@ -139,33 +139,41 @@ public class DBManager {
 	/** Deletes all charts for this Database
 	 */
 	public void deleteDatabase() {
-		// Connection is established and the Statement is obtained
-		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
-		     Statement stmt = con.createStatement()) {
+		ArrayList<String> tables = new ArrayList<>();
 			
-	        String sql = "DROP TABLE IF EXISTS GAMES"
-	        			+ "DROP TABLE IF EXISTS USERS"
-	        			+ "DROP TABLE IF EXISTS PROPERTY_GAMES"
-	        			+ "DROP TABLE IF EXISTS FRIENDS"
-	        			+ "DROP TABLE IF EXISTS MERCH"
-	        			+ "DROP TABLE IF EXISTS PROPERTY_MERCH";
+		tables.add("DROP TABLE IF EXISTS GAMES;");
+		tables.add("DROP TABLE IF EXISTS USERS;");
+		tables.add("DROP TABLE IF EXISTS PROPERTY_GAMES;");
+		tables.add("DROP TABLE IF EXISTS FRIENDS;");
+		tables.add("DROP TABLE IF EXISTS MERCH;");
+		tables.add("DROP TABLE IF EXISTS PROPERTY_MERCH;");
 			
-	        // Chart-deleting sentence is executed
-	        if (!stmt.execute(sql)) {
-	        	System.out.println("- Successfuly deleted 6 charts (Games, Users, Property_Games, Friends, Merch, Property_Merch)");
-	        }
-		} catch (Exception ex) {
-			System.err.println(String.format("* Error deleting database: %s", ex.getMessage()));
-			ex.printStackTrace();			
+	    for (String table : tables) {
+			dropTable(table);
 		}
 		
 		try {
 			// Database file is erased
 			Files.delete(Paths.get(properties.getProperty("DATABASE_FILE")));
-			System.out.println("- Database file successfuly deleted");
+			System.out.println("- Database file successfully deleted.");
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error deleting the database file: %s", ex.getMessage()));
 			ex.printStackTrace();						
+		}
+	}
+	
+	public void dropTable(String sql) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			
+	        // Chart-deleting sentence is executed
+	        if (!stmt.execute(sql)) {
+	        	System.out.println("- Table successfully dropped.");
+	        }
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error dropping table: %s", ex.getMessage()));
+			ex.printStackTrace();			
 		}
 	}
 	
@@ -180,7 +188,7 @@ public class DBManager {
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
 			String sql = "INSERT INTO GAMES (NAME, COMPANY, PEGI, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
-					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d','%s', '%s');";
+					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%f','%s', '%s');";
 			
 			System.out.println("- Adding games...");
 			
