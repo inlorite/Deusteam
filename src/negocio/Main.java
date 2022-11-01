@@ -26,15 +26,19 @@ public class Main {
 		gestor.insertDataGames(games.toArray(new Game[games.size()]));
 			
 		// Update: Modificacion de usuarios y juegos en la BD
-		
+		gestor.updateGamePrice(games.get(0), 9.85);
+		gestor.incrementUserTotalTimePlayed(users.get(0).getId(), 50);
 		
 		// Select: 
+		for (User u : gestor.obtainDataUsers()) {
+			System.out.println(u);
+		}
 		
+		for (Game g : gestor.obtainDataGames()) {
+			System.out.println(g);
+		}
 		
-		// Delete: 
-		
-		
-		// Borrado de la BD
+		// Delete: Borrado de las tablas y de la BD
 		gestor.deleteDatabase();
 	}
 	

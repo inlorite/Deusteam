@@ -319,7 +319,7 @@ public class DBManager {
 			for (User user : usuarios) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getUsername(),
 						user.getEmail(), user.getPassword(), user.getCountry(), 
-						user.getLastTimePlayed(), user.getTotalTimePlayed()))) {					
+						user.getLastTimePlayedFormat(), user.getTotalTimePlayed()))) {					
 					System.out.println(String.format(" - User added: %s", user.toString()));
 				} else {
 					System.out.println(String.format(" - User could not be added: %s", user.toString()));
