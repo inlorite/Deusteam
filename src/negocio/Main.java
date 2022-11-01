@@ -12,26 +12,33 @@ public class Main {
 		
 		DBManager gestor = new DBManager();
 		
-		// creacion
+		// Create: Creacion de la BD
 		gestor.createDatabase();
-		/*
-		// insercion
-			//usuarios
-			List<User> users =initUser();
-			gestor.insertDataUsers(users.toArray(new User[users.size()]));
-			//juegos
-			List<Game> games =gestor.obtainDataGames();
-			gestor.insertDataGames(games.toArray(new Game[games.size()]));
+		
+		// Insert: Insercion de usuarios y juegos en la BD
+		
+		// Usuarios
+		List<User> users = initUsers();
+		gestor.insertDataUsers(users.toArray(new User[users.size()]));
+		
+		// Juegos
+		List<Game> games = initGames();
+		gestor.insertDataGames(games.toArray(new Game[games.size()]));
 			
+		// Update: Modificacion de usuarios y juegos en la BD
 		
-		// modificacion
 		
-		// borrado
+		// Select: 
+		
+		
+		// Delete: 
+		
+		
+		// Borrado de la BD
 		gestor.deleteDatabase();
-		*/
 	}
 	
-	public static List<User> initUser(){
+	public static List<User> initUsers(){
 		ArrayList<User> users= new ArrayList<>();
 		
 		User user = new User();
@@ -42,8 +49,8 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(12);
-		user.setFriends(new ArrayList());
-		user.setGames(new ArrayList());
+		user.setFriends(new ArrayList<Integer>());
+		user.setGames(new ArrayList<Game>());
 		users.add(user);
 		
 		user= new User();
@@ -54,8 +61,8 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(15);
-		user.setFriends(new ArrayList());
-		user.setGames(new ArrayList());
+		user.setFriends(new ArrayList<Integer>());
+		user.setGames(new ArrayList<Game>());
 		users.add(user);
 		
 		user= new User();
@@ -66,8 +73,8 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(23);
-		user.setFriends(new ArrayList());
-		user.setGames(new ArrayList());
+		user.setFriends(new ArrayList<Integer>());
+		user.setGames(new ArrayList<Game>());
 		users.add(user);
 		
 		user= new User();
@@ -78,15 +85,15 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(10);
-		user.setFriends(new ArrayList());
-		user.setGames(new ArrayList());
+		user.setFriends(new ArrayList<Integer>());
+		user.setGames(new ArrayList<Game>());
 		users.add(user);
 		
 		return users;
 	}
 	
 	public static List<Game> initGames(){
-		ArrayList<Game> games= new ArrayList();
+		ArrayList<Game> games= new ArrayList<>();
 		
 		Game game = new Game();
 		game.setId(1);
@@ -113,7 +120,6 @@ public class Main {
 		games.add(game);
 		
 		return games;
-		
 	}
 	
 }
