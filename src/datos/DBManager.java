@@ -128,7 +128,7 @@ public class DBManager {
 		        
 		        // Chart-creating sentence is executed
 		        if (!stmt.execute(sql)) {
-		        	System.out.println("- Table successfully created.");
+		        	System.out.println("- Table (" + sql.split(" ")[5] + ") successfully created.");
 		        }
 			} catch (Exception ex) {
 				System.err.println(String.format("* Error creating table: %s", ex.getMessage()));
@@ -169,7 +169,7 @@ public class DBManager {
 			
 	        // Chart-deleting sentence is executed
 	        if (!stmt.execute(sql)) {
-	        	System.out.println("- Table successfully dropped.");
+	        	System.out.println("- Table (" + (sql.split(" ")[4]).split(";")[0] + ") successfully dropped.");
 	        }
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error dropping table: %s", ex.getMessage()));
