@@ -63,10 +63,9 @@ public class DBManager {
 	public void createDatabase() {
 		// Connection is established and the Statement is obtained
 		// If file does not exist, database is created
-		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
-		     Statement stmt = con.createStatement()) {
-			
-	        String sql = "CREATE TABLE IF NOT EXISTS GAMES (\n"
+		ArrayList<String> tables = new ArrayList<>();
+		
+		tables.add("CREATE TABLE IF NOT EXISTS GAMES (\n"
 	                   + " ID_GAME INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 	                   + " NAME TEXT NOT NULL,\n"
 	                   + " COMPANY TEXT NOT NULL,\n"
@@ -76,50 +75,65 @@ public class DBManager {
 	                   + " PRICE DECIMAL(5, 2),\n"
 	                   + " DESCRIPTION TEXT NOT NULL,\n"
 	                   + " IMG_LINK TEXT NOT NULL\n"
-	                   + ");"
-	                   
-	                   + "CREATE TABLE IF NOT EXISTS USERS (\n"
+	                   + ");");
+		
+		tables.add("CREATE TABLE IF NOT EXISTS USERS (\n"
 	                   + " ID_USER INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 	                   + " USERNAME TEXT NOT NULL,\n"
 	                   + " EMAIL TEXT NOT NULL,\n"
 	                   + " PASSWORD TEXT NOT NULL,\n"
 	                   + " COUNTRY TEXT NOT NULL,\n"
 	                   + " LAST_TIME_PLAYED TEXT NOT NULL,\n"
-	                   + " TOTAL_TIME_PLAYED INT NOT NULL,\n"
-	                   + ");"
-	                   
-					   + "CREATE TABLE IF NOT EXISTS PROPERTY_GAMES (\n"
+	                   + " TOTAL_TIME_PLAYED INTEGER NOT NULL\n"
+	                   + ");");
+		
+		tables.add("CREATE TABLE IF NOT EXISTS PROPERTY_GAMES (\n"
 					   + " INSTALLED INTEGER NOT NULL,\n"
-					   + " TIME_PLAYED INT NOT NULL,\n"
-					   + " ID_USER INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
-					   + " ID_GAME INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
-					   + ");"
-					   
-					   + "CREATE TABLE IF NOT EXISTS FRIENDS (\n"
-					   + " ID_USER1 INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
-					   + " ID_USER2 INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
-					   + ");"
-					   
-					   + "CREATE TABLE IF NOT EXISTS MERCH (\n"
+					   + " TIME_PLAYED INTEGER NOT NULL,\n"
+					   + " ID_USER INTEGER NOT NULL,\n"
+					   + " ID_GAME INTEGER NOT NULL,\n"
+					   + " FOREIGN KEY(ID_USER) REFERENCES USERS(ID_USER) ON DELETE CASCADE,\n"
+					   + " FOREIGN KEY(ID_GAME) REFERENCES GAMES(ID_GAME) ON DELETE CASCADE\n"
+					   + ");");
+		
+		tables.add("CREATE TABLE IF NOT EXISTS FRIENDS (\n"
+					   + " ID_USER1 INTEGER NOT NULL,\n"
+					   + " ID_USER2 INTEGER NOT NULL,\n"
+					   + " FOREIGN KEY(ID_USER1) REFERENCES USERS(ID_USER) ON DELETE CASCADE,\n"
+					   + " FOREIGN KEY(ID_USER2) REFERENCES USERS(ID_USER) ON DELETE CASCADE\n"
+					   + ");");
+		
+		tables.add("CREATE TABLE IF NOT EXISTS MERCH (\n"
 					   + " ID_MERCH INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 					   + " NAME TEXT NOT NULL,\n"
 					   + " TYPE TEXT NOT NULL,\n"
-					   + " PRICE DECIMAL(5, 2),\n"
-					   + ");"
-					   
-					   + "CREATE TABLE IF NOT EXISTS PROPERTY_MERCH (\n"
-					   + " ID_USER INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
-					   + " ID_MERCH INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
-					   + ");";
-	        
-	        // Chart-creating sentence is executed
-	        if (!stmt.execute(sql)) {
-	        	System.out.println("- Successfuly created 6 charts (Games, Users, Property_Games, Friends, Merch, Property_Merch)");
-	        }
-		} catch (Exception ex) {
-			System.err.println(String.format("* Error creating database: %s", ex.getMessage()));
-			ex.printStackTrace();			
+					   + " PRICE DECIMAL(5, 2)\n"
+					   + ");");
+		
+		tables.add("CREATE TABLE IF NOT EXISTS PROPERTY_MERCH (\n"
+					   + " ID_USER INTEGER NOT NULL,\n"
+					   + " ID_MERCH INTEGER NOT NULL,\n"
+					   + " FOREIGN KEY(ID_USER) REFERENCES USERS(ID_USER) ON DELETE CASCADE,\n"
+					   + " FOREIGN KEY(ID_MERCH) REFERENCES MERCH(ID_MERCH) ON DELETE CASCADE\n"
+					   + ");");
+			
+		for (String table : tables) {
+			createTable(table);
 		}
+	}
+	
+	public void createTable(String sql) {
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+			 Statement stmt = con.createStatement()) {
+		        
+		        // Chart-creating sentence is executed
+		        if (!stmt.execute(sql)) {
+		        	System.out.println("- Table successfully created.");
+		        }
+			} catch (Exception ex) {
+				System.err.println(String.format("* Error creating table: %s", ex.getMessage()));
+				ex.printStackTrace();			
+			}
 	}
 	
 	/** Deletes all charts for this Database

@@ -14,6 +14,7 @@ public class Main {
 		
 		// creacion
 		gestor.createDatabase();
+		/*
 		// insercion
 			//usuarios
 			List<User> users =initUser();
@@ -27,6 +28,7 @@ public class Main {
 		
 		// borrado
 		gestor.deleteDatabase();
+		*/
 	}
 	
 	public static List<User> initUser(){
