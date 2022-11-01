@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.StringTokenizer;
 
 public class User {
 	
@@ -118,6 +119,19 @@ public class User {
 
 	public void setLastTimePlayed(Date lastTimePlayed) {
 		this.lastTimePlayed = lastTimePlayed;
+	}
+	
+	@SuppressWarnings("deprecation")
+	public void setLastTimePlayed(String lastTimePlayed) {
+		StringTokenizer st = new StringTokenizer(lastTimePlayed, " -:");
+		ArrayList<String> values = new ArrayList<>();
+		
+		while (st.hasMoreTokens()) {
+	         values.add(st.nextToken());
+	     }
+		
+		this.setLastTimePlayed(new Date(Integer.parseInt(values.get(2)), Integer.parseInt(values.get(1)), Integer.parseInt(values.get(0)),
+				Integer.parseInt(values.get(3)), Integer.parseInt(values.get(4))));
 	}
 
 	public int getTotalTimePlayed() {

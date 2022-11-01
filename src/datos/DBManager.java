@@ -289,7 +289,7 @@ public class DBManager {
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
 			String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD, COUNTRY, LAST_TIME_PLAYED, TOTAL_TIME_PLAYED) "
-					+ "VALUES ('%s', '%s', '%s','%s', '%t', '%d');";
+					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d');";
 			
 			System.out.println("- Adding users...");
 			
@@ -333,7 +333,7 @@ public class DBManager {
 				user.setEmail(rs.getString("EMAIL"));
 				user.setPassword(rs.getString("PASSWORD"));
 				user.setCountry(rs.getString("COUNTRY"));
-				user.setLastTimePlayed(rs.getDate("LAST_TIME_PLAYED"));
+				user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
 				user.setTotalTimePlayed(rs.getInt("TOTAL_TIME_PLAYED"));
 				
 				// User object addition
