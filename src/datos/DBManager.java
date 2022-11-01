@@ -354,14 +354,20 @@ public class DBManager {
 		}		
 	}
 	
-	public void updateUserTotalTimePlayed(User user, Integer time) {
+	public void incrementUserTotalTimePlayed(Integer id_user, Integer time) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
 			String sql = "UPDATE USERS SET TOTAL_TIME_PLAYED = '%x' WHERE ID_USER = %d;";
 			
-			int result = stmt.executeUpdate(String.format(sql, time, user.getId()));
+			String sql2 = "SELECT * FROM USERS WHERE ID_USER = " + id_user;
+			
+			// ResultSet to get previous time and Sentence execution
+			ResultSet rs = stmt.executeQuery(sql2);
+			Integer previousTime = rs.getInt("TOTAL_TIME_PLAYED");
+			
+			int result = stmt.executeUpdate(String.format(sql, time + previousTime, id_user));
 			
 			System.out.println(String.format("- User's total time played updated", result));
 		} catch (Exception ex) {
@@ -452,13 +458,16 @@ public class DBManager {
 			// SQL sentence is defined
 			String sql = "UPDATE PROPERTY_GAMES SET TOTAL_TIME_PLAYED = '%x' WHERE ID_USER = %d AND ID_GAME = %d;";
 			
-			String sql2 = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user.toString();
+			String sql2 = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user;
 			
 			// ResultSet to get previous time and Sentence execution
 			ResultSet rs = stmt.executeQuery(sql2);
-			Integer previusTime = rs.getInt("TOTAL_TIME_PLAYED");
+			Integer previousTime = rs.getInt("TOTAL_TIME_PLAYED");
 			
-			int result = stmt.executeUpdate(String.format(sql, previusTime + timePlayed, id_user, id_game));
+			int result = stmt.executeUpdate(String.format(sql, previousTime + timePlayed, id_user, id_game));
+			
+			// Update of the user's individual data
+			incrementUserTotalTimePlayed(id_user, timePlayed);
 			
 			System.out.println(String.format("- Property game total time played updated", result));
 		} catch (Exception ex) {
