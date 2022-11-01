@@ -67,7 +67,7 @@ public class DBManager {
 		     Statement stmt = con.createStatement()) {
 			
 	        String sql = "CREATE TABLE IF NOT EXISTS GAMES (\n"
-	                   + " ID_GAME INTEGER PRIMARY KEY AUTOINCREMENT ON DELETE CASCADE,\n"
+	                   + " ID_GAME INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 	                   + " NAME TEXT NOT NULL,\n"
 	                   + " COMPANY TEXT NOT NULL,\n"
 	                   + " PEGI TEXT NOT NULL,\n"
@@ -79,7 +79,7 @@ public class DBManager {
 	                   + ");"
 	                   
 	                   + "CREATE TABLE IF NOT EXISTS USERS (\n"
-	                   + " ID_USER INTEGER PRIMARY KEY AUTOINCREMENT ON DELETE CASCADE,\n"
+	                   + " ID_USER INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 	                   + " USERNAME TEXT NOT NULL,\n"
 	                   + " EMAIL TEXT NOT NULL,\n"
 	                   + " PASSWORD TEXT NOT NULL,\n"
@@ -91,25 +91,25 @@ public class DBManager {
 					   + "CREATE TABLE IF NOT EXISTS PROPERTY_GAMES (\n"
 					   + " INSTALLED INTEGER NOT NULL,\n"
 					   + " TIME_PLAYED INT NOT NULL,\n"
-					   + " ID_USER INTEGER FOREIGN KEY NOT NULL,\n"
-					   + " ID_GAME INTEGER FOREIGN KEY NOT NULL,\n"
+					   + " ID_USER INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
+					   + " ID_GAME INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
 					   + ");"
 					   
 					   + "CREATE TABLE IF NOT EXISTS FRIENDS (\n"
-					   + " ID_USER1 INTEGER FOREIGN KEY NOT NULL,\n"
-					   + " ID_USER2 INTEGER FOREIGN KEY NOT NULL,\n"
+					   + " ID_USER1 INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
+					   + " ID_USER2 INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
 					   + ");"
 					   
 					   + "CREATE TABLE IF NOT EXISTS MERCH (\n"
-					   + " ID_MERCH INTEGER PRIMARY KEY AUTOINCREMENT ON DELETE CASCADE,\n"
+					   + " ID_MERCH INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 					   + " NAME TEXT NOT NULL,\n"
 					   + " TYPE TEXT NOT NULL,\n"
 					   + " PRICE DECIMAL(5, 2),\n"
 					   + ");"
 					   
 					   + "CREATE TABLE IF NOT EXISTS PROPERTY_MERCH (\n"
-					   + " ID_USER INTEGER FOREIGN KEY NOT NULL,\n"
-					   + " ID_MERCH INTEGER FOREIGN KEY NOT NULL,\n"
+					   + " ID_USER INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
+					   + " ID_MERCH INTEGER FOREIGN KEY NOT NULL ON DELETE CASCADE,\n"
 					   + ");";
 	        
 	        // Chart-creating sentence is executed
