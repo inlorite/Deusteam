@@ -30,11 +30,6 @@ public class DBManager {
 	protected static Properties properties;
 	protected static SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
-	/** Construye una nueva ventana gráfica con fondo blanco y la visualiza en el centro de la pantalla
-	 * @param anchura	Anchura en píxels (valor positivo) de la zona de pintado
-	 * @param altura	Altura en píxels (valor positivo) de la zona de pintado
-	 * @param titulo	Título de la ventana
-	 */
 	public DBManager() {		
 		try {
 			properties = new Properties();
@@ -120,6 +115,9 @@ public class DBManager {
 		}
 	}
 	
+	/** Creates a chart in the Database given a set statement
+	 * @param sql		String of a SQL Statement
+	 */
 	public void createTable(String sql) {
 		// Connection is established and the Statement is obtained
 		// If file does not exist, database is created
