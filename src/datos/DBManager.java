@@ -278,6 +278,26 @@ public class DBManager {
 		}
 	}
 	
+	/** Updates the name for a set game in the GAMES chart
+	 * @param game		Game class object
+	 * @param name		String of the name
+	 */
+	public void updateGameName(Game game, String name) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE GAMES SET NAME = '%d' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, name, game.getId()));
+			
+			System.out.println(String.format("- Game name updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
 	/** Updates the price for a set game in the GAMES chart
 	 * @param game		Game class object
 	 * @param price		Double of the price
