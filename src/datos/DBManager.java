@@ -278,6 +278,41 @@ public class DBManager {
 		}
 	}
 	
+	/** Retrieves a game that has a set name
+	 * @param name		String of the name
+	 * 
+	 * @return Game class object if exists, else null
+	 */
+	public Game getGame(String name) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "SELECT * FROM GAMES WHERE NAME = '%s' LIMIT 1;";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			Game game = new Game();
+			
+			game.setId(rs.getInt("ID_GAME"));
+			game.setName(rs.getString("NAME"));
+			game.setCompany(rs.getString("COMPANY"));
+			game.setPegi(rs.getString("PEGI"));
+			game.setGenre1(rs.getString("GENRE1"));
+			game.setGenre2(rs.getString("GENRE2"));
+			game.setPrice(rs.getInt("PRICE"));
+			game.setDescription(rs.getString("DESCRIPTION"));
+			game.setImgLink(rs.getString("IMG_LINK"));
+			
+			System.out.println(String.format("- Game retrieved"));
+			return game;
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error retrieving game data: %s", ex.getMessage()));
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	/** Updates the name for a set game in the GAMES chart
 	 * @param game		Game class object
 	 * @param name		String of the name
@@ -538,6 +573,39 @@ public class DBManager {
 		}
 	}
 	
+	/** Retrieves a user that has a set username
+	 * @param username		String of the username
+	 * 
+	 * @return User class object if exists, else null
+	 */
+	public User getUser(String username) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "SELECT * FROM USERS WHERE USERNAME = '%s' LIMIT 1;";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			User user = new User();
+			
+			user.setId(rs.getInt("ID_USER"));
+			user.setUsername(rs.getString("USERNAME"));
+			user.setEmail(rs.getString("EMAIL"));
+			user.setPassword(rs.getString("PASSWORD"));
+			user.setCountry(rs.getString("COUNTRY"));
+			user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
+			user.setTotalTimePlayed(rs.getInt("TOTAL_TIME_PLAYED"));
+			
+			System.out.println(String.format("- User retrieved"));
+			return user;
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	/** Updates the name for a set user in the USERS chart
 	 * @param user			User class object
 	 * @param username		String of the username
@@ -598,24 +666,8 @@ public class DBManager {
 			}
 }
 	
-	/** Updates the country for a set user in the USERS chart
-	 * @param user			User class object
-	 * @param country		String of the country
-	 */
-	public void updateUserCountry(User user, String country) {
-		// Connection is established and the Statement is obtained
-		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
-		     Statement stmt = con.createStatement()) {
-			// Statement execution
-			String sql = "UPDATE USERS SET COUNTRY = '%s' WHERE ID_USER = %d;";
-			
-			int result = stmt.executeUpdate(String.format(sql, country, user.getId()));
-			
-			System.out.println(String.format("- User country updated", result));
-		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user country: %s", ex.getMessage()));
-				ex.printStackTrace();					
-			}
+	public void updateUserCountry() {
+		
 	}
 	
 	/** Updates the user's last time played date
@@ -968,6 +1020,36 @@ public class DBManager {
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error deleting the merch data: %s", ex.getMessage()));
 			ex.printStackTrace();						
+		}
+	}
+	
+	/** Retrieves a merch product that has a set name
+	 * @param name		String of the name
+	 * 
+	 * @return Merch class object if exists, else null
+	 */
+	public Merch getMerch(String name) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "SELECT * FROM MERCH WHERE NAME = '%s' LIMIT 1;";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			Merch merch = new Merch();
+			
+			merch.setId(rs.getInt("ID_MERCH"));
+			merch.setName(rs.getString("NAME"));
+			merch.setType(rs.getString("TYPE"));
+			merch.setPrice(rs.getInt("PRICE"));
+			
+			System.out.println(String.format("- User retrieved"));
+			return merch;
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			ex.printStackTrace();
+			return null;
 		}
 	}
 	
