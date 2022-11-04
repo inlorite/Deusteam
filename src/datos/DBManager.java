@@ -598,8 +598,24 @@ public class DBManager {
 			}
 }
 	
-	public void updateUserCountry() {
-		
+	/** Updates the country for a set user in the USERS chart
+	 * @param user			User class object
+	 * @param country		String of the country
+	 */
+	public void updateUserCountry(User user, String country) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE USERS SET COUNTRY = '%s' WHERE ID_USER = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, country, user.getId()));
+			
+			System.out.println(String.format("- User country updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating user country: %s", ex.getMessage()));
+				ex.printStackTrace();					
+			}
 	}
 	
 	/** Updates the user's last time played date
