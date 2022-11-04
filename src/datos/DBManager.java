@@ -578,9 +578,25 @@ public class DBManager {
 		}
 	}
 	
-	public void updateUserPassword() {
-		
-	}
+	/** Updates the password for a set user in the USERS chart
+	 * @param user			User class object
+	 * @param password		String of the password
+	 */
+	public void updateUserPassword(User user, String password) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE USERS SET PASSWORD = '%s' WHERE ID_USER = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, password, user.getId()));
+			
+			System.out.println(String.format("- User password updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating user password: %s", ex.getMessage()));
+				ex.printStackTrace();					
+			}
+}
 	
 	public void updateUserCountry() {
 		
