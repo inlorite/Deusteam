@@ -66,8 +66,21 @@ public class VRegister extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				String usuario = tfUsuario.getText();
 				String email = tfEmail.getText();
-				String password = tfPassword.getText();
-				String confirmPassword = tfPasswordConfirm.getText();
+				char[] password = tfPassword.getPassword();
+				char[] confirmPassword = tfPasswordConfirm.getPassword();
+				
+				if (password.length==confirmPassword.length) {
+					for (int i = 0; i < confirmPassword.length; i++) {
+						if (password[i]!=confirmPassword[i]) {
+							JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+							break;
+						}
+					}				
+				}else {
+					JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+				}
+					
+				
 			}
 		});
 	}
