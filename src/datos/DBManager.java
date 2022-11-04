@@ -1053,12 +1053,44 @@ public class DBManager {
 		}
 	}
 	
-	public void updateMerchName() {
-		
+	/** Updates the name for a set merch in the MERCH chart
+	 * @param merch		Merch class object
+	 * @param name		String of the name
+	 */
+	public void updateMerchName(Merch merch, String name) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE MERCH SET NAME = '%s' WHERE ID_MERCH = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, name, merch.getId()));
+			
+			System.out.println(String.format("- Merch name updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
 	}
 	
-	public void updateMerchType() {
-		
+	/** Updates the type for a set merch in the MERCH chart
+	 * @param merch		Merch class object
+	 * @param type		String of the type
+	 */
+	public void updateMerchType(Merch merch, String type) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE MERCH SET TYPE = '%s' WHERE ID_MERCH = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, type, merch.getId()));
+			
+			System.out.println(String.format("- Merch type updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}	
 	}
 	
 	/** Updates the price for a set merch in the MERCH chart
