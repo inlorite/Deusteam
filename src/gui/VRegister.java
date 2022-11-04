@@ -64,11 +64,15 @@ public class VRegister extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				String usuario = tfUsuario.getText();
+				String email = tfEmail.getText();
+				String password = tfPassword.getText();
+				String confirmPassword = tfPasswordConfirm.getText();
 			}
 		});
 	}
 	public static void main(String[] args) {
-		VRegister v = new VRegister();
+		VRegister vr = new VRegister();
+		
 	}
 }

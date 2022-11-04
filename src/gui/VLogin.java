@@ -11,15 +11,16 @@ public class VLogin extends JFrame {
 	
 	JLabel lLogo;
 	ImageIcon iiLogo;
-	
 	JPanel pDatos;
 	JPanel pBotones;
 	JTextField tfUsuario;
 	JPasswordField tfPassword;
 	JButton bRegister;
 	JButton bLogin;
+	public static VLogin v;
 	
 	public VLogin() {
+		
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		
@@ -55,10 +56,22 @@ public class VLogin extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
+		
+bRegister.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VRegister vr = new VRegister();
+				v.setVisible(false);
+			}
+		});
+
 	}
 	
+	
+	
 	public static void main(String[] args) {
-		VLogin v = new VLogin();
+		 v = new VLogin();
 	}
 
 }
