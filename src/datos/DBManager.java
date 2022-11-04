@@ -538,8 +538,24 @@ public class DBManager {
 		}
 	}
 	
-	public void updateUserUsername() {
-		
+	/** Updates the name for a set user in the USERS chart
+	 * @param user			User class object
+	 * @param username		String of the username
+	 */
+	public void updateUserUsername(User user, String username) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE USERS SET USERNAME = '%s' WHERE ID_USER = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, username, user.getId()));
+			
+			System.out.println(String.format("- User name updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating user name: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}
 	}
 	
 	public void updateUserEmail() {
