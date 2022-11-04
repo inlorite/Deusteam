@@ -538,6 +538,22 @@ public class DBManager {
 		}
 	}
 	
+	public void updateUserUsername() {
+		
+	}
+	
+	public void updateUserEmail() {
+		
+	}
+	
+	public void updateUserPassword() {
+		
+	}
+	
+	public void updateUserCountry() {
+		
+	}
+	
 	/** Updates the user's last time played date
 	 * @param user		User class object
 	 * @param date		Date class object
@@ -889,6 +905,14 @@ public class DBManager {
 			System.err.println(String.format("* Error deleting the merch data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
+	}
+	
+	public void updateMerchName() {
+		
+	}
+	
+	public void updateMerchType() {
+		
 	}
 	
 	/** Updates the price for a set merch in the MERCH chart
