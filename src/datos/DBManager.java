@@ -287,11 +287,91 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// Statement execution
-			String sql = "UPDATE GAMES SET NAME = '%d' WHERE ID_GAME = %d;";
+			String sql = "UPDATE GAMES SET NAME = '%s' WHERE ID_GAME = %d;";
 			
 			int result = stmt.executeUpdate(String.format(sql, name, game.getId()));
 			
 			System.out.println(String.format("- Game name updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
+	/** Updates the name for a set game in the GAMES chart
+	 * @param game		Game class object
+	 * @param company	String with name of the company
+	 */
+	public void updateGameCompany(Game game, String company) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE GAMES SET COMPANY = '%s' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, company, game.getId()));
+			
+			System.out.println(String.format("- Game company updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
+	/** Updates the name for a set game in the GAMES chart
+	 * @param game		Game class object
+	 * @param pegi		String with the pegi
+	 */
+	public void updateGamePegi(Game game, String pegi) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE GAMES SET PEGI = '%s' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, pegi, game.getId()));
+			
+			System.out.println(String.format("- Game pegi updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
+	/** Updates the name for a set game in the GAMES chart
+	 * @param game		Game class object
+	 * @param genre		String with the primary genre
+	 */
+	public void updateGameGenre1(Game game, String genre) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE GAMES SET GENRE1 = '%s' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, genre, game.getId()));
+			
+			System.out.println(String.format("- Game's primary genre updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
+	/** Updates the name for a set game in the GAMES chart
+	 * @param game		Game class object
+	 * @param genre		String with the secondary genre
+	 */
+	public void updateGameGenre2(Game game, String genre) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE GAMES SET GENRE2 = '%s' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, genre, game.getId()));
+			
+			System.out.println(String.format("- Game's secondary genre updated", result));
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
@@ -312,6 +392,46 @@ public class DBManager {
 			int result = stmt.executeUpdate(String.format(sql, price, game.getId()));
 			
 			System.out.println(String.format("- Game price updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
+	/** Updates the price for a set game in the GAMES chart
+	 * @param game			Game class object
+	 * @param description	String with the description of the game
+	 */
+	public void updateGameDescription(Game game, String description) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE GAMES SET DESCRIPTION = '%s' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, description, game.getId()));
+			
+			System.out.println(String.format("- Game description updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}		
+	}
+	
+	/** Updates the price for a set game in the GAMES chart
+	 * @param game			Game class object
+	 * @param imgLink		String with the link of the game's image
+	 */
+	public void updateGameImgLink(Game game, String imgLink) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE GAMES SET IMG_LINK = '%s' WHERE ID_GAME = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, imgLink, game.getId()));
+			
+			System.out.println(String.format("- Game's image link updated", result));
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
