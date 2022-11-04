@@ -5,21 +5,24 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class VLogin extends JFrame {
+public class VRegister extends JFrame{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	JLabel lLogo;
 	ImageIcon iiLogo;
 	
 	JPanel pDatos;
 	JPanel pBotones;
 	JTextField tfUsuario;
+	JTextField tfEmail;
 	JPasswordField tfPassword;
+	JPasswordField tfPasswordConfirm;
 	JButton bRegister;
-	JButton bLogin;
+
 	
-	public VLogin() {
+	
+	public VRegister() {
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		
@@ -30,23 +33,24 @@ public class VLogin extends JFrame {
 		
 		// FORMULARIO
 		pDatos = new JPanel();
-		pDatos.setLayout(new GridLayout(5, 1, 5, 10));
+		pDatos.setLayout(new GridLayout(9, 1, 5, 10));
 		pDatos.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		pDatos.setBackground(new Color(255, 255, 255));
-		pBotones = new JPanel();
-		pBotones.setLayout(new GridLayout(1, 2, 5, 10));
 		
 		pDatos.add(new JLabel("Usuario: "));
 		tfUsuario = new JTextField();
 		pDatos.add(tfUsuario);
+		pDatos.add(new JLabel("Email: "));
+		tfEmail = new JTextField();
+		pDatos.add(tfEmail);
 		pDatos.add(new JLabel("Contraseña: "));
 		tfPassword = new JPasswordField();
 		pDatos.add(tfPassword);
+		pDatos.add(new JLabel("Confirmacion de contraseña: "));
+		tfPasswordConfirm = new JPasswordField();
+		pDatos.add(tfPasswordConfirm);
 		bRegister = new JButton("Register");
-		bLogin = new JButton("Login");
-		pBotones.add(bRegister);
-		pBotones.add(bLogin);
-		pDatos.add(pBotones);
+		pDatos.add(bRegister);
 		cp.add(pDatos);
 		
 		this.setTitle("Deusteam Login");
@@ -55,10 +59,16 @@ public class VLogin extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
+		
+		bRegister.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 	}
-	
 	public static void main(String[] args) {
-		VLogin v = new VLogin();
+		VRegister v = new VRegister();
 	}
-
 }
