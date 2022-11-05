@@ -5,19 +5,25 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+
+
+
 public class VLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
 	JLabel lLogo;
 	ImageIcon iiLogo;
-	JPanel pDatos;
-	JPanel pBotones;
-	JTextField tfUsuario;
+	JPanel pData;
+	JPanel pButton;
+	JTextField tfUser;
 	JPasswordField tfPassword;
 	JButton bRegister;
 	JButton bLogin;
 	public static VLogin v;
+
+	
+	
 	
 	public VLogin() {
 		
@@ -30,25 +36,25 @@ public class VLogin extends JFrame {
 		cp.add(lLogo, BorderLayout.NORTH);
 		
 		// FORMULARIO
-		pDatos = new JPanel();
-		pDatos.setLayout(new GridLayout(5, 1, 5, 10));
-		pDatos.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
-		pDatos.setBackground(new Color(255, 255, 255));
-		pBotones = new JPanel();
-		pBotones.setLayout(new GridLayout(1, 2, 5, 10));
+		pData = new JPanel();
+		pData.setLayout(new GridLayout(5, 1, 5, 10));
+		pData.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
+		pData.setBackground(new Color(255, 255, 255));
+		pButton = new JPanel();
+		pButton.setLayout(new GridLayout(1, 2, 5, 10));
 		
-		pDatos.add(new JLabel("Usuario: "));
-		tfUsuario = new JTextField();
-		pDatos.add(tfUsuario);
-		pDatos.add(new JLabel("Contraseña: "));
+		pData.add(new JLabel("Usuario: "));
+		tfUser = new JTextField();
+		pData.add(tfUser);
+		pData.add(new JLabel("Contraseña: "));
 		tfPassword = new JPasswordField();
-		pDatos.add(tfPassword);
+		pData.add(tfPassword);
 		bRegister = new JButton("Register");
 		bLogin = new JButton("Login");
-		pBotones.add(bRegister);
-		pBotones.add(bLogin);
-		pDatos.add(pBotones);
-		cp.add(pDatos);
+		pButton.add(bRegister);
+		pButton.add(bLogin);
+		pData.add(pButton);
+		cp.add(pData);
 		
 		this.setTitle("Deusteam Login");
 		this.pack();
@@ -67,6 +73,7 @@ bRegister.addActionListener(new ActionListener() {
 		});
 
 	}
+
 	
 	
 	

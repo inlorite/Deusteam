@@ -12,9 +12,9 @@ public class VRegister extends JFrame{
 	JLabel lLogo;
 	ImageIcon iiLogo;
 	
-	JPanel pDatos;
-	JPanel pBotones;
-	JTextField tfUsuario;
+	JPanel pData;
+	JPanel pButton;
+	JTextField tfUser;
 	JTextField tfEmail;
 	JPasswordField tfPassword;
 	JPasswordField tfPasswordConfirm;
@@ -32,26 +32,26 @@ public class VRegister extends JFrame{
 		cp.add(lLogo, BorderLayout.NORTH);
 		
 		// FORMULARIO
-		pDatos = new JPanel();
-		pDatos.setLayout(new GridLayout(9, 1, 5, 10));
-		pDatos.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
-		pDatos.setBackground(new Color(255, 255, 255));
+		pData = new JPanel();
+		pData.setLayout(new GridLayout(9, 1, 5, 10));
+		pData.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
+		pData.setBackground(new Color(255, 255, 255));
 		
-		pDatos.add(new JLabel("Usuario: "));
-		tfUsuario = new JTextField();
-		pDatos.add(tfUsuario);
-		pDatos.add(new JLabel("Email: "));
+		pData.add(new JLabel("Usuario: "));
+		tfUser = new JTextField();
+		pData.add(tfUser);
+		pData.add(new JLabel("Email: "));
 		tfEmail = new JTextField();
-		pDatos.add(tfEmail);
-		pDatos.add(new JLabel("Contraseña: "));
+		pData.add(tfEmail);
+		pData.add(new JLabel("Contraseña: "));
 		tfPassword = new JPasswordField();
-		pDatos.add(tfPassword);
-		pDatos.add(new JLabel("Confirmacion de contraseña: "));
+		pData.add(tfPassword);
+		pData.add(new JLabel("Confirmacion de contraseña: "));
 		tfPasswordConfirm = new JPasswordField();
-		pDatos.add(tfPasswordConfirm);
+		pData.add(tfPasswordConfirm);
 		bRegister = new JButton("Register");
-		pDatos.add(bRegister);
-		cp.add(pDatos);
+		pData.add(bRegister);
+		cp.add(pData);
 		
 		this.setTitle("Deusteam Login");
 		this.pack();
@@ -64,7 +64,7 @@ public class VRegister extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String usuario = tfUsuario.getText();
+				String user = tfUser.getText();
 				String email = tfEmail.getText();
 				char[] password = tfPassword.getPassword();
 				char[] confirmPassword = tfPasswordConfirm.getPassword();
