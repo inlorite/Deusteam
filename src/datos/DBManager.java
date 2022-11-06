@@ -606,6 +606,34 @@ public class DBManager {
 		}
 	}
 	
+	/** Verifies if the user login is correct
+	 * @param username		String of the username
+	 * @param password		String of the password
+	 * 
+	 * @return true if username and password are correct, else false
+	 */
+	public boolean verifyUser(String username, String password) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+			Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "SELECT * FROM USERS WHERE USERNAME = '%s' LIMIT 1;";
+					
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if (rs.getString("PASSWORD") == password) {
+				System.out.println(String.format("- User verified"));
+				return true;
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Could not verify user: %s", ex.getMessage()));
+			ex.printStackTrace();
+		}
+		System.out.println(String.format("- Incorrect login"));
+		return false;
+	}
+	
 	/** Updates the name for a set user in the USERS chart
 	 * @param user			User class object
 	 * @param username		String of the username

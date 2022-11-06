@@ -37,16 +37,16 @@ public class VRegister extends JFrame{
 		pData.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		pData.setBackground(new Color(255, 255, 255));
 		
-		pData.add(new JLabel("Usuario: "));
+		pData.add(new JLabel("Username: "));
 		tfUser = new JTextField();
 		pData.add(tfUser);
 		pData.add(new JLabel("Email: "));
 		tfEmail = new JTextField();
 		pData.add(tfEmail);
-		pData.add(new JLabel("Contraseña: "));
+		pData.add(new JLabel("Password: "));
 		tfPassword = new JPasswordField();
 		pData.add(tfPassword);
-		pData.add(new JLabel("Confirmacion de contraseña: "));
+		pData.add(new JLabel("Password verification: "));
 		tfPasswordConfirm = new JPasswordField();
 		pData.add(tfPasswordConfirm);
 		bRegister = new JButton("Register");
@@ -72,12 +72,12 @@ public class VRegister extends JFrame{
 				if (password.length==confirmPassword.length) {
 					for (int i = 0; i < confirmPassword.length; i++) {
 						if (password[i]!=confirmPassword[i]) {
-							JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+							JOptionPane.showMessageDialog(null, "Passwords do not match");
 							break;
 						}
 					}				
-				}else {
-					JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+				} else {
+					JOptionPane.showMessageDialog(null, "Passwords do not match");
 				}
 					
 				

@@ -43,10 +43,10 @@ public class VLogin extends JFrame {
 		pButton = new JPanel();
 		pButton.setLayout(new GridLayout(1, 2, 5, 10));
 		
-		pData.add(new JLabel("Usuario: "));
+		pData.add(new JLabel("Username: "));
 		tfUser = new JTextField();
 		pData.add(tfUser);
-		pData.add(new JLabel("Contraseña: "));
+		pData.add(new JLabel("Password: "));
 		tfPassword = new JPasswordField();
 		pData.add(tfPassword);
 		bRegister = new JButton("Register");
