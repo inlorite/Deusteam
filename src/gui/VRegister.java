@@ -5,6 +5,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import datos.DBManager;
+import negocio.User;
+
 public class VRegister extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +26,8 @@ public class VRegister extends JFrame{
 	
 	
 	public VRegister() {
+		DBManager manager = new DBManager();
+		
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		
@@ -31,7 +36,7 @@ public class VRegister extends JFrame{
 		lLogo = new JLabel(iiLogo);
 		cp.add(lLogo, BorderLayout.NORTH);
 		
-		// FORMULARIO
+		// FORM
 		pData = new JPanel();
 		pData.setLayout(new GridLayout(9, 1, 5, 10));
 		pData.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
@@ -55,7 +60,7 @@ public class VRegister extends JFrame{
 		
 		this.setTitle("Deusteam Login");
 		this.pack();
-		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
+		this.setLocationRelativeTo(null); // centers window on execution
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
@@ -64,18 +69,21 @@ public class VRegister extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String user = tfUser.getText();
+				String username = tfUser.getText();
 				String email = tfEmail.getText();
 				char[] password = tfPassword.getPassword();
 				char[] confirmPassword = tfPasswordConfirm.getPassword();
 				
-				if (password.length==confirmPassword.length) {
+				if (password.length == confirmPassword.length && manager.getUser(username) == null) {
 					for (int i = 0; i < confirmPassword.length; i++) {
-						if (password[i]!=confirmPassword[i]) {
+						if (password[i] != confirmPassword[i]) {
 							JOptionPane.showMessageDialog(null, "Passwords do not match");
 							break;
 						}
-					}				
+					}
+					
+					// New user creation
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Passwords do not match");
 				}

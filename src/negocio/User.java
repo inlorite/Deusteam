@@ -18,7 +18,17 @@ public class User {
 	protected ArrayList<Integer> friends;
 	protected ArrayList<Game> games;
 	
-	
+	/** Creates a new User class object
+	 * @param id					Integer of the user id
+	 * @param username				String of the username
+	 * @param email					String of the email
+	 * @param password				String of the password
+	 * @param country				Enum of @see Country class
+	 * @param lastTimePlayed		Date of the last time played
+	 * @param totalTimePlayed		Integer of the total time played, in miliseconds
+	 * @param friends				List<Integer> with ids of the user's friends
+	 * @param games					List<Games> with games of the user
+	 */
 	public User(int id, String username, String email, String password, Country country, Date lastTimePlayed,
 			int totalTimePlayed, ArrayList<Integer> friends, ArrayList<Game> games) {
 		super();
@@ -33,6 +43,8 @@ public class User {
 		this.games = games;
 	}
 	
+	/** Creates a new User class object with default values
+	 */
 	public User() {
 		super();
 		this.id = 0;

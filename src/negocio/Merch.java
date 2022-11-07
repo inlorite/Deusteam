@@ -9,7 +9,12 @@ public class Merch {
 	protected MerchType type;
 	protected double price;
 	
-	
+	/** Creates a new Merch class object
+	 * @param id				Integer of the merch id
+	 * @param name				String of the name
+	 * @param type				Enum of @see MerchType class
+	 * @param price				Double with the price
+	 */
 	public Merch(int id, String name, MerchType type, double price) {
 		super();
 		this.id = id;
@@ -18,6 +23,8 @@ public class Merch {
 		this.price = price;
 	}
 	
+	/** Creates a new Merch class object with default values
+	 */
 	public Merch() {
 		super();
 		this.id = 0;

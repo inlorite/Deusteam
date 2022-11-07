@@ -12,7 +12,18 @@ public class Game {
 	protected double price;
 	protected String description;
 	protected String imgLink;
-
+	
+	/** Creates a new Game class object
+	 * @param id				Integer of the game id
+	 * @param name				String of the name
+	 * @param company			String of the company name
+	 * @param pegi				Enum of @see Pegi class
+	 * @param genre1			Enum of @see GameGenre class
+	 * @param genre2			Enum of @see GameGenre class
+	 * @param price				Double with the price
+	 * @param description		String of the game description
+	 * @param imgLink			String of the game's image link
+	 */
 	public Game(int id, String name, String company, Pegi pegi, GameGenre genre1, GameGenre genre2,
 			double price, String description, String imgLink) {
 		super();
@@ -27,6 +38,8 @@ public class Game {
 		this.imgLink = imgLink;
 	}
 	
+	/** Creates a new Game class object with default values
+	 */
 	public Game() {
 		super();
 		this.id = 0;
