@@ -16,8 +16,13 @@ import java.util.Map;
 import java.util.Properties;
 
 import java.sql.ResultSet;
+
+import negocio.Country;
 import negocio.Game;
+import negocio.GameGenre;
 import negocio.Merch;
+import negocio.MerchType;
+import negocio.Pegi;
 import negocio.User;
 
 public class DBManager {
@@ -45,14 +50,16 @@ public class DBManager {
 	}
 	
 	/** Creates a new Database that contains the following charts:
-	 * GAMES: contains Game class objects @see Game
-	 * USERS: contains User class objects @see User
+	 * GAMES: contains Game class objects {@link #Game(int, String, String, Pegi, GameGenre, GameGenre,
+			double, String, String)}
+	 * USERS: contains User class objects {@link #User(int, String, String, String, Country, Date,
+			int, ArrayList<Integer>, ArrayList<Game>)}
 	 * PROPERTY_GAMES: contains the relationship between a user and the games owned,
 	 * 		as well as INSTALLED (1 if true, 0 if false) and TIME_PLAYED (time played 
 	 * 		by the user to this game, in miliseconds) attributes
 	 * FRIENDS: contains the relationship between two User class objects. Has the id of
 	 * 		both users
-	 * MERCH: contains Merch class objects @see Merch
+	 * MERCH: contains Merch class objects {@link #Merch(int, String, MerchType, double)}
 	 * PROPERTY_MERCH: contains the relationship between a user and the merch owned
 	 */
 	public void createDatabase() {
@@ -719,7 +726,7 @@ public class DBManager {
 	}
 	
 	/** Increments the user's total time played by a set amount of time.
-	 * 	Automatically gets called by @see DBManager#incrementPropertyGamesTimePLayed(Integer, Integer)
+	 * 	Automatically gets called by {@link #incrementPropertyGamesTimePLayed(Integer, Integer)}
 	 * @param id_user		Integer of the user id
 	 * @param time			Integer of the time  to be increased in miliseconds
 	 */
@@ -834,7 +841,7 @@ public class DBManager {
 	}
 	
 	/** Increments the user's time played in a set game by a set amount of time.
-	 * 	Automatically calls @see DBManager#incrementUserTotalTimePLayed(Integer, Integer)
+	 * 	Automatically calls {@link #incrementUserTotalTimePLayed(Integer, Integer)}
 	 * @param id_user		Integer of the user id
 	 * @param id_game		Integer of the game id
 	 * @param time			Integer of the time  to be increased in miliseconds

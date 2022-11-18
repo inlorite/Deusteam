@@ -12,7 +12,7 @@ public class Merch {
 	/** Creates a new Merch class object
 	 * @param id				Integer of the merch id
 	 * @param name				String of the name
-	 * @param type				Enum of @see MerchType class
+	 * @param type				Enum of {@link #MerchType}
 	 * @param price				Double with the price
 	 */
 	public Merch(int id, String name, MerchType type, double price) {

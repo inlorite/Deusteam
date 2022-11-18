@@ -23,7 +23,7 @@ public class User {
 	 * @param username				String of the username
 	 * @param email					String of the email
 	 * @param password				String of the password
-	 * @param country				Enum of @see Country class
+	 * @param country				Enum of {@link #Country}
 	 * @param lastTimePlayed		Date of the last time played
 	 * @param totalTimePlayed		Integer of the total time played, in miliseconds
 	 * @param friends				List<Integer> with ids of the user's friends

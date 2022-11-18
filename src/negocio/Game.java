@@ -17,9 +17,9 @@ public class Game {
 	 * @param id				Integer of the game id
 	 * @param name				String of the name
 	 * @param company			String of the company name
-	 * @param pegi				Enum of @see Pegi class
-	 * @param genre1			Enum of @see GameGenre class
-	 * @param genre2			Enum of @see GameGenre class
+	 * @param pegi				Enum of {@link #Pegi}
+	 * @param genre1			Enum of {@link #GameGenre}
+	 * @param genre2			Enum of {@link #GameGenre}
 	 * @param price				Double with the price
 	 * @param description		String of the game description
 	 * @param imgLink			String of the game's image link
