@@ -14,6 +14,13 @@ public class DMenuBar extends JPanel {
 	protected JButton bTienda;
 	protected JButton bPerfil;
 	
+	protected JButton bJuegos;
+	protected JButton bMerch;
+	
+	/* Nota: No quiero tocar esto todavia pero vendria bien pasar un 
+	argumento INT para elegir cual setup usar en lugar de hacer otra 
+	clase/constructor
+	*/
 	public DMenuBar() {
 		super();
 		
@@ -31,6 +38,17 @@ public class DMenuBar extends JPanel {
 		this.add(bBiblioteca);
 		this.add(bTienda);
 		this.add(bPerfil);
+	}
+	
+	public void setup2() {
+		this.setLayout(new GridLayout(1, 2, VDeusteam.GAP, VDeusteam.GAP));
+		this.setBorder(new EmptyBorder(VDeusteam.GAP, VDeusteam.GAP, 0, VDeusteam.GAP));
+		
+		bJuegos = new JButton("Juegos");
+		bMerch = new JButton("Merch");
+		
+		this.add(bJuegos);
+		this.add(bMerch);
 	}
 
 }

@@ -25,7 +25,7 @@ public class VDeusteam extends JFrame {
 		DMenuBar menuBar = new DMenuBar();
 		
 		DPanelBiblioteca pBiblioteca = new DPanelBiblioteca();
-		//
+		//DPanelTienda pTienda = new DPanelTienda();
 		//
 		
 		cp.add(menuBar, BorderLayout.NORTH);
