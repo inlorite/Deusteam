@@ -22,7 +22,7 @@ public class VDeusteam extends JFrame {
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout(GAP, GAP));
 		
-		DMenuBar menuBar = new DMenuBar();
+		DMenuBar menuBar = new DMenuBar(0);
 		
 		DPanelBiblioteca pBiblioteca = new DPanelBiblioteca();
 		//DPanelTienda pTienda = new DPanelTienda();

@@ -21,10 +21,14 @@ public class DMenuBar extends JPanel {
 	argumento INT para elegir cual setup usar en lugar de hacer otra 
 	clase/constructor
 	*/
-	public DMenuBar() {
+	public DMenuBar(int mode) {
 		super();
 		
-		setup();
+		if (mode == 0) {
+			setup();
+		} else {
+			setup2();
+		}
 	}
 	
 	public void setup() {
