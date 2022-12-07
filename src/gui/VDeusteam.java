@@ -24,12 +24,13 @@ public class VDeusteam extends JFrame {
 		
 		DMenuBar menuBar = new DMenuBar(0);
 		
-		DPanelBiblioteca pBiblioteca = new DPanelBiblioteca();
-		//DPanelTienda pTienda = new DPanelTienda();
+		//DPanelBiblioteca pBiblioteca = new DPanelBiblioteca();
+		DPanelTienda pTienda = new DPanelTienda();
 		//
 		
 		cp.add(menuBar, BorderLayout.NORTH);
-		cp.add(pBiblioteca, BorderLayout.CENTER);
+		//cp.add(pBiblioteca, BorderLayout.CENTER);
+		cp.add(pTienda, BorderLayout.CENTER);
 		
 		this.setTitle("Deusteam");
 		this.pack();
