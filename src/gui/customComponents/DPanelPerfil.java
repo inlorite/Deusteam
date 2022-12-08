@@ -1,9 +1,10 @@
-package gui;
+package gui.customComponents;
 
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import gui.VDeusteam;
 import negocio.User;
 
 public class DPanelPerfil extends JPanel {
@@ -65,10 +66,6 @@ public class DPanelPerfil extends JPanel {
 		panel.setBorder(new TitledBorder("Perfil"));
 		
 		return panel;
-	}
-	
-	public static void main(String[] args) {
-		VLogin.vDeusteam = new VDeusteam();
 	}
 	
 }
