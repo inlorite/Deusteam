@@ -86,20 +86,22 @@ public class VRegister extends JFrame{
 				char[] password = tfPassword.getPassword();
 				char[] confirmPassword = tfPasswordConfirm.getPassword();
 				User userVerification = VRegister.dbManager.getUser(username);
-				if (password.length == confirmPassword.length && manager.getUser(username) == null) {
+				if (userVerification != null ) {
+					JOptionPane.showMessageDialog(null, "Usuario ocupado");				
+					
+					// New user creation
+					
+					
+				} else if (password.length == confirmPassword.length) {
 					for (int i = 0; i < confirmPassword.length; i++) {
 						if (password[i] != confirmPassword[i]) {
 							JOptionPane.showMessageDialog(null, "Passwords do not match");
 							break;
 						}
 					}
-					
-					// New user creation
-					
-					
-				} else if (userVerification != null) {
-					JOptionPane.showMessageDialog(null, "Usuario ocupado");
-				} else {
+				} else if (password.length != confirmPassword.length) {
+					JOptionPane.showMessageDialog(null, "Passwords do not match");
+				}	else {
 					User user = new User();
 					user.setId(5);
 					user.setUsername(username);
@@ -110,7 +112,7 @@ public class VRegister extends JFrame{
 					user.setTotalTimePlayed(0);
 					user.setFriends(new ArrayList<Integer>());
 					user.setGames(new ArrayList<Game>());
-					Main.users.add(user);
+					Main.gestor.insertDataUsers(user);
 					
 					for (User u : Main.gestor.obtainDataUsers()) {
 						System.out.println(u);
