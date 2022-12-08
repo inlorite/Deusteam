@@ -50,11 +50,11 @@ public class DPanelTienda extends JPanel {
 	}
 	
 	public JPanel getWestBuscador() {
-		JPanel panel = new JPanel(new GridLayout(2, 1));
+		JPanel panel = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
 		
 		JPanel panelBuscador = new JPanel(new BorderLayout());
 		panelBuscador.setBorder(new TitledBorder("Buscador"));
-		tBuscador = new JTextField("Introduce un término de busqueda");
+		tBuscador = new JTextField("Introduce un termino de busqueda");
 		panelBuscador.add(tBuscador, BorderLayout.CENTER);
 		
 		JPanel panelCategoria = new JPanel(new BorderLayout());
@@ -62,8 +62,8 @@ public class DPanelTienda extends JPanel {
 		cCategoria = new JCheckBox("Ejemplo");
 		panelCategoria.add(cCategoria, BorderLayout.CENTER);
 		
-		panel.add(panelBuscador);
-		panel.add(panelCategoria);
+		panel.add(panelBuscador, BorderLayout.NORTH);
+		panel.add(panelCategoria, BorderLayout.CENTER);
 		
 		return panel;
 	}
@@ -74,8 +74,8 @@ public class DPanelTienda extends JPanel {
 		DMenuBar menuBar = new DMenuBar(1);
 		panel.add(menuBar, BorderLayout.NORTH);
 		
-		bComprar = new JButton("Comprar: 0,00€"); // Aqui hay que traer el dato desde la BD
-		bSaldo = new JButton("Saldo: 0,00€");
+		bComprar = new JButton("Comprar: 0,00ï¿½"); // Aqui hay que traer el dato desde la BD
+		bSaldo = new JButton("Saldo: 0,00ï¿½");
 		
 		JPanel panelCompras = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
 		panelCompras.setBorder(new EmptyBorder(VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP));

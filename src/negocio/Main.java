@@ -5,12 +5,15 @@ import java.util.Date;
 import java.util.List;
 
 import datos.DBManager;
+import gui.*;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
 		DBManager gestor = new DBManager();
+		
+		gestor.deleteDatabase();
 		
 		// Create: Creacion de la BD
 		gestor.createDatabase();
@@ -38,8 +41,11 @@ public class Main {
 			System.out.println(g);
 		}
 		
+		//VDeusteam v = new VDeusteam();
+		VLogin v = new VLogin(gestor);
+		
 		// Delete: Borrado de las tablas y de la BD
-		gestor.deleteDatabase();
+		//gestor.deleteDatabase();
 	}
 	
 	public static List<User> initUsers(){

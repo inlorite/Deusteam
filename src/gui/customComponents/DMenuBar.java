@@ -1,6 +1,9 @@
 package gui.customComponents;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -38,6 +41,22 @@ public class DMenuBar extends JPanel {
 		bBiblioteca = new JButton("Biblioteca");
 		bTienda = new JButton("Tienda");
 		bPerfil = new JButton("Perfil");
+		
+		bTienda.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					VDeusteam.cp.remove(VDeusteam.pBiblioteca);
+				} catch (Exception e2) {
+					//VDeusteam.cp.remove(VDeusteam.pPerfil);
+				}
+				
+				VDeusteam.cp.add(VDeusteam.pTienda, BorderLayout.CENTER);
+				revalidate();
+				repaint();
+			}
+		});
 		
 		this.add(bBiblioteca);
 		this.add(bTienda);

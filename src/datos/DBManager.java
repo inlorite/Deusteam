@@ -624,12 +624,12 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 			Statement stmt = con.createStatement()) {
 			// Statement execution
-			String sql = "SELECT * FROM USERS WHERE USERNAME = '%s' LIMIT 1;";
+			String sql = "SELECT * FROM USERS WHERE USERNAME = '" + username + "' LIMIT 1;";
 					
 			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
 			
-			if (rs.getString("PASSWORD") == password) {
+			if (rs.getString("PASSWORD").equals(password)) {
 				System.out.println(String.format("- User verified"));
 				return true;
 			}

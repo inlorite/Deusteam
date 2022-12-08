@@ -5,12 +5,16 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-
-
+import datos.DBManager;
 
 public class VLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	public static DBManager dbManager;
+	
+	public static VLogin vLogin;
+	public static VDeusteam vDeusteam;
 	
 	JLabel lLogo;
 	ImageIcon iiLogo;
@@ -20,12 +24,10 @@ public class VLogin extends JFrame {
 	JPasswordField tfPassword;
 	JButton bRegister;
 	JButton bLogin;
-	public static VLogin v;
 
-	
-	
-	
-	public VLogin() {
+	public VLogin(DBManager dbManager) {
+		
+		VLogin.dbManager = dbManager;
 		
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
@@ -56,6 +58,35 @@ public class VLogin extends JFrame {
 		pData.add(pButton);
 		cp.add(pData);
 		
+		vLogin = this;
+		
+		bRegister.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VRegister vr = new VRegister();
+				vLogin.setVisible(false);
+			}
+		});
+
+		bLogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String user = tfUser.getText();
+				String password = tfPassword.getText();
+				
+				boolean login = VLogin.dbManager.verifyUser(user, password);
+				
+				if (login) {
+					vLogin.setVisible(false);
+					vDeusteam = new VDeusteam();
+				} else {
+					System.out.println("datos incorrectos");
+				}
+			}
+		});
+		
 		this.setTitle("Deusteam Login");
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
@@ -63,22 +94,6 @@ public class VLogin extends JFrame {
 		this.setResizable(false);
 		this.setVisible(true);
 		
-bRegister.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VRegister vr = new VRegister();
-				v.setVisible(false);
-			}
-		});
-
-	}
-
-	
-	
-	
-	public static void main(String[] args) {
-		 v = new VLogin();
 	}
 
 }

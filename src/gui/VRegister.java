@@ -23,8 +23,6 @@ public class VRegister extends JFrame{
 	JPasswordField tfPasswordConfirm;
 	JButton bRegister;
 
-	
-	
 	public VRegister() {
 		DBManager manager = new DBManager();
 		
@@ -92,8 +90,5 @@ public class VRegister extends JFrame{
 			}
 		});
 	}
-	public static void main(String[] args) {
-		VRegister vr = new VRegister();
-		
-	}
+
 }

@@ -12,25 +12,25 @@ public class VDeusteam extends JFrame {
 
 	public static final int GAP = 10;
 	
-	// North Menu Bar
-	protected JButton bBiblioteca;
-	protected JButton bTienda;
-	protected JButton bPerfil;
+	public static Container cp;
+	public static DMenuBar menuBar;
+	public static DPanelBiblioteca pBiblioteca;
+	public static DPanelTienda pTienda;
 	
 	public VDeusteam() {
 		
-		Container cp = this.getContentPane();
+		cp = this.getContentPane();
 		cp.setLayout(new BorderLayout(GAP, GAP));
 		
-		DMenuBar menuBar = new DMenuBar(0);
+		menuBar = new DMenuBar(0);
 		
-		//DPanelBiblioteca pBiblioteca = new DPanelBiblioteca();
-		DPanelTienda pTienda = new DPanelTienda();
+		pBiblioteca = new DPanelBiblioteca();
+		pTienda = new DPanelTienda();
 		//
 		
 		cp.add(menuBar, BorderLayout.NORTH);
-		//cp.add(pBiblioteca, BorderLayout.CENTER);
-		cp.add(pTienda, BorderLayout.CENTER);
+		cp.add(pBiblioteca, BorderLayout.CENTER);
+		//cp.add(pTienda, BorderLayout.CENTER);
 		
 		this.setTitle("Deusteam");
 		this.pack();
@@ -39,10 +39,6 @@ public class VDeusteam extends JFrame {
 		this.setResizable(true);
 		this.setVisible(true);
 		
-	}
-	
-	public static void main(String[] args) {
-		VDeusteam v = new VDeusteam();
 	}
 	
 }
