@@ -295,7 +295,7 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// Statement execution
-			String sql = "SELECT * FROM GAMES WHERE NAME = '%s' LIMIT 1;";
+			String sql = "SELECT * FROM GAMES WHERE NAME =" + name + "LIMIT 1;";
 			
 			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
@@ -590,7 +590,7 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// Statement execution
-			String sql = "SELECT * FROM USERS WHERE USERNAME = '%s' LIMIT 1;";
+			String sql = "SELECT * FROM USERS WHERE USERNAME = " + username + " LIMIT 1;";
 			
 			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
@@ -624,7 +624,7 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 			Statement stmt = con.createStatement()) {
 			// Statement execution
-			String sql = "SELECT * FROM USERS WHERE USERNAME = '" + username + "' LIMIT 1;";
+			String sql = "SELECT * FROM USERS WHERE USERNAME = " + username + " LIMIT 1;";
 					
 			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
@@ -698,11 +698,27 @@ public class DBManager {
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error updating user password: %s", ex.getMessage()));
 				ex.printStackTrace();					
-			}
-}
+		}
+	}
 	
-	public void updateUserCountry() {
-		
+	/** Updates the user's country
+	 * @param user		User class object
+	 * @param country	Country class object
+	 */
+	public void updateUserCountry(User user, Country country) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+			Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE USERS SET COUNTRY = '%s' WHERE ID_USER = %d;";
+					
+			int result = stmt.executeUpdate(String.format(sql, country.toString(), user.getId()));
+					
+			System.out.println(String.format("- User country updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating user country: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}
 	}
 	
 	/** Updates the user's last time played date
@@ -853,7 +869,7 @@ public class DBManager {
 			// SQL sentence is defined
 			String sql = "UPDATE PROPERTY_GAMES SET TIME_PLAYED = '%x' WHERE ID_USER = %d AND ID_GAME = %d;";
 			
-			String sql2 = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user;
+			String sql2 = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user + ";";
 			
 			// ResultSet to get previous time and Sentence execution
 			ResultSet rs = stmt.executeQuery(sql2);
@@ -1068,7 +1084,7 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// Statement execution
-			String sql = "SELECT * FROM MERCH WHERE NAME = '%s' LIMIT 1;";
+			String sql = "SELECT * FROM MERCH WHERE NAME = " + name + " LIMIT 1;";
 			
 			// Sentence execution and ResultSet creation
 			ResultSet rs = stmt.executeQuery(sql);
