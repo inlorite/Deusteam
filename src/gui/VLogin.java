@@ -64,7 +64,7 @@ public class VLogin extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VRegister vr = new VRegister();
+				VRegister vr = new VRegister(VLogin.dbManager);
 				vLogin.setVisible(false);
 			}
 		});
