@@ -70,6 +70,21 @@ public class DMenuBar extends JPanel {
 		bJuegos = new JButton("Juegos");
 		bMerch = new JButton("Merch");
 		
+		bMerch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					
+				} catch (Exception e2) {
+					
+				}
+				
+				revalidate();
+				repaint();
+			}
+		});
+		
 		this.add(bJuegos);
 		this.add(bMerch);
 	}

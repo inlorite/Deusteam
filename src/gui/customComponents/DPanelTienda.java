@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -25,10 +26,10 @@ public class DPanelTienda extends JPanel {
 	protected JCheckBox cCategoria;
 		
 	// Center Info Juego
-	protected JList<Game> lJuegos;
-	protected DefaultListModel<Game> dlmJuegos;
-	protected JList<Merch> lMerch;
-	protected DefaultListModel<Merch> dlmMerch;
+	protected static JList<Game> lJuegos;
+	protected static DefaultListModel<Game> dlmJuegos;
+	protected static JList<Merch> lMerch;
+	protected static DefaultListModel<Merch> dlmMerch;
 	protected JButton bSaldo;
 	protected JButton bComprar;
 	
@@ -74,8 +75,19 @@ public class DPanelTienda extends JPanel {
 		DMenuBar menuBar = new DMenuBar(1);
 		panel.add(menuBar, BorderLayout.NORTH);
 		
-		bComprar = new JButton("Comprar: 0,00�"); // Aqui hay que traer el dato desde la BD
-		bSaldo = new JButton("Saldo: 0,00�");
+		JPanel panelInfo = new JPanel(new GridLayout(2, 1));
+		// Panel Info
+		JPanel panelLista = new JPanel(new BorderLayout());
+		panelLista.setBorder(new TitledBorder("Juegos disponibles"));
+		dlmJuegos = new DefaultListModel<>();
+		lJuegos = new JList<>(dlmJuegos);
+		panelLista.add(new JScrollPane(lJuegos), BorderLayout.CENTER);
+		panelInfo.add(panelLista);
+		
+		panel.add(panelInfo, BorderLayout.CENTER);
+		
+		bComprar = new JButton("Comprar: 0,00$"); // Aqui hay que traer el dato desde la BD
+		bSaldo = new JButton("Saldo: 0,00$");
 		
 		JPanel panelCompras = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
 		panelCompras.setBorder(new EmptyBorder(VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP));
