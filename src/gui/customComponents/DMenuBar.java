@@ -47,7 +47,7 @@ public class DMenuBar extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					VDeusteam.cp.remove(VDeusteam.pBiblioteca);
+					// VDeusteam.cp.remove(VDeusteam.pBiblioteca);
 				} catch (Exception e2) {
 					//VDeusteam.cp.remove(VDeusteam.pPerfil);
 				}
