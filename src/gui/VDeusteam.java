@@ -16,6 +16,7 @@ public class VDeusteam extends JFrame {
 	public static DMenuBar menuBar;
 	public static DPanelBiblioteca pBiblioteca;
 	public static DPanelTienda pTienda;
+	public static DPanelPerfil pPerfil;
 	
 	public VDeusteam() {
 		
@@ -26,11 +27,12 @@ public class VDeusteam extends JFrame {
 		
 		pBiblioteca = new DPanelBiblioteca();
 		pTienda = new DPanelTienda();
-		//
+		pPerfil = new DPanelPerfil();
 		
 		cp.add(menuBar, BorderLayout.NORTH);
 		cp.add(pBiblioteca, BorderLayout.CENTER);
-		//cp.add(pTienda, BorderLayout.CENTER);
+//		cp.add(pTienda, BorderLayout.CENTER);
+//		cp.add(pPerfil, BorderLayout.CENTER);
 		
 		this.setTitle("Deusteam");
 		this.pack();
