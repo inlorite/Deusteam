@@ -6,9 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,7 +21,10 @@ import javax.swing.border.TitledBorder;
 import gui.VDeusteam;
 import gui.VLogin;
 import negocio.Game;
+import negocio.GameGenre;
 import negocio.Merch;
+import negocio.MerchType;
+import negocio.Pegi;
 
 public class DPanelTienda extends JPanel {
 	
@@ -28,7 +32,14 @@ public class DPanelTienda extends JPanel {
 	
 	// West Selector
 	protected JTextField tBuscador;
-	protected JCheckBox cCategoria;
+	protected JComboBox<GameGenre> cCat1;
+	protected DefaultComboBoxModel<GameGenre> dcmCat1;
+	protected JComboBox<GameGenre> cCat2;
+	protected DefaultComboBoxModel<GameGenre> dcmCat2;
+	protected JComboBox<MerchType> cCatMerch;
+	protected DefaultComboBoxModel<MerchType> dcmCatMerch;
+	protected JComboBox<Pegi> cPegi;
+	protected DefaultComboBoxModel<Pegi> dcmPegi;
 		
 	// Center Info Juego
 	protected static JList<Game> lJuegos;
@@ -67,10 +78,21 @@ public class DPanelTienda extends JPanel {
 		tBuscador = new JTextField("Introduce un termino de busqueda");
 		panelBuscador.add(tBuscador, BorderLayout.CENTER);
 		
-		JPanel panelCategoria = new JPanel(new BorderLayout());
-		panelCategoria.setBorder(new TitledBorder("Selector de categorias"));
-		cCategoria = new JCheckBox("Ejemplo");
-		panelCategoria.add(cCategoria, BorderLayout.CENTER);
+		JPanel panelCategoria = new JPanel(new GridLayout(3, 1));
+		panelCategoria.setBorder(new TitledBorder("Selector avanzado"));
+		
+		dcmCat1 = new DefaultComboBoxModel<>();
+		cCat1 = new JComboBox<GameGenre>(dcmCat1);
+		
+		dcmCat2 = new DefaultComboBoxModel<>();
+		cCat2 = new JComboBox<GameGenre>(dcmCat2);
+		
+		dcmPegi = new DefaultComboBoxModel<>();
+		cPegi = new JComboBox<Pegi>(dcmPegi);
+		
+		panelCategoria.add(cCat1);
+		panelCategoria.add(cCat2);
+		panelCategoria.add(cPegi);
 		
 		panel.add(panelBuscador, BorderLayout.NORTH);
 		panel.add(panelCategoria, BorderLayout.CENTER);
