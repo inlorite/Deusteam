@@ -42,19 +42,27 @@ public class DMenuBar extends JPanel {
 		bTienda = new JButton("Tienda");
 		bPerfil = new JButton("Perfil");
 		
+		bBiblioteca.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VDeusteam.cl.show(VDeusteam.mainPanel, "BIBLIOTECA");
+			}
+		});
+		
 		bTienda.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					// VDeusteam.cp.remove(VDeusteam.pBiblioteca);
-				} catch (Exception e2) {
-					//VDeusteam.cp.remove(VDeusteam.pPerfil);
-				}
-				
-				VDeusteam.cp.add(VDeusteam.pTienda, BorderLayout.CENTER);
-				revalidate();
-				repaint();
+				VDeusteam.cl.show(VDeusteam.mainPanel, "TIENDA");
+			}
+		});
+		
+		bPerfil.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VDeusteam.cl.show(VDeusteam.mainPanel, "PERFIL");
 			}
 		});
 		

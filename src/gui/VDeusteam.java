@@ -13,6 +13,8 @@ public class VDeusteam extends JFrame {
 	public static final int GAP = 10;
 	
 	public static Container cp;
+	public static JPanel mainPanel;
+	public static CardLayout cl;
 	public static DMenuBar menuBar;
 	public static DPanelBiblioteca pBiblioteca;
 	public static DPanelTienda pTienda;
@@ -23,6 +25,10 @@ public class VDeusteam extends JFrame {
 		cp = this.getContentPane();
 		cp.setLayout(new BorderLayout(GAP, GAP));
 		
+		mainPanel = new JPanel();
+		cl = new CardLayout(GAP, GAP);
+		mainPanel.setLayout(cl);
+		
 		menuBar = new DMenuBar(0);
 		
 		pBiblioteca = new DPanelBiblioteca();
@@ -30,7 +36,15 @@ public class VDeusteam extends JFrame {
 		pPerfil = new DPanelPerfil();
 		
 		cp.add(menuBar, BorderLayout.NORTH);
-		cp.add(pBiblioteca, BorderLayout.CENTER);
+		
+		mainPanel.add(pBiblioteca, "BIBLIOTECA");
+		mainPanel.add(pTienda, "TIENDA");
+		mainPanel.add(pPerfil, "PERFIL");
+		
+		cl.show(mainPanel, "TIENDA");
+		
+		cp.add(mainPanel, BorderLayout.CENTER);
+//		cp.add(pBiblioteca, BorderLayout.CENTER);
 //		cp.add(pTienda, BorderLayout.CENTER);
 //		cp.add(pPerfil, BorderLayout.CENTER);
 		
