@@ -320,6 +320,41 @@ public class DBManager {
 		}
 	}
 	
+	/** Retrieves a game with that ID
+	 * @param game_id		Integer with the game ID
+	 * 
+	 * @return Game class object if exists, else null
+	 */
+	public Game getGameById(Integer game_id) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "SELECT * FROM GAMES WHERE ID_GAME = " + game_id + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			Game game = new Game();
+			
+			game.setId(rs.getInt("ID_GAME"));
+			game.setName(rs.getString("NAME"));
+			game.setCompany(rs.getString("COMPANY"));
+			game.setPegi(rs.getString("PEGI"));
+			game.setGenre1(rs.getString("GENRE1"));
+			game.setGenre2(rs.getString("GENRE2"));
+			game.setPrice(rs.getInt("PRICE"));
+			game.setDescription(rs.getString("DESCRIPTION"));
+			game.setImgLink(rs.getString("IMG_LINK"));
+			
+			System.out.println(String.format("- Game retrieved"));
+			return game;
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error retrieving game data: %s", ex.getMessage()));
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	/** Updates the name for a set game in the GAMES chart
 	 * @param game		Game class object
 	 * @param name		String of the name
@@ -818,6 +853,48 @@ public class DBManager {
 					userGames.get(rs.getInt("ID_USER")).add(rs.getInt("ID_GAME"));
 				} else {
 					userGames.put(rs.getInt("ID_USER"), new ArrayList<Integer>(rs.getInt("ID_GAME")));
+				}
+				
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- %d user's games retrieved...", userGames.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return userGames;
+	}
+	
+	/** Obtains a map from PROPERTY_GAMES chart where the keys are
+	 * 	the games that the user has and values are a boolean representing
+	 *  whether the game is installed or not
+	 * @param id_user		Integer of the user id
+	 * @return userGames	HashMap<Game, Boolean>
+	 */
+	public Map<Game, Boolean> obtainDataPropertyUserInstalledGames(Integer id_user) {
+		Map<Game, Boolean> userGames = new HashMap<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding Games to map
+			while (rs.next()) {
+				
+				Game game = getGameById(rs.getInt("ID_GAME"));
+				
+				if (rs.getInt("INSTALLED") == 0) {
+					userGames.put(game, false);
+				} else {
+					userGames.put(game, true);
 				}
 				
 			}

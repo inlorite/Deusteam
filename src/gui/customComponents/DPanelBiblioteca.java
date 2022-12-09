@@ -1,11 +1,14 @@
 package gui.customComponents;
 
 import java.awt.*;
+import java.util.Map;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import gui.VDeusteam;
+import gui.VLogin;
 import negocio.Game;
 
 public class DPanelBiblioteca extends JPanel {
@@ -54,6 +57,16 @@ public class DPanelBiblioteca extends JPanel {
 		dlmJuegosDisponibles = new DefaultListModel<>();
 		lJuegosDisponibles = new JList<>(dlmJuegosDisponibles);
 		panelDisponibles.add(new JScrollPane(lJuegosDisponibles), BorderLayout.CENTER);
+		
+//		Map<Game, Boolean> userGames = VLogin.dbManager.obtainDataPropertyUserInstalledGames(VLogin.user);
+//		
+//		for (Game game : userGames.keySet()) {
+//			if (userGames.get(game)) {
+//				dlmJuegosInstalados.addElement(game);
+//			} else {
+//				dlmJuegosDisponibles.addElement(game);
+//			}
+//		}
 		
 		panel.add(panelInstalados);
 		panel.add(panelDisponibles);
