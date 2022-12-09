@@ -84,7 +84,8 @@ public class DBManager {
 	                   + " PASSWORD TEXT NOT NULL,\n"
 	                   + " COUNTRY TEXT NOT NULL,\n"
 	                   + " LAST_TIME_PLAYED TEXT NOT NULL,\n"
-	                   + " TOTAL_TIME_PLAYED INTEGER NOT NULL\n"
+	                   + " TOTAL_TIME_PLAYED INTEGER NOT NULL,\n"
+	                   + " BALANCE DECIMAL(5, 2)\n"
 	                   + ");");
 		
 		tables.add("CREATE TABLE IF NOT EXISTS PROPERTY_GAMES (\n"
@@ -525,8 +526,8 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD, COUNTRY, LAST_TIME_PLAYED, TOTAL_TIME_PLAYED) "
-					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d');";
+			String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD, COUNTRY, LAST_TIME_PLAYED, TOTAL_TIME_PLAYED, BALANCE) "
+					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d', '%f');";
 			
 			System.out.println("- Adding users...");
 			
@@ -534,7 +535,7 @@ public class DBManager {
 			for (User user : usuarios) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getUsername(),
 						user.getEmail(), user.getPassword(), user.getCountry(), 
-						user.getLastTimePlayedFormat(), user.getTotalTimePlayed()))) {					
+						user.getLastTimePlayedFormat(), user.getTotalTimePlayed(), user.getBalance()))) {					
 					System.out.println(String.format(" - User added: %s", user.toString()));
 				} else {
 					System.out.println(String.format(" - User could not be added: %s", user.toString()));
@@ -572,6 +573,7 @@ public class DBManager {
 				user.setCountry(rs.getString("COUNTRY"));
 				user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
 				user.setTotalTimePlayed(rs.getInt("TOTAL_TIME_PLAYED"));
+				user.setBalance(rs.getDouble("BALANCE"));
 				
 				// User object addition
 				users.add(user);
@@ -638,6 +640,7 @@ public class DBManager {
 			user.setCountry(rs.getString("COUNTRY"));
 			user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
 			user.setTotalTimePlayed(rs.getInt("TOTAL_TIME_PLAYED"));
+			user.setBalance(rs.getDouble("BALANCE"));
 			
 			System.out.println(String.format("- User retrieved"));
 			return user;
@@ -801,6 +804,26 @@ public class DBManager {
 			System.err.println(String.format("* Error updating user data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
+	}
+	
+	/** Updates the balance for a set user in the USERS chart
+	 * @param user			User class object
+	 * @param balance		Double with the user's balance
+	 */
+	public void updateUserUsername(User user, Double balance) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE USERS SET BALANCE = '%f' WHERE ID_USER = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, balance, user.getId()));
+			
+			System.out.println(String.format("- User balance updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating user balance: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}
 	}
 	
 	///////// PROPERTY_GAMES DATABASE /////////

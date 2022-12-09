@@ -21,13 +21,14 @@ public class UserTest {
 	private Country country = Country.Spain;
 	private Date lastTimePlayed = new Date();
 	private int totalTimePlayed = 1;
+	private double balance = 0.0;
 	private ArrayList<Integer> friends;
 	private ArrayList<Game> games;
 	
 	@Before
 	public void setUp() throws Exception {
-		user = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, friends, games);
-		user2 = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, friends, games);
+		user = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, balance, friends, games);
+		user2 = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, balance, friends, games);
 	}
 
 	@After
@@ -51,6 +52,7 @@ public class UserTest {
 		assertEquals(country, user.getCountry());
 		assertEquals(lastTimePlayed, user.getLastTimePlayed());
 		assertEquals(totalTimePlayed, user.getTotalTimePlayed());
+		assertEquals(balance, user.getBalance());
 		assertEquals(friends, user.getFriends());
 		assertEquals(games, user.getGames());
 	}

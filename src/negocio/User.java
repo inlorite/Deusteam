@@ -15,6 +15,7 @@ public class User {
 	protected Country country;
 	protected Date lastTimePlayed;
 	protected int totalTimePlayed;
+	protected double balance;
 	protected ArrayList<Integer> friends;
 	protected ArrayList<Game> games;
 	
@@ -30,7 +31,7 @@ public class User {
 	 * @param games					List<Games> with games of the user
 	 */
 	public User(int id, String username, String email, String password, Country country, Date lastTimePlayed,
-			int totalTimePlayed, ArrayList<Integer> friends, ArrayList<Game> games) {
+			int totalTimePlayed, double balance, ArrayList<Integer> friends, ArrayList<Game> games) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -39,6 +40,7 @@ public class User {
 		this.country = country;
 		this.lastTimePlayed = lastTimePlayed;
 		this.totalTimePlayed = totalTimePlayed;
+		this.balance = balance;
 		this.friends = friends;
 		this.games = games;
 	}
@@ -54,6 +56,7 @@ public class User {
 		this.country = Country.Spain;
 		this.lastTimePlayed = null;
 		this.totalTimePlayed = 0;
+		this.balance = 0.0;
 		this.friends = null;
 		this.games = null;
 	}
@@ -109,6 +112,14 @@ public class User {
 	
 	public void setCountry(String country) {
 		this.country = Country.valueOf(country);
+	}
+	
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 
 	public ArrayList<Integer> getFriends() {
@@ -175,7 +186,7 @@ public class User {
 	public String toString() {
 		return "Usuario [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", country=" + country + ", lastTimePlayed=" + lastTimePlayed + ", totalTimePlayed=" + totalTimePlayed
-				+ ", friends=" + friends + ", games=" + games + "]";
+				+ ", balance=" + balance + ", friends=" + friends + ", games=" + games + "]";
 	}
 
 	
