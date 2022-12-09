@@ -2,10 +2,13 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Iterator;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import datos.DBManager;
+import negocio.User;
 
 public class VLogin extends JFrame {
 
@@ -16,6 +19,7 @@ public class VLogin extends JFrame {
 	public static VLogin vLogin;
 	public static VDeusteam vDeusteam;
 	public static VRegister vRegister;
+	public static User loggedUser;
 	
 	JLabel lLogo;
 	ImageIcon iiLogo;
@@ -85,7 +89,11 @@ public class VLogin extends JFrame {
 				} else {
 					System.out.println("datos incorrectos");
 				}
+					loggedUser = VLogin.dbManager.getUser(user);
+					// System.out.println(loggedUser);
+				
 			}
+			
 		});
 		
 		this.setTitle("Deusteam Login");
