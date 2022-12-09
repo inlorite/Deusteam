@@ -15,6 +15,7 @@ public class VLogin extends JFrame {
 	
 	public static VLogin vLogin;
 	public static VDeusteam vDeusteam;
+	public static VRegister vRegister;
 	
 	JLabel lLogo;
 	ImageIcon iiLogo;
@@ -64,7 +65,7 @@ public class VLogin extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VRegister vr = new VRegister(VLogin.dbManager);
+				vRegister = new VRegister(VLogin.dbManager);
 				vLogin.setVisible(false);
 			}
 		});

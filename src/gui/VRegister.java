@@ -83,8 +83,8 @@ public class VRegister extends JFrame{
 				String username = tfUser.getText();
 				String email = tfEmail.getText();
 				Country country = (Country) cbCountry.getSelectedItem();
-				char[] password = tfPassword.getPassword();
-				char[] confirmPassword = tfPasswordConfirm.getPassword();
+				String password = tfPassword.getText();
+				String confirmPassword = tfPasswordConfirm.getText();
 				User userVerification = VRegister.dbManager.getUser(username);
 				if (userVerification != null ) {
 					JOptionPane.showMessageDialog(null, "Usuario ocupado");				
@@ -92,16 +92,9 @@ public class VRegister extends JFrame{
 					// New user creation
 					
 					
-				} else if (password.length == confirmPassword.length) {
-					for (int i = 0; i < confirmPassword.length; i++) {
-						if (password[i] != confirmPassword[i]) {
-							JOptionPane.showMessageDialog(null, "Passwords do not match");
-							break;
-						}
-					}
-				} else if (password.length != confirmPassword.length) {
-					JOptionPane.showMessageDialog(null, "Passwords do not match");
-				}	else {
+				} else if (!password.equals(confirmPassword)) {
+					JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");				
+				} 	else {
 					User user = new User();
 					user.setId(5);
 					user.setUsername(username);
@@ -117,6 +110,8 @@ public class VRegister extends JFrame{
 					for (User u : Main.gestor.obtainDataUsers()) {
 						System.out.println(u);
 					}
+					VLogin.vRegister.setVisible(false);
+					VLogin.vLogin.setVisible(true);
 				}
 					
 				
