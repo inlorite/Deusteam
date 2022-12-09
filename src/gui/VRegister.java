@@ -96,7 +96,6 @@ public class VRegister extends JFrame{
 					JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");				
 				} 	else {
 					User user = new User();
-					user.setId(5);
 					user.setUsername(username);
 					user.setEmail(email);
 					user.setPassword(password.toString());
