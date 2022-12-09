@@ -2,6 +2,7 @@ package gui.customComponents;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -13,7 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+
 import gui.VDeusteam;
+import gui.VLogin;
 import negocio.Game;
 import negocio.Merch;
 
@@ -83,6 +86,11 @@ public class DPanelTienda extends JPanel {
 		lJuegos = new JList<>(dlmJuegos);
 		panelLista.add(new JScrollPane(lJuegos), BorderLayout.CENTER);
 		panelInfo.add(panelLista);
+		
+		List<Game> l = VLogin.dbManager.obtainDataGames();
+		for (Game game : l) {
+			dlmJuegos.addElement(game);
+		}
 		
 		panel.add(panelInfo, BorderLayout.CENTER);
 		

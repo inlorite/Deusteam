@@ -156,9 +156,11 @@ public class Game {
 
 	@Override
 	public String toString() {
-		return "Juego [id=" + id + ", name=" + name + ", company=" + company + ", pegi=" + pegi + ", genre1="
-				+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
-				+ imgLink + "]";
+		return "id=" + id + ", " + name ;
+		
+	//	"Juego [id=" + id + ", name=" + name + ", company=" + company + ", pegi=" + pegi + ", genre1="
+	//	+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
+	//	+ imgLink + "]";
 	}
 
 }
