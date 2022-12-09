@@ -12,7 +12,7 @@ public class GameTest {
 	private Game game2;
 	private int id = 0;
 	private String name = "Name";
-	private String company = "Company";
+	private String owner = "Owner";
 	private Pegi pegi = Pegi.PEGI18;
 	private GameGenre genre1 = GameGenre.Action;
 	private GameGenre genre2 = GameGenre.Adventure;
@@ -22,8 +22,8 @@ public class GameTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		game = new Game(id, name, company, pegi, genre1, genre2, price, description, imgLink);
-		game2 = new Game(id, name, company, pegi, genre1, genre2, price, description, imgLink);
+		game = new Game(id, name, owner, pegi, genre1, genre2, price, description, imgLink);
+		game2 = new Game(id, name, owner, pegi, genre1, genre2, price, description, imgLink);
 	}
 
 	@After
@@ -42,7 +42,7 @@ public class GameTest {
 		assertNotNull(game);
 		assertEquals(id, game.getId());
 		assertEquals(name, game.getName());
-		assertEquals(company, game.getCompany());
+		assertEquals(owner, game.getOwner());
 		assertEquals(pegi, game.getPegi());
 		assertEquals(genre1, game.getGenre1());
 		assertEquals(genre2, game.getGenre2());
@@ -78,16 +78,16 @@ public class GameTest {
 	}
 
 	@Test
-	public void testGetCompany() {
-		assertEquals(company, game.getCompany());
+	public void testGetOwner() {
+		assertEquals(owner, game.getOwner());
 	}
 
 	@Test
-	public void testSetCompany() {
-		String newCompany = "New company";
-		game.setCompany(newCompany);
+	public void testSetOwner() {
+		String newOwner = "New owner";
+		game.setOwner(newOwner);
 		
-		assertEquals(newCompany, game.getCompany());
+		assertEquals(newOwner, game.getOwner());
 	}
 
 	@Test
@@ -199,7 +199,7 @@ public class GameTest {
 
 	@Test
 	public void testToString() {
-		String toString = "Juego [id=" + id + ", name=" + name + ", company=" + company + ", pegi=" + pegi + ", genre1="
+		String toString = "Juego [id=" + id + ", name=" + name + ", owner=" + owner + ", pegi=" + pegi + ", genre1="
 				+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
 				+ imgLink + "]";
 		

@@ -68,7 +68,7 @@ public class DBManager {
 		tables.add("CREATE TABLE IF NOT EXISTS GAMES (\n"
 	                   + " ID_GAME INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 	                   + " NAME TEXT NOT NULL,\n"
-	                   + " COMPANY TEXT NOT NULL,\n"
+	                   + " OWNER TEXT NOT NULL,\n"
 	                   + " PEGI TEXT NOT NULL,\n"
 	                   + " GENRE1 TEXT NOT NULL,\n"
 	                   + " GENRE2 TEXT NOT NULL,\n"
@@ -193,7 +193,7 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "INSERT INTO GAMES (NAME, COMPANY, PEGI, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
+			String sql = "INSERT INTO GAMES (NAME, OWNER, PEGI, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
 					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%f','%s', '%s');";
 			
 			System.out.println("- Adding games...");
@@ -201,7 +201,7 @@ public class DBManager {
 			// Info is added to the chart
 			for (Game game : games) {
 				if (1 == stmt.executeUpdate(String.format(sql, game.getName(),
-						game.getCompany(), game.getPegi(), game.getGenre1(), 
+						game.getOwner(), game.getPegi(), game.getGenre1(), 
 						game.getGenre2(), game.getPrice(), game.getDescription(), 
 						game.getImgLink()))) {					
 					System.out.println(String.format(" - Game added: %s", game.toString()));
@@ -236,7 +236,7 @@ public class DBManager {
 				
 				game.setId(rs.getInt("ID_GAME"));
 				game.setName(rs.getString("NAME"));
-				game.setCompany(rs.getString("COMPANY"));
+				game.setOwner(rs.getString("OWNER"));
 				game.setPegi(rs.getString("PEGI"));
 				game.setGenre1(rs.getString("GENRE1"));
 				game.setGenre2(rs.getString("GENRE2"));
@@ -304,7 +304,7 @@ public class DBManager {
 			
 			game.setId(rs.getInt("ID_GAME"));
 			game.setName(rs.getString("NAME"));
-			game.setCompany(rs.getString("COMPANY"));
+			game.setOwner(rs.getString("OWNER"));
 			game.setPegi(rs.getString("PEGI"));
 			game.setGenre1(rs.getString("GENRE1"));
 			game.setGenre2(rs.getString("GENRE2"));
@@ -339,7 +339,7 @@ public class DBManager {
 			
 			game.setId(rs.getInt("ID_GAME"));
 			game.setName(rs.getString("NAME"));
-			game.setCompany(rs.getString("COMPANY"));
+			game.setOwner(rs.getString("OWNER"));
 			game.setPegi(rs.getString("PEGI"));
 			game.setGenre1(rs.getString("GENRE1"));
 			game.setGenre2(rs.getString("GENRE2"));
@@ -378,18 +378,18 @@ public class DBManager {
 	
 	/** Updates the name for a set game in the GAMES chart
 	 * @param game		Game class object
-	 * @param company	String with name of the company
+	 * @param owner	String with name of the owner
 	 */
-	public void updateGameCompany(Game game, String company) {
+	public void updateGameOwner(Game game, String owner) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// Statement execution
-			String sql = "UPDATE GAMES SET COMPANY = '%s' WHERE ID_GAME = %d;";
+			String sql = "UPDATE GAMES SET OWNER = '%s' WHERE ID_GAME = %d;";
 			
-			int result = stmt.executeUpdate(String.format(sql, company, game.getId()));
+			int result = stmt.executeUpdate(String.format(sql, owner, game.getId()));
 			
-			System.out.println(String.format("- Game company updated", result));
+			System.out.println(String.format("- Game owner updated", result));
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					

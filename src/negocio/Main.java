@@ -109,7 +109,7 @@ public class Main {
 		Game game = new Game();
 		game.setId(1);
 		game.setName("binding of yeray");
-		game.setCompany("company");
+		game.setOwner("owner");
 		game.setPegi(Pegi.PEGI12);
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.Adventure);
@@ -121,7 +121,7 @@ public class Main {
 		game = new Game();
 		game.setId(2);
 		game.setName("space adrian");
-		game.setCompany("company");
+		game.setOwner("owner");
 		game.setPegi(Pegi.PEGI7);
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.Arcade);

@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Game {
 	protected int id;
 	protected String name;
-	protected String company;
+	protected String owner;
 	protected Pegi pegi;
 	protected GameGenre genre1;
 	protected GameGenre genre2;
@@ -16,7 +16,7 @@ public class Game {
 	/** Creates a new Game class object
 	 * @param id				Integer of the game id
 	 * @param name				String of the name
-	 * @param company			String of the company name
+	 * @param owner				String with the owner of the game
 	 * @param pegi				Enum of {@link #Pegi}
 	 * @param genre1			Enum of {@link #GameGenre}
 	 * @param genre2			Enum of {@link #GameGenre}
@@ -24,12 +24,12 @@ public class Game {
 	 * @param description		String of the game description
 	 * @param imgLink			String of the game's image link
 	 */
-	public Game(int id, String name, String company, Pegi pegi, GameGenre genre1, GameGenre genre2,
+	public Game(int id, String name, String owner, Pegi pegi, GameGenre genre1, GameGenre genre2,
 			double price, String description, String imgLink) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.company = company;
+		this.owner = owner;
 		this.pegi = pegi;
 		this.genre1 = genre1;
 		this.genre2 = genre2;
@@ -44,7 +44,7 @@ public class Game {
 		super();
 		this.id = 0;
 		this.name = "";
-		this.company = "";
+		this.owner = "";
 		this.pegi = Pegi.PEGI18;
 		this.genre1 = GameGenre.Action;
 		this.genre2 = GameGenre.Multiplayer;
@@ -69,12 +69,12 @@ public class Game {
 		this.name = name;
 	}
 
-	public String getCompany() {
-		return company;
+	public String getOwner() {
+		return owner;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 
 	public Pegi getPegi() {
@@ -158,7 +158,7 @@ public class Game {
 	public String toString() {
 		return "id=" + id + ", " + name ;
 		
-	//	"Juego [id=" + id + ", name=" + name + ", company=" + company + ", pegi=" + pegi + ", genre1="
+	//	"Juego [id=" + id + ", name=" + name + ", owner=" + owner + ", pegi=" + pegi + ", genre1="
 	//	+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
 	//	+ imgLink + "]";
 	}
