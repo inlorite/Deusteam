@@ -810,7 +810,7 @@ public class DBManager {
 	 * @param user			User class object
 	 * @param balance		Double with the user's balance
 	 */
-	public void updateUserUsername(User user, Double balance) {
+	public void updateUserBalance(User user, Double balance) {
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
