@@ -58,15 +58,15 @@ public class DPanelBiblioteca extends JPanel {
 		lJuegosDisponibles = new JList<>(dlmJuegosDisponibles);
 		panelDisponibles.add(new JScrollPane(lJuegosDisponibles), BorderLayout.CENTER);
 		
-//		Map<Game, Boolean> userGames = VLogin.dbManager.obtainDataPropertyUserInstalledGames(VLogin.user);
-//		
-//		for (Game game : userGames.keySet()) {
-//			if (userGames.get(game)) {
-//				dlmJuegosInstalados.addElement(game);
-//			} else {
-//				dlmJuegosDisponibles.addElement(game);
-//			}
-//		}
+		Map<Game, Boolean> userGames = VLogin.dbManager.obtainDataPropertyUserInstalledGames(VLogin.loggedUser.getId());
+		
+		for (Game game : userGames.keySet()) {
+			if (userGames.get(game)) {
+				dlmJuegosInstalados.addElement(game);
+			} else {
+				dlmJuegosDisponibles.addElement(game);
+			}
+		}
 		
 		panel.add(panelInstalados);
 		panel.add(panelDisponibles);

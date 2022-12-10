@@ -85,9 +85,9 @@ public class VLogin extends JFrame {
 				
 				if (login) {
 					vLogin.setVisible(false);
-					vDeusteam = new VDeusteam();
 					loggedUser = VLogin.dbManager.getUser(user);
 					System.out.println(loggedUser);
+					vDeusteam = new VDeusteam();
 				} else {
 					System.out.println("datos incorrectos");
 				}

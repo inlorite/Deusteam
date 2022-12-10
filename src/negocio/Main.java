@@ -33,6 +33,9 @@ public class Main {
 		gestor.updateGamePrice(games.get(0), 9.85);
 		gestor.incrementUserTotalTimePlayed(users.get(0).getId(), 50);
 		
+		initPropertyGames(users, games);
+		gestor.updatePropertyGamesInstalled(users.get(1).getId(), games.get(1).getId(), 1);
+		
 		// Select: 
 		for (User u : gestor.obtainDataUsers()) {
 			System.out.println(u);
@@ -130,7 +133,39 @@ public class Main {
 		game.setImgLink("link");
 		games.add(game);
 		
+		game = new Game();
+		game.setId(3);
+		game.setName("test3");
+		game.setOwner("owner");
+		game.setPegi(Pegi.PEGI12);
+		game.setGenre1(GameGenre.Action);
+		game.setGenre2(GameGenre.Adventure);
+		game.setPrice(132.0);
+		game.setDescription("description3");
+		game.setImgLink("link");
+		games.add(game);
+		
+		game = new Game();
+		game.setId(4);
+		game.setName("fifa95");
+		game.setOwner("owner");
+		game.setPegi(Pegi.PEGI7);
+		game.setGenre1(GameGenre.Action);
+		game.setGenre2(GameGenre.Arcade);
+		game.setPrice(12.0);
+		game.setDescription("description4");
+		game.setImgLink("link");
+		games.add(game);
+		
 		return games;
+	}
+	
+	public static void initPropertyGames(List<User> users, List<Game> games) {
+		
+		gestor.insertDataPropertyGames(users.get(1), games.get(0));
+		gestor.insertDataPropertyGames(users.get(1), games.get(1));
+		gestor.insertDataPropertyGames(users.get(1), games.get(3));
+		
 	}
 	
 }
