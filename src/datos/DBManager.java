@@ -641,6 +641,8 @@ public class DBManager {
 			user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
 			user.setTotalTimePlayed(rs.getInt("TOTAL_TIME_PLAYED"));
 			user.setBalance(rs.getDouble("BALANCE"));
+			user.setFriends(obtainDataFriendsUser(rs.getInt("ID_USER")));
+			user.setGames(obtainDataPropertyGamesUser(rs.getInt("ID_USER")));
 			
 			System.out.println(String.format("- User retrieved"));
 			return user;
@@ -892,6 +894,40 @@ public class DBManager {
 		return userGames;
 	}
 	
+	/** Obtains a list from PROPERTY_GAMES with the user's games
+	 * @param id_user		Integer of the user id
+	 * @return userGames	List<Game>
+	 */
+	public ArrayList<Game> obtainDataPropertyGamesUser(Integer id_user) {
+		ArrayList<Game> userGames = new ArrayList<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding Games to map
+			while (rs.next()) {
+				
+				Game game = getGameById(rs.getInt("ID_GAME"));
+				userGames.add(game);
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- User (%d)'s games retrieved...", id_user));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return userGames;
+	}
+	
 	/** Obtains a map from PROPERTY_GAMES chart where the keys are
 	 * 	the games that the user has and values are a boolean representing
 	 *  whether the game is installed or not
@@ -1045,6 +1081,39 @@ public class DBManager {
 			rs.close();
 			
 			System.out.println(String.format("- %d user's friends retrieved...", friends.size()));	
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return friends;
+	}
+	
+	/** Obtains an specific user's friends list
+	 * @return friends		List<Integer>
+	 */
+	public ArrayList<Integer> obtainDataFriendsUser(Integer id_user) {
+		ArrayList<Integer> friends = new ArrayList<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM FRIENDS WHERE ID_USER1 = " + id_user + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding IDs to list
+			while (rs.next()) {
+				
+				friends.add(rs.getInt("ID_USER2"));
+				
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- User (%d)'s friends retrieved...", id_user));	
 		} catch (Exception ex) {
 			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
