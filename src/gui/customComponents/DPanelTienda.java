@@ -8,15 +8,18 @@ import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import gui.VDeusteam;
 import gui.VLogin;
@@ -52,6 +55,8 @@ public class DPanelTienda extends JPanel {
 	protected JButton bComprar;
 	protected JButton bJuegos;
 	protected JButton bMerch;
+	protected JLabel lBanner;
+	protected JLabel lInfo;
 	
 	public DPanelTienda() {
 		super();
@@ -75,7 +80,8 @@ public class DPanelTienda extends JPanel {
 		
 		JPanel panelBuscador = new JPanel(new BorderLayout());
 		panelBuscador.setBorder(new TitledBorder("Buscador"));
-		tBuscador = new JTextField("Introduce un termino de busqueda");
+		tBuscador = new JTextField();
+		tBuscador.setColumns(15);
 		panelBuscador.add(tBuscador, BorderLayout.CENTER);
 		
 		JPanel panelCategoria = new JPanel(new GridLayout(3, 1));
@@ -83,12 +89,24 @@ public class DPanelTienda extends JPanel {
 		
 		dcmCat1 = new DefaultComboBoxModel<>();
 		cCat1 = new JComboBox<GameGenre>(dcmCat1);
+		for (GameGenre genre : GameGenre.values()) {
+			dcmCat1.addElement(genre);
+		}
+		cCat1.setBorder(new TitledBorder("Genero principal:"));
 		
 		dcmCat2 = new DefaultComboBoxModel<>();
 		cCat2 = new JComboBox<GameGenre>(dcmCat2);
+		for (GameGenre genre : GameGenre.values()) {
+			dcmCat2.addElement(genre);
+		}
+		cCat2.setBorder(new TitledBorder("Genero secundario:"));
 		
 		dcmPegi = new DefaultComboBoxModel<>();
 		cPegi = new JComboBox<Pegi>(dcmPegi);
+		for (Pegi genre : Pegi.values()) {
+			dcmPegi.addElement(genre);
+		}
+		cPegi.setBorder(new TitledBorder("Pegi:"));
 		
 		panelCategoria.add(cCat1);
 		panelCategoria.add(cCat2);
@@ -118,6 +136,8 @@ public class DPanelTienda extends JPanel {
 		
 		// PanelInfo
 		
+		// Lista juegos/merch
+		
 		JPanel panelInfo = new JPanel(new GridLayout(2, 1));
 		
 		panelListaJuegos = new JPanel(new BorderLayout());
@@ -136,12 +156,39 @@ public class DPanelTienda extends JPanel {
 		panelListaMerch.setBorder(new TitledBorder("Merch disponible"));
 		dlmMerch = new DefaultListModel<>();
 		lMerch = new JList<>(dlmMerch);
-		panelListaJuegos.add(new JScrollPane(lMerch), BorderLayout.CENTER);
+		panelListaMerch.add(new JScrollPane(lMerch), BorderLayout.CENTER);
 		
 		List<Merch> listMerch = VLogin.dbManager.obtainDataMerch();
 		for (Merch merch : listMerch) {
 			dlmMerch.addElement(merch);
 		}
+		
+		// Info del elemento seleccionado
+		
+		JPanel panelDatos = new JPanel(new GridLayout(2, 1));
+		
+		lBanner = new JLabel("banner");
+		lInfo = new JLabel("info");
+		
+		panelDatos.add(lBanner);
+		panelDatos.add(lInfo);
+		
+		lJuegos.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				Game g = lJuegos.getSelectedValue();
+				
+				ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
+				lBanner.setIcon(ii);
+				lInfo.setText(g.getDescription());
+				
+				revalidate();
+				repaint();
+			}
+		});
+		
+		panelInfo.add(panelDatos);
 		
 		panel.add(panelInfo, BorderLayout.CENTER);
 		
