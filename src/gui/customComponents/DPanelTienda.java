@@ -82,7 +82,7 @@ public class DPanelTienda extends JPanel {
 		JPanel panelBuscador = new JPanel(new BorderLayout());
 		panelBuscador.setBorder(new TitledBorder("Buscador"));
 		tBuscador = new JTextField();
-		tBuscador.setColumns(15);
+		tBuscador.setColumns(25);
 		panelBuscador.add(tBuscador, BorderLayout.CENTER);
 		
 		JPanel panelCategoria = new JPanel(new GridLayout(3, 1));

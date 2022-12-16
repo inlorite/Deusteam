@@ -1158,7 +1158,7 @@ public class DBManager {
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
 			String sql = "INSERT INTO MERCH (NAME, TYPE, PRICE) "
-					+ "VALUES ('%s', '%s', '%d');";
+					+ "VALUES ('%s', '%s', '%f');";
 			
 			System.out.println("- Adding merch...");
 			
