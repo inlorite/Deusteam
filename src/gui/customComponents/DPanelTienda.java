@@ -214,7 +214,7 @@ public class DPanelTienda extends JPanel {
 		// PanelCompras
 		
 		bComprar = new JButton("Comprar: 0,00$"); // Aqui hay que traer el dato desde la BD, cambiar a modo JTable
-		bSaldo = new JButton("Saldo: 0,00$");
+		bSaldo = new JButton("Saldo: " + VLogin.loggedUser.getBalance() + "$");
 		
 		JPanel panelCompras = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
 		panelCompras.setBorder(new EmptyBorder(VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP));
@@ -265,24 +265,19 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*
-				try {
-					if (lJuegos.getSelectedValue().getPrice() <= usuarioActual.getSaldo()) {
-						usuarioActual.setSaldo(usuarioActual.getSaldo() - lJuegos.getSelectedValue().getPrice());
-						usuarioActual.addGame(lJuegos.getSelectedValue());
+				if (lJuegos.getSelectedValue() != null) {
+					if (lJuegos.getSelectedValue().getPrice() <= VLogin.loggedUser.getBalance()) {
+						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - lJuegos.getSelectedValue().getPrice());
+						//VLogin.loggedUser.addGame(lJuegos.getSelectedValue());
+						System.out.println("Correcto");
 					}
-				} catch (Exception e2) {
-					//
-				}
-				try {
-					if (lMerch.getSelectedValue().getPrice() <= usuarioActual.getSaldo()) {
-						usuarioActual.setSaldo(usuarioActual.getSaldo() - lMerch.getSelectedValue().getPrice());
-						usuarioActual.addGame(lMerch.getSelectedValue());
+				} else if (lMerch.getSelectedValue() != null) {
+					if (lMerch.getSelectedValue().getPrice() <= VLogin.loggedUser.getBalance()) {
+						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - lMerch.getSelectedValue().getPrice());
+						//VLogin.loggedUser.addMerch(lMerch.getSelectedValue());
+						System.out.println("Correcto");
 					}
-				} catch (Exception e2) {
-					//
 				}
-				*/
 				
 				revalidate();
 				repaint();

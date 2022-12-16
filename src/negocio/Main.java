@@ -72,6 +72,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(12);
+		user.setBalance(100);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
@@ -84,6 +85,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(15);
+		user.setBalance(100);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
@@ -96,6 +98,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(23);
+		user.setBalance(100);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
@@ -108,6 +111,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(10);
+		user.setBalance(100);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
