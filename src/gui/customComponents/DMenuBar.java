@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import gui.VDeusteam;
+import gui.VLogin;
 
 public class DMenuBar extends JPanel {
 
@@ -40,6 +41,7 @@ public class DMenuBar extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VDeusteam.cl.show(VDeusteam.mainPanel, "BIBLIOTECA");
+				VLogin.vDeusteam.setTitle("Deusteam - Biblioteca");
 			}
 		});
 		
@@ -48,6 +50,7 @@ public class DMenuBar extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VDeusteam.cl.show(VDeusteam.mainPanel, "TIENDA");
+				VLogin.vDeusteam.setTitle("Deusteam - Tienda");
 			}
 		});
 		
@@ -56,6 +59,7 @@ public class DMenuBar extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VDeusteam.cl.show(VDeusteam.mainPanel, "PERFIL");
+				VLogin.vDeusteam.setTitle("Deusteam - Perfil");
 			}
 		});
 		

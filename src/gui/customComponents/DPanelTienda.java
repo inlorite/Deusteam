@@ -57,6 +57,7 @@ public class DPanelTienda extends JPanel {
 	protected JButton bMerch;
 	protected JLabel lBanner;
 	protected JLabel lInfo;
+	protected static JPanel panelDatos;
 	
 	public DPanelTienda() {
 		super();
@@ -165,10 +166,10 @@ public class DPanelTienda extends JPanel {
 		
 		// Info del elemento seleccionado
 		
-		JPanel panelDatos = new JPanel(new GridLayout(2, 1));
+		panelDatos = new JPanel(new GridLayout(2, 1));
 		
-		lBanner = new JLabel("banner");
-		lInfo = new JLabel("info");
+		lBanner = new JLabel("");
+		lInfo = new JLabel("");
 		
 		panelDatos.add(lBanner);
 		panelDatos.add(lInfo);
@@ -177,14 +178,16 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				Game g = lJuegos.getSelectedValue();
-				
-				ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
-				lBanner.setIcon(ii);
-				lInfo.setText(g.getDescription());
-				
-				revalidate();
-				repaint();
+				if (lJuegos.getSelectedValue() != null) {
+					Game g = lJuegos.getSelectedValue();
+					
+					ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
+					lBanner.setIcon(ii);
+					lInfo.setText(g.getDescription());
+					
+					revalidate();
+					repaint();
+				}
 			}
 		});
 		
@@ -194,7 +197,7 @@ public class DPanelTienda extends JPanel {
 		
 		// PanelCompras
 		
-		bComprar = new JButton("Comprar: 0,00$"); // Aqui hay que traer el dato desde la BD
+		bComprar = new JButton("Comprar: 0,00$"); // Aqui hay que traer el dato desde la BD, cambiar a modo JTable
 		bSaldo = new JButton("Saldo: 0,00$");
 		
 		JPanel panelCompras = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
@@ -213,6 +216,12 @@ public class DPanelTienda extends JPanel {
 				panelInfo.remove(panelListaMerch);
 				panelInfo.add(panelListaJuegos);
 				
+				panelInfo.remove(panelDatos);
+				panelInfo.add(panelDatos);
+				lBanner.setIcon(null);
+				lInfo.setText("");
+				lMerch.clearSelection();
+				
 				revalidate();
 				repaint();
 			}
@@ -224,6 +233,12 @@ public class DPanelTienda extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				panelInfo.remove(panelListaJuegos);
 				panelInfo.add(panelListaMerch);
+				
+				panelInfo.remove(panelDatos);
+				panelInfo.add(panelDatos);
+				lBanner.setIcon(null);
+				lInfo.setText("");
+				lJuegos.clearSelection();
 				
 				revalidate();
 				repaint();

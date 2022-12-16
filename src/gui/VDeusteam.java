@@ -48,7 +48,7 @@ public class VDeusteam extends JFrame {
 //		cp.add(pTienda, BorderLayout.CENTER);
 //		cp.add(pPerfil, BorderLayout.CENTER);
 		
-		this.setTitle("Deusteam");
+		this.setTitle("Deusteam - Tienda");
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
