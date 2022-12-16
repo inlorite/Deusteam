@@ -29,7 +29,7 @@ public class Merch {
 		super();
 		this.id = 0;
 		this.name = "";
-		this.type = MerchType.soundtrack;
+		this.type = MerchType.Soundtrack;
 		this.price = 0;
 	}
 

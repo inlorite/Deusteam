@@ -181,9 +181,25 @@ public class DPanelTienda extends JPanel {
 				if (lJuegos.getSelectedValue() != null) {
 					Game g = lJuegos.getSelectedValue();
 					
-					ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
+					ImageIcon ii = new ImageIcon(g.getImgLink());
 					lBanner.setIcon(ii);
 					lInfo.setText(g.getDescription());
+					
+					revalidate();
+					repaint();
+				}
+			}
+		});
+		
+		lMerch.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (lMerch.getSelectedValue() != null) {
+					Merch m = lMerch.getSelectedValue();
+					
+					lBanner.setIcon(null);
+					lInfo.setText(m.toString());
 					
 					revalidate();
 					repaint();

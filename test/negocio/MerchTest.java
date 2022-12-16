@@ -12,7 +12,7 @@ public class MerchTest {
 	private Merch merch2;
 	private int id = 0;
 	private String name = "name";
-	private MerchType type = MerchType.soundtrack;
+	private MerchType type = MerchType.Soundtrack;
 	private double price = 0.0;
 
 	@Before
@@ -69,7 +69,7 @@ public class MerchTest {
 
 	@Test
 	public void testSetTypeMerchType() {
-		MerchType newType = MerchType.artbook;
+		MerchType newType = MerchType.Artbook;
 		merch.setType(newType);
 		
 		assertEquals(newType, merch.getType());
