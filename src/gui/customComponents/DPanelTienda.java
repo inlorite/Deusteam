@@ -269,18 +269,27 @@ public class DPanelTienda extends JPanel {
 					if (lJuegos.getSelectedValue().getPrice() <= VLogin.loggedUser.getBalance()) {
 						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - lJuegos.getSelectedValue().getPrice());
 						//VLogin.loggedUser.addGame(lJuegos.getSelectedValue());
-						System.out.println("Correcto");
 					}
 				} else if (lMerch.getSelectedValue() != null) {
 					if (lMerch.getSelectedValue().getPrice() <= VLogin.loggedUser.getBalance()) {
 						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - lMerch.getSelectedValue().getPrice());
 						//VLogin.loggedUser.addMerch(lMerch.getSelectedValue());
-						System.out.println("Correcto");
 					}
 				}
 				
+				bSaldo.setText("Saldo: " + VLogin.loggedUser.getBalance() + "$");
+				
 				revalidate();
 				repaint();
+			}
+		});
+		
+		bSaldo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

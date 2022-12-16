@@ -72,7 +72,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(12);
-		user.setBalance(100);
+		user.setBalance(200);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
@@ -85,7 +85,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(15);
-		user.setBalance(100);
+		user.setBalance(200);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
@@ -98,7 +98,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(23);
-		user.setBalance(100);
+		user.setBalance(200);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
@@ -111,7 +111,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(10);
-		user.setBalance(100);
+		user.setBalance(200);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
@@ -129,7 +129,7 @@ public class Main {
 		game.setPegi(Pegi.PEGI16);
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.RPG);
-		game.setPrice(10.0);
+		game.setPrice(45.0);
 		game.setDescription("description1");
 		game.setImgLink("data/game_banners/1.jpg");
 		games.add(game);
@@ -141,7 +141,7 @@ public class Main {
 		game.setPegi(Pegi.PEGI7);
 		game.setGenre1(GameGenre.Casual);
 		game.setGenre2(GameGenre.Arcade);
-		game.setPrice(12.0);
+		game.setPrice(25.0);
 		game.setDescription("description2");
 		game.setImgLink("data/game_banners/2.jpg");
 		games.add(game);
@@ -153,7 +153,7 @@ public class Main {
 		game.setPegi(Pegi.PEGI12);
 		game.setGenre1(GameGenre.Singleplayer);
 		game.setGenre2(GameGenre.Action);
-		game.setPrice(132.0);
+		game.setPrice(20.0);
 		game.setDescription("description3");
 		game.setImgLink("data/game_banners/3.jpg");
 		games.add(game);
