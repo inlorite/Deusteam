@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 
 import gui.VDeusteam;
 import gui.VLogin;
+import gui.VSaldo;
 import negocio.Game;
 import negocio.GameGenre;
 import negocio.Merch;
@@ -57,7 +58,7 @@ public class DPanelTienda extends JPanel {
 	protected JButton bMerch;
 	protected JLabel lBanner;
 	protected JLabel lInfo;
-	protected static JPanel panelDatos;
+	public static JPanel panelDatos;
 	
 	public DPanelTienda() {
 		super();
@@ -288,7 +289,10 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
+				if (VSaldo.vSaldo == null) {
+					VSaldo.vSaldo = new VSaldo();
+				}
 				
 			}
 		});
