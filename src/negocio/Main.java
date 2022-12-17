@@ -34,7 +34,7 @@ public class Main {
 		gestor.insertDataMerch(merch.toArray(new Merch[merch.size()]));
 			
 		// Update: Modificacion de usuarios y juegos en la BD
-		gestor.updateGamePrice(games.get(0), 9.85);
+		//gestor.updateGamePrice(games.get(0), 9.85);
 		gestor.incrementUserTotalTimePlayed(users.get(0).getId(), 50);
 		
 		initPropertyGames(users, games);
@@ -179,28 +179,28 @@ public class Main {
 		Merch merch = new Merch();
 		merch.setId(1);
 		merch.setName("Elden Ring Soundtrack");
-		merch.setPrice(5.99);
+		merch.setPrice(6.0);
 		merch.setType(MerchType.Soundtrack);
 		merchList.add(merch);
 		
 		merch = new Merch();
 		merch.setId(2);
 		merch.setName("Vampire Survivors Artbook");
-		merch.setPrice(9.99);
+		merch.setPrice(10.0);
 		merch.setType(MerchType.Artbook);
 		merchList.add(merch);
 		
 		merch = new Merch();
 		merch.setId(3);
 		merch.setName("Persona 5 Soundtrack");
-		merch.setPrice(14.99);
+		merch.setPrice(15.0);
 		merch.setType(MerchType.Soundtrack);
 		merchList.add(merch);
 		
 		merch = new Merch();
 		merch.setId(4);
 		merch.setName("Elden Ring Artbook");
-		merch.setPrice(9.99);
+		merch.setPrice(10.0);
 		merch.setType(MerchType.Artbook);
 		merchList.add(merch);
 		

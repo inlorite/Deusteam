@@ -240,7 +240,7 @@ public class DBManager {
 				game.setPegi(rs.getString("PEGI"));
 				game.setGenre1(rs.getString("GENRE1"));
 				game.setGenre2(rs.getString("GENRE2"));
-				game.setPrice(rs.getInt("PRICE"));
+				game.setPrice(rs.getDouble("PRICE"));
 				game.setDescription(rs.getString("DESCRIPTION"));
 				game.setImgLink(rs.getString("IMG_LINK"));
 				

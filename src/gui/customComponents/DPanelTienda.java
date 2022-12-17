@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -52,13 +55,13 @@ public class DPanelTienda extends JPanel {
 	protected static JList<Merch> lMerch;
 	protected static DefaultListModel<Merch> dlmMerch;
 	protected static JPanel panelListaMerch;
-	protected JButton bSaldo;
+	public static JButton bSaldo;
 	protected JButton bComprar;
 	protected JButton bJuegos;
 	protected JButton bMerch;
 	protected JLabel lBanner;
 	protected JLabel lInfo;
-	public static JPanel panelDatos;
+	protected JPanel panelDatos;
 	
 	public DPanelTienda() {
 		super();
@@ -231,13 +234,17 @@ public class DPanelTienda extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelInfo.remove(panelListaMerch);
-				panelInfo.add(panelListaJuegos);
-				
 				panelInfo.remove(panelDatos);
+				
+				if (panelInfo.getComponents().length==0) {
+					// si cambia de merch a juegos se ejecuta
+					lBanner.setIcon(null);
+					lInfo.setText("");
+					lJuegos.clearSelection();
+				}
+				
+				panelInfo.add(panelListaJuegos);
 				panelInfo.add(panelDatos);
-				lBanner.setIcon(null);
-				lInfo.setText("");
-				lMerch.clearSelection();
 				
 				revalidate();
 				repaint();
@@ -249,13 +256,17 @@ public class DPanelTienda extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				panelInfo.remove(panelListaJuegos);
-				panelInfo.add(panelListaMerch);
-				
 				panelInfo.remove(panelDatos);
+				
+				if (panelInfo.getComponents().length==0) {
+					// si cambia de juegos a merch se ejecuta
+					lBanner.setIcon(null);
+					lInfo.setText("");
+					lMerch.clearSelection();
+				}
+				
+				panelInfo.add(panelListaMerch);
 				panelInfo.add(panelDatos);
-				lBanner.setIcon(null);
-				lInfo.setText("");
-				lJuegos.clearSelection();
 				
 				revalidate();
 				repaint();
