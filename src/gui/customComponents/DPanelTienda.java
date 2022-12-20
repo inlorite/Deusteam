@@ -150,8 +150,26 @@ public class DPanelTienda extends JPanel {
 		panelInfo.add(panelTablaJuegos);
 		
 		List<Game> listJuegos = VLogin.dbManager.obtainDataGames();
+		
+		ActionListener comprarJuegoListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+					VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listJuegos.get(tJuegos.getSelectedRow()).getPrice());
+					//VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
+				}
+				
+				bSaldo.setText("Saldo: " + VLogin.loggedUser.getBalance() + "$");
+				
+				revalidate();
+				repaint();
+			}
+		};
 		for (Game game : listJuegos) {
-			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), game.getPrice() + "$" } );
+			JButton bComprarJuego = new JButton(game.getPrice() + "$");
+			bComprarJuego.addActionListener(comprarJuegoListener);
+			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), bComprarJuego } );
 		}
 		
 		panelTablaMerch = new JPanel(new BorderLayout());
@@ -161,8 +179,26 @@ public class DPanelTienda extends JPanel {
 		panelTablaMerch.add(new JScrollPane(tMerch), BorderLayout.CENTER);
 		
 		List<Merch> listMerch = VLogin.dbManager.obtainDataMerch();
+		
+		ActionListener comprarMerchListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+					VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listMerch.get(tMerch.getSelectedRow()).getPrice());
+					//VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
+				}
+				
+				bSaldo.setText("Saldo: " + VLogin.loggedUser.getBalance() + "$");
+				
+				revalidate();
+				repaint();
+			}
+		};
 		for (Merch merch : listMerch) {
-			dtmMerch.addRow( new Object[] { merch.getName(), merch.getPrice() + "$" } );
+			JButton bComprarMerch = new JButton(merch.getPrice() + "$");
+			bComprarMerch.addActionListener(comprarMerchListener);
+			dtmMerch.addRow( new Object[] { merch.getName(), comprarMerchListener } );
 		}
 		
 		// Info del elemento seleccionado
@@ -273,7 +309,7 @@ public class DPanelTienda extends JPanel {
 				repaint();
 			}
 		});
-		
+		/*
 		bComprar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -281,12 +317,12 @@ public class DPanelTienda extends JPanel {
 				if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
 					if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
 						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listJuegos.get(tJuegos.getSelectedRow()).getPrice());
-						//VLogin.loggedUser.addGame(tJuegos.getSelectedValue());
+						//VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
 					}
 				} else if (listMerch.get(tMerch.getSelectedRow()) != null) {
 					if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
 						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listMerch.get(tMerch.getSelectedRow()).getPrice());
-						//VLogin.loggedUser.addMerch(tMerch.getSelectedValue());
+						//VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
 					}
 				}
 				
@@ -296,7 +332,7 @@ public class DPanelTienda extends JPanel {
 				repaint();
 			}
 		});
-		
+		*/
 		bSaldo.addActionListener(new ActionListener() {
 			
 			@Override
