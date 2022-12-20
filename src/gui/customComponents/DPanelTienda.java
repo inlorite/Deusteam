@@ -4,25 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import gui.VDeusteam;
 import gui.VLogin;
@@ -49,12 +46,12 @@ public class DPanelTienda extends JPanel {
 	protected DefaultComboBoxModel<Pegi> dcmPegi;
 		
 	// Center Info Juego
-	protected static JList<Game> lJuegos;
-	protected static DefaultListModel<Game> dlmJuegos;
-	protected static JPanel panelListaJuegos;
-	protected static JList<Merch> lMerch;
-	protected static DefaultListModel<Merch> dlmMerch;
-	protected static JPanel panelListaMerch;
+	protected static DefaultTableModel dtmJuegos;
+	protected static JTable tJuegos;
+	protected static JPanel panelTablaJuegos;
+	protected static DefaultTableModel dtmMerch;
+	protected static JTable tMerch;
+	protected static JPanel panelTablaMerch;
 	public static JButton bSaldo;
 	protected JButton bComprar;
 	protected JButton bJuegos;
@@ -145,27 +142,27 @@ public class DPanelTienda extends JPanel {
 		
 		JPanel panelInfo = new JPanel(new GridLayout(2, 1));
 		
-		panelListaJuegos = new JPanel(new BorderLayout());
-		panelListaJuegos.setBorder(new TitledBorder("Juegos disponibles"));
-		dlmJuegos = new DefaultListModel<>();
-		lJuegos = new JList<>(dlmJuegos);
-		panelListaJuegos.add(new JScrollPane(lJuegos), BorderLayout.CENTER);
-		panelInfo.add(panelListaJuegos);
+		panelTablaJuegos = new JPanel(new BorderLayout());
+		panelTablaJuegos.setBorder(new TitledBorder("Juegos disponibles"));
+		dtmJuegos = new DefaultTableModel(new Object[] { "Nombre", "Creador", "Precio" }, 0);
+		tJuegos = new JTable(dtmJuegos);
+		panelTablaJuegos.add(new JScrollPane(tJuegos), BorderLayout.CENTER);
+		panelInfo.add(panelTablaJuegos);
 		
 		List<Game> listJuegos = VLogin.dbManager.obtainDataGames();
 		for (Game game : listJuegos) {
-			dlmJuegos.addElement(game);
+			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), game.getPrice() + "$" } );
 		}
 		
-		panelListaMerch = new JPanel(new BorderLayout());
-		panelListaMerch.setBorder(new TitledBorder("Merch disponible"));
-		dlmMerch = new DefaultListModel<>();
-		lMerch = new JList<>(dlmMerch);
-		panelListaMerch.add(new JScrollPane(lMerch), BorderLayout.CENTER);
+		panelTablaMerch = new JPanel(new BorderLayout());
+		panelTablaMerch.setBorder(new TitledBorder("Merch disponible"));
+		dtmMerch = new DefaultTableModel(new Object[] { "Nombre", "Precio" }, 0);
+		tMerch = new JTable(dtmMerch);
+		panelTablaMerch.add(new JScrollPane(tMerch), BorderLayout.CENTER);
 		
 		List<Merch> listMerch = VLogin.dbManager.obtainDataMerch();
 		for (Merch merch : listMerch) {
-			dlmMerch.addElement(merch);
+			dtmMerch.addRow( new Object[] { merch.getName(), merch.getPrice() + "$" } );
 		}
 		
 		// Info del elemento seleccionado
@@ -178,35 +175,39 @@ public class DPanelTienda extends JPanel {
 		panelDatos.add(lBanner);
 		panelDatos.add(lInfo);
 		
-		lJuegos.addListSelectionListener(new ListSelectionListener() {
+		tJuegos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (lJuegos.getSelectedValue() != null) {
-					Game g = lJuegos.getSelectedValue();
-					
-					ImageIcon ii = new ImageIcon(g.getImgLink());
-					lBanner.setIcon(ii);
-					lInfo.setText(g.getDescription());
-					
-					revalidate();
-					repaint();
+				if (tJuegos.getSelectedRow() != -1) {
+					if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
+						Game g = listJuegos.get(tJuegos.getSelectedRow());
+						
+						ImageIcon ii = new ImageIcon(g.getImgLink());
+						lBanner.setIcon(ii);
+						lInfo.setText(g.getDescription());
+						
+						revalidate();
+						repaint();
+					}
 				}
 			}
 		});
 		
-		lMerch.addListSelectionListener(new ListSelectionListener() {
+		tMerch.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				if (lMerch.getSelectedValue() != null) {
-					Merch m = lMerch.getSelectedValue();
-					
-					lBanner.setIcon(null);
-					lInfo.setText(m.toString());
-					
-					revalidate();
-					repaint();
+				if (tMerch.getSelectedRow() != -1) {
+					if (listMerch.get(tMerch.getSelectedRow()) != null) {
+						Merch m = listMerch.get(tMerch.getSelectedRow());
+						
+						lBanner.setIcon(null);
+						lInfo.setText(m.toString());
+						
+						revalidate();
+						repaint();
+					}
 				}
 			}
 		});
@@ -233,17 +234,17 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelInfo.remove(panelListaMerch);
+				panelInfo.remove(panelTablaMerch);
 				panelInfo.remove(panelDatos);
 				
 				if (panelInfo.getComponents().length==0) {
 					// si cambia de merch a juegos se ejecuta
 					lBanner.setIcon(null);
 					lInfo.setText("");
-					lJuegos.clearSelection();
+					tJuegos.clearSelection();
 				}
 				
-				panelInfo.add(panelListaJuegos);
+				panelInfo.add(panelTablaJuegos);
 				panelInfo.add(panelDatos);
 				
 				revalidate();
@@ -255,17 +256,17 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelInfo.remove(panelListaJuegos);
+				panelInfo.remove(panelTablaJuegos);
 				panelInfo.remove(panelDatos);
 				
 				if (panelInfo.getComponents().length==0) {
 					// si cambia de juegos a merch se ejecuta
 					lBanner.setIcon(null);
 					lInfo.setText("");
-					lMerch.clearSelection();
+					tMerch.clearSelection();
 				}
 				
-				panelInfo.add(panelListaMerch);
+				panelInfo.add(panelTablaMerch);
 				panelInfo.add(panelDatos);
 				
 				revalidate();
@@ -277,15 +278,15 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (lJuegos.getSelectedValue() != null) {
-					if (lJuegos.getSelectedValue().getPrice() <= VLogin.loggedUser.getBalance()) {
-						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - lJuegos.getSelectedValue().getPrice());
-						//VLogin.loggedUser.addGame(lJuegos.getSelectedValue());
+				if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
+					if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listJuegos.get(tJuegos.getSelectedRow()).getPrice());
+						//VLogin.loggedUser.addGame(tJuegos.getSelectedValue());
 					}
-				} else if (lMerch.getSelectedValue() != null) {
-					if (lMerch.getSelectedValue().getPrice() <= VLogin.loggedUser.getBalance()) {
-						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - lMerch.getSelectedValue().getPrice());
-						//VLogin.loggedUser.addMerch(lMerch.getSelectedValue());
+				} else if (listMerch.get(tMerch.getSelectedRow()) != null) {
+					if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listMerch.get(tMerch.getSelectedRow()).getPrice());
+						//VLogin.loggedUser.addMerch(tMerch.getSelectedValue());
 					}
 				}
 				
