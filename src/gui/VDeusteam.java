@@ -25,6 +25,8 @@ public class VDeusteam extends JFrame {
 		cp = this.getContentPane();
 		cp.setLayout(new BorderLayout(GAP, GAP));
 		
+		this.setMinimumSize(new Dimension(1000, 800));
+		
 		mainPanel = new JPanel();
 		cl = new CardLayout(GAP, GAP);
 		mainPanel.setLayout(cl);
@@ -54,6 +56,7 @@ public class VDeusteam extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(true);
 		this.setVisible(true);
+		this.setSize(new Dimension(1000, 800));
 		
 	}
 	

@@ -1,6 +1,8 @@
 package gui.customComponents;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +19,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import gui.VDeusteam;
@@ -252,9 +257,101 @@ public class DPanelTienda extends JPanel {
 		
 		panel.add(panelInfo, BorderLayout.CENTER);
 		
+		// Renders
+		
+		DefaultTableCellRenderer gameRenderer = new DefaultTableCellRenderer() {
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				JLabel resultado = new JLabel(value.toString());
+				String nombre = (String) table.getModel().getValueAt(row, 0);
+				Game game = listJuegos.get(row);
+				
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
+					resultado.setBackground(Color.PINK);
+				}
+				
+				if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (cCat1.getSelectedItem().equals(game.getGenre1()) && !cCat2.getSelectedItem().equals(game.getGenre2())&& !cPegi.getSelectedItem().equals(game.getPegi())) {
+						resultado.setBackground(Color.PINK);
+					}
+				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (cPegi.getSelectedItem().equals(game.getPegi())) {
+						resultado.setBackground(Color.PINK);
+					}
+				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (cCat2.getSelectedItem().equals(game.getGenre2())) {
+						resultado.setBackground(Color.PINK);
+					}
+				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (cCat1.getSelectedItem().equals(game.getGenre1())) {
+						resultado.setBackground(Color.PINK);
+					}
+				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) {
+						resultado.setBackground(Color.PINK);
+					}
+				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (cCat1.getSelectedItem().equals(game.getGenre1()) && cPegi.getSelectedItem().equals(game.getPegi())) {
+						resultado.setBackground(Color.PINK);
+					}
+				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (cCat2.getSelectedItem().equals(game.getGenre2()) && cPegi.getSelectedItem().equals(game.getPegi())) {
+						resultado.setBackground(Color.PINK);
+					}
+				}
+				
+				if (isSelected) {
+					resultado.setBackground(Color.CYAN);
+				}
+				
+				resultado.setOpaque(true);
+				
+				return resultado;
+			}
+			
+		};
+		
+		for (int i = 0; i < tJuegos.getColumnCount(); i++) {
+			tJuegos.getColumnModel().getColumn(i).setCellRenderer(gameRenderer);
+		}
+		
+		DefaultTableCellRenderer merchRenderer = new DefaultTableCellRenderer() {
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				JLabel resultado = new JLabel(value.toString());
+				String nombre = (String) table.getModel().getValueAt(row, 0);
+				Merch merch = listMerch.get(row);
+				
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
+					resultado.setBackground(Color.PINK);
+				}
+				
+				if (isSelected) {
+					resultado.setBackground(Color.CYAN);
+				}
+				
+				resultado.setOpaque(true);
+				
+				return resultado;
+			}
+			
+		};
+		
+		for (int i = 0; i < tMerch.getColumnCount(); i++) {
+			tMerch.getColumnModel().getColumn(i).setCellRenderer(merchRenderer);
+		}
+		
 		// PanelCompras
 		
-		bComprar = new JButton("Comprar: 0,00$"); // Aqui hay que traer el dato desde la BD, cambiar a modo JTable
+		bComprar = new JButton("Comprar"); // Aqui hay que traer el dato desde la BD, cambiar a modo JTable
 		bSaldo = new JButton("Saldo: " + VLogin.loggedUser.getBalance() + "$");
 		
 		JPanel panelCompras = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
@@ -342,6 +439,54 @@ public class DPanelTienda extends JPanel {
 					VSaldo.vSaldo = new VSaldo();
 				}
 				
+			}
+		});
+		
+		tBuscador.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				revalidate();
+				repaint();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				revalidate();
+				repaint();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				revalidate();
+				repaint();
+			}
+		});
+		
+		cCat1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				revalidate();
+				repaint();
+			}
+		});
+		
+		cCat2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				revalidate();
+				repaint();
+			}
+		});
+
+		cPegi.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				revalidate();
+				repaint();
 			}
 		});
 		
