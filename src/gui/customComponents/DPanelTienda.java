@@ -6,11 +6,13 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EventObject;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,12 +21,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CellEditorListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 
 import gui.VDeusteam;
 import gui.VLogin;
@@ -49,6 +53,7 @@ public class DPanelTienda extends JPanel {
 	protected DefaultComboBoxModel<MerchType> dcmCatMerch;
 	protected JComboBox<Pegi> cPegi;
 	protected DefaultComboBoxModel<Pegi> dcmPegi;
+	protected JCheckBox cbPosesion;
 	protected JPanel panelCategoria;
 		
 	// Center Info Juego
@@ -92,7 +97,7 @@ public class DPanelTienda extends JPanel {
 		tBuscador.setColumns(25);
 		panelBuscador.add(tBuscador, BorderLayout.CENTER);
 		
-		panelCategoria = new JPanel(new GridLayout(3, 1));
+		panelCategoria = new JPanel(new GridLayout(4, 1));
 		panelCategoria.setBorder(new TitledBorder("Selector avanzado"));
 		
 		dcmCat1 = new DefaultComboBoxModel<>();
@@ -123,9 +128,12 @@ public class DPanelTienda extends JPanel {
 		}
 		cCatMerch.setBorder(new TitledBorder("Tipo de merch:"));
 		
+		cbPosesion = new JCheckBox("Mostrar los que no posees");
+		
 		panelCategoria.add(cCat1);
 		panelCategoria.add(cCat2);
 		panelCategoria.add(cPegi);
+		panelCategoria.add(cbPosesion);
 		
 		panel.add(panelBuscador, BorderLayout.NORTH);
 		panel.add(panelCategoria, BorderLayout.CENTER);
@@ -407,6 +415,7 @@ public class DPanelTienda extends JPanel {
 				panelInfo.remove(panelDatos);
 				
 				panelCategoria.remove(cCatMerch);
+				panelCategoria.remove(cbPosesion);
 				
 				if (panelInfo.getComponents().length==0) {
 					// si cambia de merch a juegos se ejecuta
@@ -418,6 +427,7 @@ public class DPanelTienda extends JPanel {
 				panelCategoria.add(cCat1);
 				panelCategoria.add(cCat2);
 				panelCategoria.add(cPegi);
+				panelCategoria.add(cbPosesion);
 				
 				panelInfo.add(panelTablaJuegos);
 				panelInfo.add(panelDatos);
@@ -437,6 +447,7 @@ public class DPanelTienda extends JPanel {
 				panelCategoria.remove(cCat1);
 				panelCategoria.remove(cCat2);
 				panelCategoria.remove(cPegi);
+				panelCategoria.remove(cbPosesion);
 				
 				if (panelInfo.getComponents().length==0) {
 					// si cambia de juegos a merch se ejecuta
@@ -446,6 +457,7 @@ public class DPanelTienda extends JPanel {
 				}
 				
 				panelCategoria.add(cCatMerch);
+				panelCategoria.add(cbPosesion);
 				
 				panelInfo.add(panelTablaMerch);
 				panelInfo.add(panelDatos);
@@ -454,7 +466,7 @@ public class DPanelTienda extends JPanel {
 				repaint();
 			}
 		});
-		/*
+		
 		bComprar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -477,7 +489,7 @@ public class DPanelTienda extends JPanel {
 				repaint();
 			}
 		});
-		*/
+		
 		bSaldo.addActionListener(new ActionListener() {
 			
 			@Override
