@@ -1,6 +1,9 @@
 package gui.customComponents;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -23,6 +26,7 @@ public class DPanelBiblioteca extends JPanel {
 	protected DefaultListModel<Game> dlmJuegosInstalados;
 	protected JList<Game> lJuegosDisponibles;
 	protected DefaultListModel<Game> dlmJuegosDisponibles;
+	protected JList<Game> selectedList;
 	
 	// Center Info Juego
 	protected JLabel lBanner;
@@ -73,35 +77,44 @@ public class DPanelBiblioteca extends JPanel {
 			}
 		}
 		
-		ArrayList<JList<Game>> lists = new ArrayList<>();
-		lists.add(lJuegosDisponibles);
-		lists.add(lJuegosInstalados);
+		MouseAdapter ml = new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				selectedList = (JList<Game>) e.getSource();
+				
+				if (selectedList == lJuegosDisponibles) {
+					lJuegosInstalados.clearSelection();
+				} else if (selectedList == lJuegosInstalados) {
+					lJuegosDisponibles.clearSelection();
+				}
+			}
+		};
 		
 		ListSelectionListener lsl = new ListSelectionListener() {
 			
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				for (JList<Game> list : lists) {
-					if (list != e.getSource()) {
-						list.clearSelection();
-					}
+				
+				if (!e.getValueIsAdjusting()){
+					JList<Game> list = (JList<Game>) e.getSource();
 					
-					if (list == e.getSource()) {
-						if (!e.getValueIsAdjusting()){
-							Game g = list.getSelectedValue();
-							
-							ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
-							lBanner.setIcon(ii);
-							lInfo.setText(g.getDescription());
-							
-							revalidate();
-							repaint();
-						}
+					if (list.getSelectedIndex() > -1) {
+						Game g = list.getSelectedValue();
+						
+						ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
+						lBanner.setIcon(ii);
+						lInfo.setText(g.getDescription());
+						
+						revalidate();
+						repaint();
 					}
 				}
 			}
 		};
 		
+		lJuegosInstalados.addMouseListener(ml);
+		lJuegosDisponibles.addMouseListener(ml);
 		lJuegosInstalados.addListSelectionListener(lsl);
 		lJuegosDisponibles.addListSelectionListener(lsl);
 		
