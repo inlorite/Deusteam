@@ -106,6 +106,12 @@ public class DPanelBiblioteca extends JPanel {
 						lBanner.setIcon(ii);
 						lInfo.setText(g.getDescription());
 						
+						if (list == lJuegosDisponibles) {
+							bInstalar.setText("Instalar");
+						} else if (list == lJuegosInstalados) {
+							bInstalar.setText("Iniciar");
+						}
+						
 						revalidate();
 						repaint();
 					}
