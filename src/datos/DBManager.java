@@ -653,6 +653,42 @@ public class DBManager {
 		}
 	}
 	
+	/** Retrieves a user that has a set id
+	 * @param id		int with the id
+	 * 
+	 * @return User class object if exists, else null
+	 */
+	public User getUser(int id) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "SELECT * FROM USERS WHERE ID_USER = '" + id + "' LIMIT 1;";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			User user = new User();
+			
+			user.setId(rs.getInt("ID_USER"));
+			user.setUsername(rs.getString("USERNAME"));
+			user.setEmail(rs.getString("EMAIL"));
+			user.setPassword(rs.getString("PASSWORD"));
+			user.setCountry(rs.getString("COUNTRY"));
+			user.setLastTimePlayed(rs.getString("LAST_TIME_PLAYED"));
+			user.setTotalTimePlayed(rs.getInt("TOTAL_TIME_PLAYED"));
+			user.setBalance(rs.getDouble("BALANCE"));
+			user.setFriends(obtainDataFriendsUser(rs.getInt("ID_USER")));
+			user.setGames(obtainDataPropertyGamesUser(rs.getInt("ID_USER")));
+			
+			System.out.println(String.format("- User retrieved"));
+			return user;
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	/** Verifies if the user login is correct
 	 * @param username		String of the username
 	 * @param password		String of the password
@@ -1107,6 +1143,40 @@ public class DBManager {
 			while (rs.next()) {
 				
 				friends.add(rs.getInt("ID_USER2"));
+				
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- User (%d)'s friends retrieved...", id_user));	
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return friends;
+	}
+	
+	/** Obtains an specific user's friends in a map
+	 * @return friends		Map<String, Integer>
+	 */
+	public HashMap<String, Integer> obtainDataFriendsUserMap(Integer id_user) {
+		HashMap<String, Integer> friends = new HashMap<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM FRIENDS WHERE ID_USER1 = " + id_user + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding IDs to list
+			while (rs.next()) {
+				
+				User u = getUser(rs.getInt("ID_USER2"));
+				friends.put(u.getUsername(), u.getId());
 				
 			}
 			
