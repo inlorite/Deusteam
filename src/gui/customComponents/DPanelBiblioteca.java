@@ -1,6 +1,8 @@
 package gui.customComponents;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -31,6 +33,7 @@ public class DPanelBiblioteca extends JPanel {
 	// Center Info Juego
 	protected JLabel lBanner;
 	protected JLabel lInfo;
+	protected JProgressBar pbInstalar;
 	protected JButton bInstalar;
 	
 	public DPanelBiblioteca() {
@@ -112,6 +115,10 @@ public class DPanelBiblioteca extends JPanel {
 							bInstalar.setText("Iniciar");
 						}
 						
+						if (!bInstalar.isEnabled()) {
+							bInstalar.setEnabled(true);
+						}
+						
 						revalidate();
 						repaint();
 					}
@@ -135,11 +142,60 @@ public class DPanelBiblioteca extends JPanel {
 		
 		lBanner = new JLabel("");
 		lInfo = new JLabel("info");
+		
+		JPanel pInst = new JPanel(new GridLayout(1, 2, VDeusteam.GAP, VDeusteam.GAP));
+		pbInstalar = new JProgressBar();
+		pbInstalar.setValue(0);
+		pbInstalar.setStringPainted(true);
+		pbInstalar.setForeground(Color.GREEN);
+		pbInstalar.setVisible(false);
 		bInstalar = new JButton("Instalar");
+		bInstalar.setEnabled(false);
+		pInst.add(pbInstalar);
+		pInst.add(bInstalar);
 		
 		panel.add(lBanner, BorderLayout.NORTH);
 		panel.add(lInfo, BorderLayout.CENTER);
-		panel.add(bInstalar, BorderLayout.SOUTH);
+		panel.add(pInst, BorderLayout.SOUTH);
+		
+		bInstalar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Thread barThread = new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Game game = selectedList.getSelectedValue();
+						
+						lJuegosDisponibles.setEnabled(false);
+						lJuegosInstalados.setEnabled(false);
+						bInstalar.setEnabled(false);
+						pbInstalar.setVisible(true);
+						
+						try {
+							for (int i = 1; i <= 100; i++) {
+								pbInstalar.setValue(i);
+								Thread.sleep(100);
+							}
+							
+							if (selectedList == lJuegosDisponibles) {
+								JOptionPane.showMessageDialog(null, game.getName() + " instalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+							} else if (selectedList == lJuegosInstalados) {
+								JOptionPane.showMessageDialog(null, game.getName() + " desinstalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+							}
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						lJuegosDisponibles.setEnabled(true);
+						lJuegosInstalados.setEnabled(true);
+						pbInstalar.setVisible(false);
+					}
+				});
+				barThread.start();
+			}
+		});
 		
 		return panel;
 	}
