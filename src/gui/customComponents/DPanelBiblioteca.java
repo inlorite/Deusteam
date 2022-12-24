@@ -158,7 +158,8 @@ public class DPanelBiblioteca extends JPanel {
 					
 					@Override
 					public void run() {
-						Game game = selectedList.getSelectedValue();
+						JList<Game> list = selectedList;
+						Game game = list.getSelectedValue();
 						
 						lJuegosDisponibles.setEnabled(false);
 						lJuegosInstalados.setEnabled(false);
@@ -171,11 +172,11 @@ public class DPanelBiblioteca extends JPanel {
 								Thread.sleep(100);
 							}
 							
-							if (selectedList == lJuegosDisponibles) {
+							if (list == lJuegosDisponibles) {
 								VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 1);
 								loadDataModels();
 								JOptionPane.showMessageDialog(null, game.getName() + " instalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-							} else if (selectedList == lJuegosInstalados) {
+							} else if (list == lJuegosInstalados) {
 								VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 0);
 								loadDataModels();
 								JOptionPane.showMessageDialog(null, game.getName() + " desinstalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
