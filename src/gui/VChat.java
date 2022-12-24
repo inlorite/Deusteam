@@ -2,12 +2,14 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import negocio.User;
 import negocio.chat.Message;
 
 public class VChat extends JFrame {
@@ -68,6 +70,18 @@ public class VChat extends JFrame {
 		cbAmigos = new JComboBox<>(friendNames);
 		panel.add(cbAmigos, BorderLayout.CENTER);
 		
+		cbAmigos.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					dlmChatbox.clear();
+					
+					// aqui leeria los mensajes previos con ese usuario concreto y los cargaria desde la base de datos
+				}
+			}
+		});
+		
 		return panel;
 	}
 	
@@ -92,6 +106,23 @@ public class VChat extends JFrame {
 		
 		panel.add(tfMessage, BorderLayout.CENTER);
 		panel.add(bSend, BorderLayout.EAST);
+		
+		bSend.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = tfMessage.getText();
+				
+				if (!text.equals("")) {
+					User to = VLogin.dbManager.getUser((String) cbAmigos.getSelectedItem());
+					Message message = new Message(VLogin.loggedUser, to, text, new Date().getTime());
+					
+					VDeusteam.client.sendMessage(message);
+					
+					tfMessage.setText("");
+				}
+			}
+		});
 		
 		return panel;
 	}
