@@ -70,15 +70,7 @@ public class DPanelBiblioteca extends JPanel {
 		lJuegosDisponibles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panelDisponibles.add(new JScrollPane(lJuegosDisponibles), BorderLayout.CENTER);
 		
-		Map<Game, Boolean> userGames = VLogin.dbManager.obtainDataPropertyUserInstalledGames(VLogin.loggedUser.getId());
-		
-		for (Game game : userGames.keySet()) {
-			if (userGames.get(game)) {
-				dlmJuegosInstalados.addElement(game);
-			} else {
-				dlmJuegosDisponibles.addElement(game);
-			}
-		}
+		loadDataModels();
 		
 		MouseAdapter ml = new MouseAdapter() {
 			
@@ -112,7 +104,7 @@ public class DPanelBiblioteca extends JPanel {
 						if (list == lJuegosDisponibles) {
 							bInstalar.setText("Instalar");
 						} else if (list == lJuegosInstalados) {
-							bInstalar.setText("Iniciar");
+							bInstalar.setText("Desinstalar");
 						}
 						
 						if (!bInstalar.isEnabled()) {
@@ -180,8 +172,12 @@ public class DPanelBiblioteca extends JPanel {
 							}
 							
 							if (selectedList == lJuegosDisponibles) {
+								VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 1);
+								loadDataModels();
 								JOptionPane.showMessageDialog(null, game.getName() + " instalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 							} else if (selectedList == lJuegosInstalados) {
+								VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 0);
+								loadDataModels();
 								JOptionPane.showMessageDialog(null, game.getName() + " desinstalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 							}
 						} catch (InterruptedException e) {
@@ -198,6 +194,21 @@ public class DPanelBiblioteca extends JPanel {
 		});
 		
 		return panel;
+	}
+	
+	public void loadDataModels() {
+		dlmJuegosInstalados.clear();
+		dlmJuegosDisponibles.clear();
+		
+		Map<Game, Boolean> userGames = VLogin.dbManager.obtainDataPropertyUserInstalledGames(VLogin.loggedUser.getId());
+		
+		for (Game game : userGames.keySet()) {
+			if (userGames.get(game)) {
+				dlmJuegosInstalados.addElement(game);
+			} else {
+				dlmJuegosDisponibles.addElement(game);
+			}
+		}
 	}
 
 }
