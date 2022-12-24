@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import gui.customComponents.*;
+import negocio.chat.Client;
 
 public class VDeusteam extends JFrame {
 	
@@ -19,7 +20,10 @@ public class VDeusteam extends JFrame {
 	public static DPanelBiblioteca pBiblioteca;
 	public static DPanelTienda pTienda;
 	public static DPanelPerfil pPerfil;
+	
+	public static boolean networking = false;
 	public static VChat vChat;
+	public static Client client;
 	
 	public VDeusteam() {
 		
@@ -51,8 +55,11 @@ public class VDeusteam extends JFrame {
 //		cp.add(pTienda, BorderLayout.CENTER);
 //		cp.add(pPerfil, BorderLayout.CENTER);
 		
-		vChat = new VChat();
-		
+		if (networking) {
+			vChat = new VChat();
+			client = new Client(VLogin.loggedUser, vChat.dlmChatbox);
+		}
+			
 		this.setTitle("Deusteam - Tienda");
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla

@@ -66,13 +66,15 @@ public class DMenuBar extends JPanel {
 			}
 		});
 		
-		bChat.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				VDeusteam.vChat.setVisible(true);
-			}
-		});
+		if (VDeusteam.networking) {
+			bChat.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					VDeusteam.vChat.setVisible(true);
+				}
+			});
+		}
 		
 		this.add(bBiblioteca);
 		this.add(bTienda);
