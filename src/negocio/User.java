@@ -1,12 +1,15 @@
 package negocio;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
-public class User {
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	protected int id;
 	protected String username;

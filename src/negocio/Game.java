@@ -1,8 +1,12 @@
 package negocio;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Game {
+public class Game implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	protected int id;
 	protected String name;
 	protected String owner;
