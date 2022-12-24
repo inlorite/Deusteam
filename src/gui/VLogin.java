@@ -52,9 +52,19 @@ public class VLogin extends JFrame {
 		
 		pData.add(new JLabel("Username: "));
 		tfUser = new JTextField();
+		
+		/// TEMPORAL ///
+		tfUser.setText("Adrian");
+		////////////////
+		
 		pData.add(tfUser);
 		pData.add(new JLabel("Password: "));
 		tfPassword = new JPasswordField();
+		
+		/// TEMPORAL ///
+		tfPassword.setText("adrianmartinez");
+		////////////////
+		
 		pData.add(tfPassword);
 		bRegister = new JButton("Register");
 		bLogin = new JButton("Login");

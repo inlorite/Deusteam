@@ -28,6 +28,8 @@ public class VChat extends JFrame {
 	
 	public VChat() {
 		
+		System.out.println("VChat created.");
+		
 		JPanel cp = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
 		cp.setBorder(new EmptyBorder(VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP));
 		
@@ -44,9 +46,9 @@ public class VChat extends JFrame {
 		this.setTitle("Deusteam chat");
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setResizable(false);
-		this.setVisible(true);
+		this.setVisible(false);
 		
 	}
 	

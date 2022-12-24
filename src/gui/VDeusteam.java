@@ -19,6 +19,7 @@ public class VDeusteam extends JFrame {
 	public static DPanelBiblioteca pBiblioteca;
 	public static DPanelTienda pTienda;
 	public static DPanelPerfil pPerfil;
+	public static VChat vChat;
 	
 	public VDeusteam() {
 		
@@ -49,6 +50,8 @@ public class VDeusteam extends JFrame {
 //		cp.add(pBiblioteca, BorderLayout.CENTER);
 //		cp.add(pTienda, BorderLayout.CENTER);
 //		cp.add(pPerfil, BorderLayout.CENTER);
+		
+		vChat = new VChat();
 		
 		this.setTitle("Deusteam - Tienda");
 		this.pack();

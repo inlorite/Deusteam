@@ -41,6 +41,8 @@ public class Main {
 		gestor.updatePropertyGamesInstalled(users.get(1).getId(), games.get(1).getId(), 1);
 		gestor.updatePropertyGamesInstalled(users.get(2).getId(), games.get(0).getId(), 1);
 		
+		initFriends(users);
+		
 		// Select: 
 		for (User u : gestor.obtainDataUsers()) {
 			System.out.println(u);
@@ -216,6 +218,14 @@ public class Main {
 		gestor.insertDataPropertyGames(users.get(2), games.get(0));
 		gestor.insertDataPropertyGames(users.get(2), games.get(2));
 		gestor.insertDataPropertyGames(users.get(2), games.get(3));
+		
+	}
+	
+	public static void initFriends(List<User> users) {
+		
+		gestor.insertDataFriends(users.get(1), users.get(0));
+		gestor.insertDataFriends(users.get(1), users.get(2));
+		gestor.insertDataFriends(users.get(1), users.get(3));
 		
 	}
 	

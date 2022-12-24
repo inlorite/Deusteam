@@ -70,7 +70,7 @@ public class DMenuBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VChat vChat = new VChat();
+				VDeusteam.vChat.setVisible(true);
 			}
 		});
 		
