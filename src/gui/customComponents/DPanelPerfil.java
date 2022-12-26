@@ -1,10 +1,15 @@
 package gui.customComponents;
 
 import java.awt.*;
+import java.lang.invoke.LambdaConversionException;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.border.*;
 
+import datos.DBManager;
 import gui.VDeusteam;
+import gui.VLogin;
 import negocio.User;
 
 public class DPanelPerfil extends JPanel {
@@ -46,7 +51,10 @@ public class DPanelPerfil extends JPanel {
 		panelAmigos.setBorder(new TitledBorder("Lista de amigos"));
 		dlmAmigos = new DefaultListModel<>();
 		listAmigos = new JList<>(dlmAmigos);
+		listAmigos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panelAmigos.add(new JScrollPane(listAmigos), BorderLayout.CENTER);
+		
+		loadListaAmigos();
 		
 		JPanel panelBusqueda = new JPanel(new GridLayout(2,1));
 		panelBusqueda.setBorder(new TitledBorder("Buscador de amigos"));
@@ -65,7 +73,20 @@ public class DPanelPerfil extends JPanel {
 		
 		panel.setBorder(new TitledBorder("Perfil"));
 		
+		JLabel lNombre = new JLabel();
+		
 		return panel;
+	}
+	
+	public void loadListaAmigos() {
+		dlmAmigos.clear();
+	
+		ArrayList<Integer> friendsList = VLogin.dbManager.obtainDataFriendsUser(VLogin.loggedUser.getId());
+		
+		for (Integer friend : friendsList) {
+			dlmAmigos.addElement(VLogin.dbManager.getUser(friend));
+		}
+		
 	}
 	
 }
