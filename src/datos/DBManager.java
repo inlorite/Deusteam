@@ -1059,6 +1059,39 @@ public class DBManager {
 		}		
 	}
 	
+	/** Returns true if the user posseses the game
+	 * @param id_user		Integer of the user id
+	 * @param id_game		Integer of the game id
+	 * 
+	 * @return boolean
+	 */
+	public boolean isPropertyOfUser(Integer id_user, Integer id_game) {
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM PROPERTY_GAMES WHERE ID_USER = " + id_user + " AND ID_GAME = " + id_game + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding Games to map
+			if (rs.next()) {
+				return true;
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- User (%d)'s games retrieved...", id_user));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return false;
+	}
+	
 	///////// FRIENDS DATABASE /////////
 	
 	/** Adds a relation of friendship between two users in the FRIENDS chart
