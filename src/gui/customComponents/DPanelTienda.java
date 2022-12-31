@@ -192,7 +192,7 @@ public class DPanelTienda extends JPanel {
 		
 		panelTablaMerch = new JPanel(new BorderLayout());
 		panelTablaMerch.setBorder(new TitledBorder("Merch disponible"));
-		dtmMerch = new DefaultTableModel(new Object[] { "Nombre", "Precio" }, 0);
+		dtmMerch = new DefaultTableModel(new Object[] { "Nombre", "Creador", "Precio" }, 0);
 		tMerch = new JTable(dtmMerch);
 		panelTablaMerch.add(new JScrollPane(tMerch), BorderLayout.CENTER);
 		
@@ -214,7 +214,7 @@ public class DPanelTienda extends JPanel {
 			}
 		};*/
 		for (Merch merch : listMerch) {
-			dtmMerch.addRow( new Object[] { merch.getName(), merch.getPrice() + "$" } );
+			dtmMerch.addRow( new Object[] { merch.getName(), merch.getOwner(), merch.getPrice() + "$" } );
 		}
 		
 		// Info del elemento seleccionado

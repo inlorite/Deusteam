@@ -107,6 +107,7 @@ public class DBManager {
 		tables.add("CREATE TABLE IF NOT EXISTS MERCH (\n"
 					   + " ID_MERCH INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 					   + " NAME TEXT NOT NULL,\n"
+					   + " OWNER TEXT NOT NULL,\n"
 					   + " TYPE TEXT NOT NULL,\n"
 					   + " PRICE DECIMAL(5, 2)\n"
 					   + ");");
@@ -1260,15 +1261,15 @@ public class DBManager {
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
 		     Statement stmt = con.createStatement()) {
 			// SQL sentence is defined
-			String sql = "INSERT INTO MERCH (NAME, TYPE, PRICE) "
-					+ "VALUES ('%s', '%s', '%f');";
+			String sql = "INSERT INTO MERCH (NAME, OWNER, TYPE, PRICE) "
+					+ "VALUES ('%s', '%s', '%s', '%f');";
 			
 			System.out.println("- Adding merch...");
 			
 			// Info is added to the chart
 			for (Merch merch : merchlist) {
 				if (1 == stmt.executeUpdate(String.format(sql, merch.getName(),
-						merch.getType(), merch.getPrice()))) {					
+						merch.getOwner(), merch.getType(), merch.getPrice()))) {					
 					System.out.println(String.format(" - Merch added: %s", merch.toString()));
 				} else {
 					System.out.println(String.format(" - Merch could not be added: %s", merch.toString()));
@@ -1301,6 +1302,7 @@ public class DBManager {
 				
 				merch.setId(rs.getInt("ID_MERCH"));
 				merch.setName(rs.getString("NAME"));
+				merch.setOwner(rs.getString("OWNER"));
 				merch.setType(rs.getString("TYPE"));
 				merch.setPrice(rs.getInt("PRICE"));
 				
@@ -1364,6 +1366,7 @@ public class DBManager {
 			
 			merch.setId(rs.getInt("ID_MERCH"));
 			merch.setName(rs.getString("NAME"));
+			merch.setOwner(rs.getString("OWNER"));
 			merch.setType(rs.getString("TYPE"));
 			merch.setPrice(rs.getInt("PRICE"));
 			
@@ -1394,6 +1397,26 @@ public class DBManager {
 			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
+	}
+	
+	/** Updates the owner for a set merch in the MERCH chart
+	 * @param merch		Merch class object
+	 * @param owner		String of the owner
+	 */
+	public void updateMerchOwner(Merch merch, String owner) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "UPDATE MERCH SET OWNER = '%s' WHERE ID_MERCH = %d;";
+			
+			int result = stmt.executeUpdate(String.format(sql, owner, merch.getId()));
+			
+			System.out.println(String.format("- Merch owner updated", result));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			ex.printStackTrace();					
+		}	
 	}
 	
 	/** Updates the type for a set merch in the MERCH chart

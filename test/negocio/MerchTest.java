@@ -12,13 +12,14 @@ public class MerchTest {
 	private Merch merch2;
 	private int id = 0;
 	private String name = "name";
+	private String owner = "owner";
 	private MerchType type = MerchType.Soundtrack;
 	private double price = 0.0;
 
 	@Before
 	public void setUp() throws Exception {
-		merch = new Merch(id, name, type, price);
-		merch2 = new Merch(id, name, type, price);
+		merch = new Merch(id, name, owner, type, price);
+		merch2 = new Merch(id, name, owner, type, price);
 	}
 
 	@After
@@ -32,6 +33,7 @@ public class MerchTest {
 		assertNotNull(merch);
 		assertEquals(id, merch.getId());
 		assertEquals(name, merch.getName());
+		assertEquals(owner, merch.getOwner());
 		assertEquals(type, merch.getType());
 		assertEquals(price, merch.getPrice(),0.0);
 	}
@@ -60,6 +62,19 @@ public class MerchTest {
 		merch.setName(newName);
 		
 		assertEquals(newName, merch.getName());
+	}
+	
+	@Test
+	public void testGetOwner() {
+		assertEquals(owner, merch.getOwner());
+	}
+
+	@Test
+	public void testSetOwner() {
+		String newOwner= "owner2";
+		merch.setOwner(newOwner);
+		
+		assertEquals(newOwner, merch.getOwner());
 	}
 
 	@Test
@@ -108,7 +123,7 @@ public class MerchTest {
 	
 	@Test
 	public void testToString() {
-		String toString = "Merch [id=" + id + ", name=" + name + ", type=" + type + ", price=" + price + "]";
+		String toString = "Merch [id=" + id + ", name=" + name + ", owner=" + owner + ", type=" + type + ", price=" + price + "]";
 		
 		assertEquals(toString, merch.toString());
 	}

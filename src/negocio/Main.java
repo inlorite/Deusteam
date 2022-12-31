@@ -181,6 +181,7 @@ public class Main {
 		Merch merch = new Merch();
 		merch.setId(1);
 		merch.setName("Elden Ring Soundtrack");
+		merch.setOwner("Yeray");
 		merch.setPrice(6.0);
 		merch.setType(MerchType.Soundtrack);
 		merchList.add(merch);
@@ -188,6 +189,7 @@ public class Main {
 		merch = new Merch();
 		merch.setId(2);
 		merch.setName("Vampire Survivors Artbook");
+		merch.setOwner("Inigo");
 		merch.setPrice(10.0);
 		merch.setType(MerchType.Artbook);
 		merchList.add(merch);
@@ -195,6 +197,7 @@ public class Main {
 		merch = new Merch();
 		merch.setId(3);
 		merch.setName("Persona 5 Soundtrack");
+		merch.setOwner("Adrian");
 		merch.setPrice(15.0);
 		merch.setType(MerchType.Soundtrack);
 		merchList.add(merch);
@@ -202,6 +205,7 @@ public class Main {
 		merch = new Merch();
 		merch.setId(4);
 		merch.setName("Elden Ring Artbook");
+		merch.setOwner("Yeray");
 		merch.setPrice(10.0);
 		merch.setType(MerchType.Artbook);
 		merchList.add(merch);
