@@ -170,7 +170,7 @@ public class DPanelTienda extends JPanel {
 		panelInfo.add(panelTablaJuegos);
 		
 		List<Game> listJuegos = VLogin.dbManager.obtainDataGames();
-		
+		/*
 		ActionListener comprarJuegoListener = new ActionListener() {
 			
 			@Override
@@ -185,11 +185,9 @@ public class DPanelTienda extends JPanel {
 				revalidate();
 				repaint();
 			}
-		};
+		};*/
 		for (Game game : listJuegos) {
-			JButton bComprarJuego = new JButton(game.getPrice() + "$");
-			bComprarJuego.addActionListener(comprarJuegoListener);
-			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), bComprarJuego } );
+			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), game.getPrice() + "$" } );
 		}
 		
 		panelTablaMerch = new JPanel(new BorderLayout());
@@ -199,7 +197,7 @@ public class DPanelTienda extends JPanel {
 		panelTablaMerch.add(new JScrollPane(tMerch), BorderLayout.CENTER);
 		
 		List<Merch> listMerch = VLogin.dbManager.obtainDataMerch();
-		
+		/*
 		ActionListener comprarMerchListener = new ActionListener() {
 			
 			@Override
@@ -214,11 +212,9 @@ public class DPanelTienda extends JPanel {
 				revalidate();
 				repaint();
 			}
-		};
+		};*/
 		for (Merch merch : listMerch) {
-			JButton bComprarMerch = new JButton(merch.getPrice() + "$");
-			bComprarMerch.addActionListener(comprarMerchListener);
-			dtmMerch.addRow( new Object[] { merch.getName(), comprarMerchListener } );
+			dtmMerch.addRow( new Object[] { merch.getName(), merch.getPrice() + "$" } );
 		}
 		
 		// Info del elemento seleccionado
@@ -315,7 +311,7 @@ public class DPanelTienda extends JPanel {
 				String nombre = (String) table.getModel().getValueAt(row, 0);
 				Merch merch = listMerch.get(row);
 				
-				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
+				if (highlighted(merch, nombre)) {
 					resultado.setBackground(Color.PINK);
 				}
 				
@@ -673,6 +669,15 @@ public class DPanelTienda extends JPanel {
 		
 		return false;
 		
+	}
+	
+	public boolean highlighted(Merch merch, String nombre) {
+		
+		if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 }
