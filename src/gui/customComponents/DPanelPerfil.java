@@ -1,16 +1,17 @@
 package gui.customComponents;
 
 import java.awt.*;
-import java.lang.invoke.LambdaConversionException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import datos.DBManager;
 import gui.VDeusteam;
 import gui.VLogin;
-import negocio.User;
+import negocio.*;
 
 public class DPanelPerfil extends JPanel {
 
@@ -69,11 +70,74 @@ public class DPanelPerfil extends JPanel {
 	}
 	
 	public JPanel getCenterPerfilUsuario() {
-		JPanel panel = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
+		JPanel panel = new JPanel(new GridLayout(7,1));
+		JLabel lNombre = new JLabel();
+		JLabel lCountry = new JLabel();
+		JLabel lLast= new JLabel();
+		JLabel lTotal = new JLabel();
+		JLabel lFriends = new JLabel();
+		JLabel lGames = new JLabel();
+		JLabel lFavGen = new JLabel();
 		
 		panel.setBorder(new TitledBorder("Perfil"));
 		
-		JLabel lNombre = new JLabel();
+//		muestra el perfil propio si no se ha seleccionado ningun amigo
+		lNombre.setText("Nombre: " + VLogin.loggedUser.getUsername());
+		lCountry.setText("Pais: " + VLogin.loggedUser.getCountry());
+		lLast.setText("Ultima vez jugado: " + VLogin.loggedUser.getLastTimePlayed());
+		lTotal.setText("Total de horas jugadas: " + VLogin.loggedUser.getTotalTimePlayed());
+		lFriends.setText("Numero de amigos: " + VLogin.loggedUser.getFriends());
+		if (VLogin.loggedUser.getGames().isEmpty()) {
+			lGames.setText("NO HAS COMPRADO NINGUN JUEGO");
+			lFavGen.setText("NO SE PUEDE CALCULAR EL GENERO FAVORITO SIN HABER COMPRADO AL MENOS 1 JUEGO");
+		} else {
+			lGames.setText("Juegos comprados: " + VLogin.loggedUser.getGames());
+			lFavGen.setText("Genero favorito: " + generoFav(VLogin.loggedUser.getGames()));
+		}
+		
+//		muestra el perfil del amigo seleccionado
+		ListSelectionListener lsl = new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				
+				if (!e.getValueIsAdjusting()){
+					JList<User> list = (JList<User>) e.getSource();
+					
+					if (list.getSelectedIndex() > -1) {
+						User u = list.getSelectedValue();
+						
+						lNombre.setText("Nombre: " + u.getUsername());
+						lCountry.setText("Pais: " + u.getCountry());
+						lLast.setText("Ultima vez jugado: " + u.getLastTimePlayed());
+						lTotal.setText("Total de horas jugadas: " + u.getTotalTimePlayed());
+						lFriends.setText("Numero de amigos: " + u.getFriends());
+						
+						if (u.getGames().isEmpty()) {
+							lGames.setText(u.getUsername().toUpperCase() + " NO HA COMPRADO NINGUN JUEGO");
+							lFavGen.setText("NO SE PUEDE CALCULAR EL GENERO FAVORITO SIN HABER COMPRADO AL MENOS 1 JUEGO");
+						} else {
+							lGames.setText("Juegos comprados: " + u.getGames());
+							lFavGen.setText("Genero favorito: " + generoFav(u.getGames()));
+						}
+						
+						
+						revalidate();
+						repaint();
+					}
+				}
+			}
+		};
+		
+		listAmigos.addListSelectionListener(lsl);
+		
+		panel.add(lNombre);
+		panel.add(lCountry);
+		panel.add(lLast);
+		panel.add(lTotal);
+		panel.add(lFriends);
+		panel.add(lGames);
+		panel.add(lFavGen);
 		
 		return panel;
 	}
@@ -87,6 +151,30 @@ public class DPanelPerfil extends JPanel {
 			dlmAmigos.addElement(VLogin.dbManager.getUser(friend));
 		}
 		
+	}
+	
+	public GameGenre generoFav(ArrayList<Game> list) {
+		HashMap<GameGenre, Integer> mapa = new HashMap<>();
+		GameGenre fGenre = list.get(0).getGenre1();
+		for (int i = 0; i < list.size(); i++) {
+			
+			if (mapa.keySet().contains(list.get(i).getGenre1())) {
+				mapa.put(list.get(i).getGenre1(), mapa.get(list.get(i).getGenre1())+1);
+			} else {
+				mapa.put(list.get(i).getGenre1(), 1);
+			}
+			if (mapa.keySet().contains(list.get(i).getGenre2())) {
+				mapa.put(list.get(i).getGenre2(), mapa.get(list.get(i).getGenre2())+1);
+			} else {
+				mapa.put(list.get(i).getGenre2(), 1);
+			}
+		}
+		for (GameGenre genre : mapa.keySet()) {
+			if (mapa.get(genre) >= mapa.get(fGenre)) {
+				fGenre = genre;
+			}
+		}
+		return fGenre;
 	}
 	
 }
