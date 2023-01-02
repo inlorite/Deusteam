@@ -72,7 +72,6 @@ public class VRecomendar extends JFrame {
 	}
 	
 	public static List<List<Game>> combinaciones(List<Game> elementos, double importe) {
-
     	List<List<Game>> result = new ArrayList<>();
 
     	combinacionesGames(result, elementos, importe, new ArrayList<>());
@@ -82,26 +81,27 @@ public class VRecomendar extends JFrame {
 	
 	public static void combinacionesGames(List<List<Game>> result, List<Game> elementos, double importe, List<Game> temp) {
 		if (importe <= 0) {
-			if (!result.contains(temp) && !temp.isEmpty()) {
-				result.add(new ArrayList<>(temp));
-			}
-			
-			return;
-		} else {
-			System.out.println(importe);
-			for (Game g : elementos) {
-				if (g.getPrice() <= importe) {
-					if (!temp.contains(g)) {
-						temp.add(g);
-						combinacionesGames(result, elementos, importe - g.getPrice(), temp);
-						temp.remove(temp.size() - 1);
-					}
+			if (!temp.isEmpty()) {
+				List<Game> newList = new ArrayList<>(temp);
+				
+				if (importe < 0) {
+					newList.remove(newList.size() - 1);
+				}
+				
+				Collections.sort(newList);
+				
+				if (!result.contains(newList)) {
+					result.add(newList);
 				}
 			}
-		}
-
-		if (!temp.isEmpty()) {
-			result.add(new ArrayList<>(temp));
+		} else {
+			for (Game g : elementos) {
+				if (!temp.contains(g)) {
+					temp.add(g);
+					combinacionesGames(result, elementos, importe - g.getPrice(), temp);
+					temp.remove(temp.size() - 1);
+				}
+			}
 		}
 	}
 	
@@ -112,7 +112,7 @@ public class VRecomendar extends JFrame {
 			result += game.getName() + ", ";
 		}
 		
-		return result;
+		return result.substring(0, result.length()-2);
 	}
 
 }
