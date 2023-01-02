@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 import gui.VDeusteam;
 import gui.VLogin;
+import gui.VRecomendar;
 import gui.VSaldo;
 import negocio.Game;
 import negocio.GameGenre;
@@ -42,17 +43,17 @@ public class DPanelTienda extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	// West Selector
-	protected JTextField tBuscador;
-	protected JComboBox<GameGenre> cCat1;
-	protected DefaultComboBoxModel<GameGenre> dcmCat1;
-	protected JComboBox<GameGenre> cCat2;
-	protected DefaultComboBoxModel<GameGenre> dcmCat2;
-	protected JComboBox<MerchType> cCatMerch;
-	protected DefaultComboBoxModel<MerchType> dcmCatMerch;
-	protected JComboBox<Pegi> cPegi;
-	protected DefaultComboBoxModel<Pegi> dcmPegi;
-	protected JCheckBox cbPosesion;
-	protected JPanel panelCategoria;
+	protected static JTextField tBuscador;
+	protected static JComboBox<GameGenre> cCat1;
+	protected static DefaultComboBoxModel<GameGenre> dcmCat1;
+	protected static JComboBox<GameGenre> cCat2;
+	protected static DefaultComboBoxModel<GameGenre> dcmCat2;
+	protected static JComboBox<MerchType> cCatMerch;
+	protected static DefaultComboBoxModel<MerchType> dcmCatMerch;
+	protected static JComboBox<Pegi> cPegi;
+	protected static DefaultComboBoxModel<Pegi> dcmPegi;
+	protected static JCheckBox cbPosesion;
+	protected static JPanel panelCategoria;
 		
 	// Center Info Juego
 	protected static DefaultTableModel dtmJuegos;
@@ -69,6 +70,9 @@ public class DPanelTienda extends JPanel {
 	protected JLabel lBanner;
 	protected JLabel lInfo;
 	protected JPanel panelDatos;
+	
+	public static List<Game> listJuegos;
+	public static List<Merch> listMerch;
 	
 	public DPanelTienda() {
 		super();
@@ -169,7 +173,7 @@ public class DPanelTienda extends JPanel {
 		panelTablaJuegos.add(new JScrollPane(tJuegos), BorderLayout.CENTER);
 		panelInfo.add(panelTablaJuegos);
 		
-		List<Game> listJuegos = VLogin.dbManager.obtainDataGames();
+		listJuegos = VLogin.dbManager.obtainDataGames();
 		/*
 		ActionListener comprarJuegoListener = new ActionListener() {
 			
@@ -196,7 +200,7 @@ public class DPanelTienda extends JPanel {
 		tMerch = new JTable(dtmMerch);
 		panelTablaMerch.add(new JScrollPane(tMerch), BorderLayout.CENTER);
 		
-		List<Merch> listMerch = VLogin.dbManager.obtainDataMerch();
+		listMerch = VLogin.dbManager.obtainDataMerch();
 		/*
 		ActionListener comprarMerchListener = new ActionListener() {
 			
@@ -433,15 +437,8 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Game> lista = new ArrayList<>();
 				
-				for (Game game : listJuegos) {
-					if (highlighted(game, game.getName())) {
-						lista.add(game);
-					}
-				}
-				
-				//recomendar(lista);
+				VRecomendar v = new VRecomendar();
 			}
 		});
 		
@@ -517,7 +514,7 @@ public class DPanelTienda extends JPanel {
 		return panel;
 	}
 	
-	public boolean highlighted(Game game, String nombre) {
+	public static boolean highlighted(Game game, String nombre) {
 		
 		if (cbPosesion.isSelected()) {
 			
@@ -671,7 +668,7 @@ public class DPanelTienda extends JPanel {
 		
 	}
 	
-	public boolean highlighted(Merch merch, String nombre) {
+	public static boolean highlighted(Merch merch, String nombre) {
 		
 		if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
 			return true;
