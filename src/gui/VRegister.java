@@ -30,6 +30,7 @@ public class VRegister extends JFrame{
 	JPasswordField tfPassword;
 	JPasswordField tfPasswordConfirm;
 	JButton bRegister;
+	JButton bBack;
 	JComboBox<Country> cbCountry;
 
 	public VRegister(DBManager dbmanager) {
@@ -50,6 +51,9 @@ public class VRegister extends JFrame{
 		pData.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		pData.setBackground(new Color(255, 255, 255));
 		
+		pButton = new JPanel();
+		pButton.setLayout(new GridLayout(1, 3));
+		
 		pData.add(new JLabel("Username: "));
 		tfUser = new JTextField();
 		pData.add(tfUser);
@@ -64,9 +68,13 @@ public class VRegister extends JFrame{
 		pData.add(tfPassword);
 		pData.add(new JLabel("Password verification: "));
 		tfPasswordConfirm = new JPasswordField();
-		pData.add(tfPasswordConfirm);
+		pData.add(tfPasswordConfirm);	
+		bBack = new JButton("Back");
+		pButton.add(bBack);
+		pButton.add(new JLabel(" "));
 		bRegister = new JButton("Register");
-		pData.add(bRegister);
+		pButton.add(bRegister);
+		pData.add(pButton);
 		cp.add(pData);
 		
 		this.setTitle("Deusteam Login");
@@ -115,6 +123,15 @@ public class VRegister extends JFrame{
 					
 				
 					
+				
+			}
+		});
+		bBack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VLogin.vRegister.setVisible(false);
+				VLogin.vLogin.setVisible(true);
 				
 			}
 		});
