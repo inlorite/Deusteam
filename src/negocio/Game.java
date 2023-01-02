@@ -3,7 +3,7 @@ package negocio;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Game implements Serializable {
+public class Game implements Serializable, Comparable<Game> {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -165,6 +165,11 @@ public class Game implements Serializable {
 	//	"Juego [id=" + id + ", name=" + name + ", owner=" + owner + ", pegi=" + pegi + ", genre1="
 	//	+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
 	//	+ imgLink + "]";
+	}
+
+	@Override
+	public int compareTo(Game o) {
+		return this.id - o.id;
 	}
 
 }

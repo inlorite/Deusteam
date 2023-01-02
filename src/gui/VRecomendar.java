@@ -94,17 +94,15 @@ public class VRecomendar extends JFrame {
 					if (!temp.contains(g)) {
 						temp.add(g);
 						combinacionesGames(result, elementos, importe - g.getPrice(), temp);
+						temp.remove(temp.size() - 1);
 					}
 				}
-//				if (g.getPrice() <= importe) {
-//					if (!temp.contains(g)) {
-//						temp.remove(temp.size() - 1);
-//					}
-//				}
 			}
 		}
-		
-		//result.add(temp);
+
+		if (!temp.isEmpty()) {
+			result.add(new ArrayList<>(temp));
+		}
 	}
 	
 	public String getNombresJuegos(List<Game> listaJuegos) {
@@ -114,7 +112,7 @@ public class VRecomendar extends JFrame {
 			result += game.getName() + ", ";
 		}
 		
-		return result.substring(0, result.length()-2);
+		return result;
 	}
 
 }
