@@ -26,12 +26,13 @@ public class VCrear extends JFrame{
 	ImageIcon iiLogo;
 	
 	JPanel pData;
-	JPanel pButton;
+	JPanel pDescription;
 	JLabel lID;
 	JTextField tfNombre;
 	JLabel lPropietario;
-	JPasswordField tfPassword;
-	JPasswordField tfPasswordConfirm;
+	JTextField tfPrecio;
+	JTextField tfDescription;
+	JTextField tfImglink;
 	JButton bRegister;
 	JButton bBack;
 	JComboBox<Pegi> cbPegi;
@@ -45,52 +46,56 @@ public class VCrear extends JFrame{
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		
+		this.setMinimumSize(new Dimension(800, 600));
 		// LOGO
 		iiLogo = new ImageIcon("data/logo.png");
 		lLogo = new JLabel(iiLogo);
 		cp.add(lLogo, BorderLayout.NORTH);
-		
+		cp.setBackground(new Color(255,255,255));
 		// FORM
 		pData = new JPanel();
-		pData.setLayout(new GridLayout(11, 1, 5, 10));
+		pData.setLayout(new GridLayout(6, 3, 5, 10));
 		pData.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		pData.setBackground(new Color(255, 255, 255));
 		
-		pButton = new JPanel();
-		pButton.setLayout(new GridLayout(1, 3));
+		pDescription = new JPanel();
+		pDescription.setLayout(new GridLayout(2, 1));
 		
 		pData.add(new JLabel("ID: "));
+		pData.add(new JLabel("Nombre: "));
+		pData.add(new JLabel("Propietario: "));
 		lID = new JLabel(" ");
 		int temp = dbmanager.obtainDataGames().size() + 1;
 		lID.setText(String.valueOf(temp));
-		pData.add(lID);
-		pData.add(new JLabel("Nombre: "));
+		pData.add(lID);		
 		tfNombre = new JTextField();
-		pData.add(tfNombre);
-		pData.add(new JLabel("Propietario: "));
+		pData.add(tfNombre);		
 		lPropietario = new JLabel(" ");
 		lPropietario.setText(VLogin.loggedUser.getUsername());
 		pData.add(lPropietario);
 		pData.add(new JLabel("Pegi: "));
-		cbPegi = new JComboBox<Pegi>(Pegi.values());
-		pData.add(cbPegi);
 		pData.add(new JLabel("Genre1: "));
-		cbGenre1 = new JComboBox<GameGenre>(GameGenre.values());
-		pData.add(cbGenre1);
 		pData.add(new JLabel("Genre2: "));
+		cbPegi = new JComboBox<Pegi>(Pegi.values());
+		pData.add(cbPegi);		
+		cbGenre1 = new JComboBox<GameGenre>(GameGenre.values());
+		pData.add(cbGenre1);		
 		cbGenre2 = new JComboBox<GameGenre>(GameGenre.values());
 		pData.add(cbGenre2);
 		pData.add(new JLabel("Precio: "));
+		pData.add(new JLabel("Descripcion: "));
+		pData.add(new JLabel("imgLink: "));
+		tfPrecio = new JTextField();
+		pData.add(tfPrecio);
+		tfDescription = new JTextField();
+		pData.add(tfDescription);
+		tfImglink = new JTextField();
+		pData.add(tfImglink);
 		
-		bBack = new JButton("Back");
-		pButton.add(bBack);
-		pButton.add(new JLabel(" "));
-		bRegister = new JButton("Register");
-		pButton.add(bRegister);
-		pData.add(pButton);
 		cp.add(pData);
 		
-		this.setTitle("Deusteam Login");
+		
+		this.setTitle("Deusteam Games");
 		this.pack();
 		this.setLocationRelativeTo(null); // centers window on execution
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

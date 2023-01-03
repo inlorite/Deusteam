@@ -11,8 +11,10 @@ import javax.swing.border.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import gui.VCrear;
 import gui.VDeusteam;
 import gui.VLogin;
+import gui.VRecomendar;
 import negocio.*;
 
 public class DPanelPerfil extends JPanel {
@@ -69,7 +71,7 @@ public class DPanelPerfil extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+					VCrear v = new VCrear(VLogin.dbManager);
 					
 				}
 			});
