@@ -316,8 +316,8 @@ public class DBManager {
 			System.out.println(String.format("- Game retrieved"));
 			return game;
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error retrieving game data: %s", ex.getMessage()));
-			ex.printStackTrace();
+			//System.err.println(String.format("* Error retrieving game data: %s", ex.getMessage()));
+			//ex.printStackTrace();
 			return null;
 		}
 	}
@@ -648,8 +648,8 @@ public class DBManager {
 			System.out.println(String.format("- User retrieved"));
 			return user;
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
-			ex.printStackTrace();
+			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//ex.printStackTrace();
 			return null;
 		}
 	}
@@ -684,8 +684,8 @@ public class DBManager {
 			System.out.println(String.format("- User retrieved"));
 			return user;
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
-			ex.printStackTrace();
+			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//ex.printStackTrace();
 			return null;
 		}
 	}
@@ -1373,8 +1373,8 @@ public class DBManager {
 			System.out.println(String.format("- User retrieved"));
 			return merch;
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
-			ex.printStackTrace();
+			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//ex.printStackTrace();
 			return null;
 		}
 	}

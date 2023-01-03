@@ -130,9 +130,8 @@ public class VCrear extends JFrame{
 				GameGenre genre2 = (GameGenre) cbGenre2.getSelectedItem();
 				String precio = tfPrecio.getText();
 				String descripcion = tfDescription.getText();
-				String imglink = tfImglink.getText();
-				Game gameVerification = VLogin.dbManager.getGame(nombre);
-				if(gameVerification != null) {
+				String imglink = tfImglink.getText();				
+				if(VLogin.dbManager.getGame(nombre) != null) {
 					JOptionPane.showMessageDialog(null, "Nombre ocupado");	
 				} 
 				Game game = new Game();
