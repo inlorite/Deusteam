@@ -479,41 +479,24 @@ public class DPanelTienda extends JPanel {
 			}
 		});
 		
-		cCat1.addActionListener(new ActionListener() {
+		ActionListener listenerSearch = new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				revalidate();
 				repaint();
 			}
-		});
+		};
 		
-		cCat2.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				revalidate();
-				repaint();
-			}
-		});
+		cCat1.addActionListener(listenerSearch);
+		
+		cCat2.addActionListener(listenerSearch);
 
-		cPegi.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				revalidate();
-				repaint();
-			}
-		});
+		cPegi.addActionListener(listenerSearch);
 		
-		cbPosesion.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				revalidate();
-				repaint();
-			}
-		});
+		cCatMerch.addActionListener(listenerSearch);
+		
+		cbPosesion.addActionListener(listenerSearch);
 		
 		return panel;
 	}
@@ -528,7 +511,7 @@ public class DPanelTienda extends JPanel {
 		
 		if (cbPosesion.isSelected()) {
 			
-			boolean isProperty = VLogin.dbManager.isPropertyOfUser(VLogin.loggedUser.getId(), game.getId());
+			boolean isProperty = VLogin.dbManager.isGamePropertyOfUser(VLogin.loggedUser.getId(), game.getId());
 			
 			if (!tBuscador.getText().equals("")) {
 				
@@ -686,8 +669,32 @@ public class DPanelTienda extends JPanel {
 	 */
 	public static boolean highlighted(Merch merch, String nombre) {
 		
-		if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
-			return true;
+		if (cbPosesion.isSelected()) {
+			
+			if (cCatMerch.getSelectedItem().equals(MerchType.NULL)) {
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
+					return true && !VLogin.dbManager.isMerchPropertyOfUser(VLogin.loggedUser.getId(), merch.getId());
+				}
+			} else {
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
+					return true && !VLogin.dbManager.isMerchPropertyOfUser(VLogin.loggedUser.getId(), merch.getId()) && cCatMerch.getSelectedItem().equals(merch.getType());
+				}
+			}
+			
+		} else {
+			
+			if (cCatMerch.getSelectedItem().equals(MerchType.NULL)) {
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
+					return true;
+				}
+			} else {
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("") && cCatMerch.getSelectedItem().equals(merch.getType())) {
+					return true;
+				} else if (tBuscador.getText().equals("") && cCatMerch.getSelectedItem().equals(merch.getType())) {
+					return true;
+				}
+			}
+			
 		}
 		
 		return false;

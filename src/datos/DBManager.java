@@ -1066,7 +1066,7 @@ public class DBManager {
 	 * 
 	 * @return boolean
 	 */
-	public boolean isPropertyOfUser(Integer id_user, Integer id_game) {
+	public boolean isGamePropertyOfUser(Integer id_user, Integer id_game) {
 		
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
@@ -1523,6 +1523,39 @@ public class DBManager {
 		}		
 		
 		return userMerch;
+	}
+	
+	/** Returns true if the user posseses the merch
+	 * @param id_user		Integer of the user id
+	 * @param id_merch		Integer of the merch id
+	 * 
+	 * @return boolean
+	 */
+	public boolean isMerchPropertyOfUser(Integer id_user, Integer id_merch) {
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM PROPERTY_MERCH WHERE ID_USER = " + id_user + " AND ID_MERCH = " + id_merch + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding Games to map
+			if (rs.next()) {
+				return true;
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- User (%d)'s merch retrieved...", id_user));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return false;
 	}
 	
 }
