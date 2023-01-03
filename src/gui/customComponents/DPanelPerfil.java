@@ -123,7 +123,16 @@ public class DPanelPerfil extends JPanel {
 		lCountry.setText("Pais: " + VLogin.loggedUser.getCountry());
 		lLast.setText("Ultima vez jugado: " + VLogin.loggedUser.getLastTimePlayed());
 		lTotal.setText("Total de horas jugadas: " + VLogin.loggedUser.getTotalTimePlayed());
-		lFriends.setText("Numero de amigos: " + VLogin.loggedUser.getFriends());
+		
+		String amigos = "";
+        for (Integer i : VLogin.loggedUser.getFriends()) {
+            User u = VLogin.dbManager.getUser(i);
+            amigos += u.getUsername() + ", ";
+        }
+        amigos = amigos.substring(0, amigos.length()-2);
+
+        lFriends.setText("Numero de amigos: " + amigos);
+        
 		if (VLogin.loggedUser.getGames().isEmpty()) {
 			lGames.setText("NO HAS COMPRADO NINGUN JUEGO");
 			lFavGen.setText("NO SE PUEDE CALCULAR EL GENERO FAVORITO SIN HABER COMPRADO AL MENOS 1 JUEGO");
@@ -148,7 +157,14 @@ public class DPanelPerfil extends JPanel {
 						lCountry.setText("Pais: " + u.getCountry());
 						lLast.setText("Ultima vez jugado: " + u.getLastTimePlayed());
 						lTotal.setText("Total de horas jugadas: " + u.getTotalTimePlayed());
-						lFriends.setText("Numero de amigos: " + u.getFriends());
+						String amigos = "";
+				        for (Integer i : u.getFriends()) {
+				            User user = VLogin.dbManager.getUser(i);
+				            amigos += user.getUsername() + ", ";
+				        }
+				        amigos = amigos.substring(0, amigos.length()-2);
+
+				        lFriends.setText("Amigos: " + amigos);
 						
 						if (u.getGames().isEmpty()) {
 							lGames.setText(u.getUsername().toUpperCase() + " NO HA COMPRADO NINGUN JUEGO");
