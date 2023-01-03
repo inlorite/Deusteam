@@ -43,6 +43,7 @@ public class DMenuBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				DPanelBiblioteca.loadDataModels();
 				VDeusteam.cl.show(VDeusteam.mainPanel, "BIBLIOTECA");
 				VLogin.vDeusteam.setTitle("Deusteam - Biblioteca");
 			}
@@ -52,6 +53,7 @@ public class DMenuBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				DPanelTienda.loadTablaJuegos();
 				VDeusteam.cl.show(VDeusteam.mainPanel, "TIENDA");
 				VLogin.vDeusteam.setTitle("Deusteam - Tienda");
 			}

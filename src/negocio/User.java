@@ -193,6 +193,8 @@ public class User implements Serializable {
 //		+ ", country=" + country + ", lastTimePlayed=" + lastTimePlayed + ", totalTimePlayed=" + totalTimePlayed
 //		+ ", balance=" + balance + ", friends=" + friends + ", games=" + games + "]";
 	}
-
+	public void addGame(Game game) {
+		this.games.add(game);
+	}
 	
 }

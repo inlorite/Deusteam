@@ -25,9 +25,9 @@ public class DPanelBiblioteca extends JPanel {
 	
 	// West Lista Juegos
 	protected JList<Game> lJuegosInstalados;
-	protected DefaultListModel<Game> dlmJuegosInstalados;
+	protected static DefaultListModel<Game> dlmJuegosInstalados;
 	protected JList<Game> lJuegosDisponibles;
-	protected DefaultListModel<Game> dlmJuegosDisponibles;
+	protected static DefaultListModel<Game> dlmJuegosDisponibles;
 	protected JList<Game> selectedList;
 	
 	// Center Info Juego
@@ -197,7 +197,7 @@ public class DPanelBiblioteca extends JPanel {
 		return panel;
 	}
 	
-	public void loadDataModels() {
+	public static void loadDataModels() {
 		dlmJuegosInstalados.clear();
 		dlmJuegosDisponibles.clear();
 		

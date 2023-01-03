@@ -190,9 +190,8 @@ public class DPanelTienda extends JPanel {
 				repaint();
 			}
 		};*/
-		for (Game game : listJuegos) {
-			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), game.getPrice() + "$" } );
-		}
+		loadTablaJuegos();
+		
 		
 		panelTablaMerch = new JPanel(new BorderLayout());
 		panelTablaMerch.setBorder(new TitledBorder("Merch disponible"));
@@ -421,7 +420,9 @@ public class DPanelTienda extends JPanel {
 				if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
 					if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
 						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listJuegos.get(tJuegos.getSelectedRow()).getPrice());
-						//VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
+						VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
+						VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, listJuegos.get(tJuegos.getSelectedRow()));
+						
 					}
 				} else if (listMerch.get(tMerch.getSelectedRow()) != null) {
 					if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
@@ -698,6 +699,16 @@ public class DPanelTienda extends JPanel {
 		}
 		
 		return false;
+	}
+	
+	public static void loadTablaJuegos() {
+		dtmJuegos.setRowCount(0);
+		listJuegos = VLogin.dbManager.obtainDataGames();
+		
+		for (Game game : listJuegos) {
+			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), game.getPrice() + "$" } );
+		}
+		
 	}
 	
 }

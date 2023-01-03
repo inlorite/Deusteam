@@ -104,7 +104,7 @@ public class VCrear extends JFrame{
 		this.setTitle("Deusteam Games");
 		this.pack();
 		this.setLocationRelativeTo(null); // centers window on execution
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
 		
