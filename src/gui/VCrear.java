@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import datos.DBManager;
+import gui.customComponents.DPanelPerfil;
 import negocio.Country;
 import negocio.Game;
 import negocio.GameGenre;
@@ -26,14 +27,14 @@ public class VCrear extends JFrame{
 	ImageIcon iiLogo;
 	
 	JPanel pData;
-	JPanel pDescription;
+	JPanel pButton;
 	JLabel lID;
 	JTextField tfNombre;
 	JLabel lPropietario;
 	JTextField tfPrecio;
 	JTextField tfDescription;
 	JTextField tfImglink;
-	JButton bRegister;
+	JButton bAceptar;
 	JButton bBack;
 	JComboBox<Pegi> cbPegi;
 	JComboBox<GameGenre> cbGenre1;
@@ -58,8 +59,8 @@ public class VCrear extends JFrame{
 		pData.setBorder(new EmptyBorder(new Insets(10, 10, 10, 10)));
 		pData.setBackground(new Color(255, 255, 255));
 		
-		pDescription = new JPanel();
-		pDescription.setLayout(new GridLayout(2, 1));
+		pButton = new JPanel();
+		pButton.setLayout(new GridLayout(1, 2));
 		
 		pData.add(new JLabel("ID: "));
 		pData.add(new JLabel("Nombre: "));
@@ -91,8 +92,13 @@ public class VCrear extends JFrame{
 		pData.add(tfDescription);
 		tfImglink = new JTextField();
 		pData.add(tfImglink);
-		
+		bAceptar = new JButton("Aceptar");
+		bBack = new JButton("Volver");
+		pButton.add(bBack);
+		pButton.add(bAceptar);
+			
 		cp.add(pData);
+		cp.add(pButton, BorderLayout.SOUTH);
 		
 		
 		this.setTitle("Deusteam Games");
@@ -101,6 +107,60 @@ public class VCrear extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.setVisible(true);
+		
+		
+		bBack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DPanelPerfil.vCrear.setVisible(false);
+				
+			}
+		});
+		
+		bAceptar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String id = lID.getText();
+				String nombre = tfNombre.getText();
+				String propietario = lPropietario.getText();
+				Pegi pegi = (Pegi) cbPegi.getSelectedItem();
+				GameGenre genre1 = (GameGenre) cbGenre1.getSelectedItem();
+				GameGenre genre2 = (GameGenre) cbGenre2.getSelectedItem();
+				String precio = tfPrecio.getText();
+				String descripcion = tfDescription.getText();
+				String imglink = tfImglink.getText();
+				Game gameVerification = VLogin.dbManager.getGame(nombre);
+				if(gameVerification != null) {
+					JOptionPane.showMessageDialog(null, "Nombre ocupado");	
+				} 
+				Game game = new Game();
+				game.setId(Integer.parseInt(id));
+				game.setName(nombre);
+				game.setOwner(propietario);
+				game.setPegi(pegi);
+				game.setGenre1(genre1);
+				game.setGenre2(genre2);
+				try
+				{
+					game.setPrice(Double.parseDouble(precio));
+				}
+				catch(NumberFormatException e1)
+				{
+					JOptionPane.showMessageDialog(null, "Precio incorrecto");
+				}
+				game.setDescription(descripcion);
+				game.setImgLink(imglink);
+				VLogin.dbManager.insertDataGames(game);
+				
+				for (Game g : VLogin.dbManager.obtainDataGames()) {
+					System.out.println(g);
+				}
+				DPanelPerfil.vCrear.setVisible(false);
+				
+			}
+		});
 		
 	}
 

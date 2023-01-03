@@ -35,6 +35,8 @@ public class DPanelPerfil extends JPanel {
 	protected JButton bEditar = new JButton("Editar");
 	protected JButton bCrear = new JButton("Crear");
 	protected JButton bBorrar = new JButton("Borrar");
+	
+	public static VCrear vCrear;
 
 	public DPanelPerfil() {
 		super();
@@ -71,7 +73,7 @@ public class DPanelPerfil extends JPanel {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					VCrear v = new VCrear(VLogin.dbManager);
+					vCrear = new VCrear(VLogin.dbManager);
 					
 				}
 			});
