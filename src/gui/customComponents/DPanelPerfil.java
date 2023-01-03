@@ -1,6 +1,8 @@
 package gui.customComponents;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,6 +29,11 @@ public class DPanelPerfil extends JPanel {
 	// Center Perfil Usuario
 	protected JLabel lPerfil;
 	
+	//Botones modificar
+	protected JButton bEditar = new JButton("Editar");
+	protected JButton bCrear = new JButton("Crear");
+	protected JButton bBorrar = new JButton("Borrar");
+
 	public DPanelPerfil() {
 		super();
 		
@@ -39,9 +46,35 @@ public class DPanelPerfil extends JPanel {
 		
 		JPanel pListaAmigos = getWestListaAmigos();
 		JPanel pInfoUsuario = getCenterPerfilUsuario();
+		JPanel pBotones = getSouthBotones();
 		
 		this.add(pListaAmigos, BorderLayout.WEST);
 		this.add(pInfoUsuario, BorderLayout.CENTER);
+		this.add(pBotones, BorderLayout.SOUTH);
+	}
+	
+	public JPanel getSouthBotones() {
+		JPanel panel = new JPanel(new GridLayout(2,1)); // modificar
+		JPanel pBoton = new JPanel(new GridLayout(1,3));
+		 JLabel lTitulo = new JLabel("Modificacion juegos: ");
+		 
+		 pBoton.add(bBorrar);
+		 pBoton.add(bCrear);
+		 pBoton.add(bEditar);
+		 
+		 panel.add(lTitulo, BorderLayout.NORTH);
+		 panel.add(pBoton, BorderLayout.CENTER);
+		 
+		 bCrear.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					
+				}
+			});
+		
+		return panel;
 	}
 	
 	public JPanel getWestListaAmigos() {
@@ -176,5 +209,6 @@ public class DPanelPerfil extends JPanel {
 		}
 		return fGenre;
 	}
+	
 	
 }
