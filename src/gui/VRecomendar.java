@@ -18,6 +18,8 @@ public class VRecomendar extends JFrame {
 	JTable tRecomendado;
 	DefaultTableModel dtmRecomendado;
 	
+	public static boolean modo = true;
+	
 	public VRecomendar() {
 		
 		JPanel cp = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
@@ -44,19 +46,36 @@ public class VRecomendar extends JFrame {
 		
 		dtmRecomendado = new DefaultTableModel(new Object[] { "Combinacion" }, 0);
 		
-		ArrayList<Game> lista = new ArrayList<>();
-		
-		for (Game game : DPanelTienda.listJuegos) {
-//			if (DPanelTienda.highlighted(game, game.getName())) {
-				lista.add(game);
-//			}
-		}
-		
-		List<List<Game>> listaCombinaciones = combinaciones(lista, VLogin.loggedUser.getBalance());
-		
-		for (List<Game> list : listaCombinaciones) {
-			String nombres = getNombresJuegos(list);
-			dtmRecomendado.addRow(new Object[] {nombres});
+		if (modo) {
+			ArrayList<Game> lista = new ArrayList<>();
+			
+			for (Game game : DPanelTienda.listJuegos) {
+				//if (DPanelTienda.highlighted(game, (String) DPanelTienda.tJuegos.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(game), 0))) {
+					lista.add(game);
+				//}
+			}
+			
+			List<List<Game>> listaCombinaciones = combinacionesGames(lista, VLogin.loggedUser.getBalance());
+			
+			for (List<Game> list : listaCombinaciones) {
+				String nombres = getNombresJuegos(list);
+				dtmRecomendado.addRow(new Object[] {nombres});
+			}
+		} else {
+			ArrayList<Merch> lista = new ArrayList<>();
+			
+			for (Merch merch : DPanelTienda.listMerch) {
+				//if (DPanelTienda.highlighted(merch, (String) DPanelTienda.tMerch.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(merch), 0))) {
+					lista.add(merch);
+				//}
+			}
+						
+			List<List<Merch>> listaCombinaciones = combinacionesMerch(lista, VLogin.loggedUser.getBalance());
+						
+			for (List<Merch> list : listaCombinaciones) {
+				String nombres = getNombresMerch(list);
+				dtmRecomendado.addRow(new Object[] {nombres});
+			}
 		}
 		
 		tRecomendado = new JTable(dtmRecomendado);
@@ -71,10 +90,18 @@ public class VRecomendar extends JFrame {
 		return panel;
 	}
 	
-	public static List<List<Game>> combinaciones(List<Game> elementos, double importe) {
+	public static List<List<Game>> combinacionesGames(List<Game> elementos, double importe) {
     	List<List<Game>> result = new ArrayList<>();
 
     	combinacionesGames(result, elementos, importe, new ArrayList<>());
+    	
+    	return result;
+    }
+	
+	public static List<List<Merch>> combinacionesMerch(List<Merch> elementos, double importe) {
+    	List<List<Merch>> result = new ArrayList<>();
+
+    	combinacionesMerch(result, elementos, importe, new ArrayList<>());
     	
     	return result;
     }
@@ -105,11 +132,47 @@ public class VRecomendar extends JFrame {
 		}
 	}
 	
+	public static void combinacionesMerch(List<List<Merch>> result, List<Merch> elementos, double importe, List<Merch> temp) {
+		if (importe <= 0) {
+			if (!temp.isEmpty()) {
+				List<Merch> newList = new ArrayList<>(temp);
+				
+				if (importe < 0) {
+					newList.remove(newList.size() - 1);
+				}
+				
+				Collections.sort(newList);
+				
+				if (!result.contains(newList)) {
+					result.add(newList);
+				}
+			}
+		} else {
+			for (Merch m : elementos) {
+				if (!temp.contains(m)) {
+					temp.add(m);
+					combinacionesMerch(result, elementos, importe - m.getPrice(), temp);
+					temp.remove(temp.size() - 1);
+				}
+			}
+		}
+	}
+	
 	public String getNombresJuegos(List<Game> listaJuegos) {
 		String result = "";
 		
 		for (Game game : listaJuegos) {
 			result += game.getName() + ", ";
+		}
+		
+		return result.substring(0, result.length()-2);
+	}
+	
+	public String getNombresMerch(List<Merch> listaMerch) {
+		String result = "";
+		
+		for (Merch merch : listaMerch) {
+			result += merch.getName() + ", ";
 		}
 		
 		return result.substring(0, result.length()-2);

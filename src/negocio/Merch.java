@@ -2,7 +2,7 @@ package negocio;
 
 import java.util.Objects;
 
-public class Merch {
+public class Merch implements Comparable<Merch> {
 
 	protected int id;
 	protected String name;
@@ -103,6 +103,11 @@ public class Merch {
 	@Override
 	public String toString() {
 		return "Merch [id=" + id + ", name=" + name + ", owner=" + owner + ", type=" + type + ", price=" + price + "]";
+	}
+
+	@Override
+	public int compareTo(Merch o) {
+		return this.id - o.id;
 	}
 	
 }

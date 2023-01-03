@@ -56,12 +56,12 @@ public class DPanelTienda extends JPanel {
 	protected static JPanel panelCategoria;
 		
 	// Center Info Juego
-	protected static DefaultTableModel dtmJuegos;
-	protected static JTable tJuegos;
-	protected static JPanel panelTablaJuegos;
-	protected static DefaultTableModel dtmMerch;
-	protected static JTable tMerch;
-	protected static JPanel panelTablaMerch;
+	public static DefaultTableModel dtmJuegos;
+	public static JTable tJuegos;
+	public static JPanel panelTablaJuegos;
+	public static DefaultTableModel dtmMerch;
+	public static JTable tMerch;
+	public static JPanel panelTablaMerch;
 	public static JButton bSaldo;
 	protected JButton bRecomendar;
 	protected JButton bComprar;
@@ -365,6 +365,8 @@ public class DPanelTienda extends JPanel {
 					lBanner.setIcon(null);
 					lInfo.setText("");
 					tJuegos.clearSelection();
+					
+					VRecomendar.modo = true;
 				}
 				
 				panelCategoria.add(cCat1);
@@ -397,6 +399,8 @@ public class DPanelTienda extends JPanel {
 					lBanner.setIcon(null);
 					lInfo.setText("");
 					tMerch.clearSelection();
+					
+					VRecomendar.modo = false;
 				}
 				
 				panelCategoria.add(cCatMerch);
@@ -514,6 +518,12 @@ public class DPanelTienda extends JPanel {
 		return panel;
 	}
 	
+	/** Verifies if the game verifies the advanced search chart
+	 * @param game			Game class object
+	 * @param nombre		String of the name
+	 * 
+	 * @return true if the game verifies the advanced search conditions, else false
+	 */
 	public static boolean highlighted(Game game, String nombre) {
 		
 		if (cbPosesion.isSelected()) {
@@ -668,6 +678,12 @@ public class DPanelTienda extends JPanel {
 		
 	}
 	
+	/** Verifies if the merch verifies the advanced search chart
+	 * @param merch			Merch class object
+	 * @param nombre		String of the name
+	 * 
+	 * @return true if the merch verifies the advanced search conditions, else false
+	 */
 	public static boolean highlighted(Merch merch, String nombre) {
 		
 		if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
