@@ -18,9 +18,7 @@ import negocio.Pegi;
 import negocio.User;
 
 public class VCrear extends JFrame{
-	public static DBManager dbManager;
-	public static VDeusteam vDeusteam;
-	public static VRegister vRegister;
+	
 	private static final long serialVersionUID = 1L;
 
 	JLabel lLogo;

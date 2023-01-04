@@ -14,6 +14,7 @@ import javax.swing.event.ListSelectionListener;
 import gui.VCrear;
 import gui.VDeusteam;
 import gui.VLogin;
+import gui.VModificar;
 import gui.VRecomendar;
 import negocio.*;
 
@@ -32,11 +33,12 @@ public class DPanelPerfil extends JPanel {
 	protected JLabel lPerfil;
 	
 	//Botones modificar
-	protected JButton bEditar = new JButton("Editar");
 	protected JButton bCrear = new JButton("Crear");
-	protected JButton bBorrar = new JButton("Borrar");
+	protected JButton bModificar = new JButton("Modificar");
+	protected JButton bLogout = new JButton("Log out");
 	
 	public static VCrear vCrear;
+	public static VModificar vModificar;
 
 	public DPanelPerfil() {
 		super();
@@ -60,13 +62,18 @@ public class DPanelPerfil extends JPanel {
 	public JPanel getSouthBotones() {
 		JPanel panel = new JPanel(new GridLayout(2,1)); // modificar
 		JPanel pBoton = new JPanel(new GridLayout(1,3));
-		 JLabel lTitulo = new JLabel("Modificacion juegos: ");
+		JPanel pTitulo = new JPanel(new GridLayout(1,3));
+		 JLabel lTitulo = new JLabel("Modificacion y creacion de juegos: ");
+		 JLabel lLogout = new JLabel("Log out: ");
 		 
-		 pBoton.add(bBorrar);
+		 pBoton.add(bModificar);		
 		 pBoton.add(bCrear);
-		 pBoton.add(bEditar);
+		 pBoton.add(bLogout);
+		 pTitulo.add(lTitulo);
+		 pTitulo.add(new JLabel(" "));
+		 pTitulo.add(lLogout);
 		 
-		 panel.add(lTitulo, BorderLayout.NORTH);
+		 panel.add(pTitulo, BorderLayout.NORTH);
 		 panel.add(pBoton, BorderLayout.CENTER);
 		 
 		 bCrear.addActionListener(new ActionListener() {
@@ -74,6 +81,25 @@ public class DPanelPerfil extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					vCrear = new VCrear(VLogin.dbManager);
+					
+				}
+			});
+		 
+		 bModificar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					vModificar = new VModificar();
+					
+				}
+			});
+		 
+		 bLogout.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					VLogin.vLogin.setVisible(true);
+					VLogin.vDeusteam.setVisible(false);
 					
 				}
 			});
