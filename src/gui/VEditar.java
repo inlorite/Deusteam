@@ -134,29 +134,27 @@ public class VEditar extends JFrame{
 				if(VLogin.dbManager.getGame(nombre) != null) {
 					JOptionPane.showMessageDialog(null, "Nombre ocupado");	
 				} 
-				Game game = new Game();
-				game.setId(Integer.parseInt(id));
-				game.setName(nombre);
-				game.setOwner(propietario);
-				game.setPegi(pegi);
-				game.setGenre1(genre1);
-				game.setGenre2(genre2);
+				VLogin.dbManager.updateGameName(game, nombre);
+				VLogin.dbManager.updateGamePegi(game, pegi.toString());
+				VLogin.dbManager.updateGameGenre1(game, genre1.toString());
+				VLogin.dbManager.updateGameGenre2(game, genre2.toString());
 				try
 				{
-					game.setPrice(Double.parseDouble(precio));
+					VLogin.dbManager.updateGamePrice(game, Double.parseDouble(precio));
 				}
 				catch(NumberFormatException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Precio incorrecto");
 				}
-				game.setDescription(descripcion);
-				game.setImgLink(imglink);
-				VLogin.dbManager.insertDataGames(game);
+				
+				VLogin.dbManager.updateGameDescription(game, descripcion);
+				VLogin.dbManager.updateGameImgLink(game, imglink);
+				//VLogin.dbManager.insertDataGames(game);
 				
 				for (Game g : VLogin.dbManager.obtainDataGames()) {
 					System.out.println(g);
 				}
-				DPanelPerfil.vCrear.setVisible(false);
+				DPanelPerfil.vModificar.setVisible(false);
 				
 			}
 		});

@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import gui.customComponents.DPanelPerfil;
 import gui.customComponents.DPanelTienda;
 import negocio.*;
 
@@ -75,7 +76,7 @@ public class VModificar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Game game = listJuegos.get(tJuegos.getSelectedRow());
 				VLogin.dbManager.deleteDataGames(game);
-				
+				DPanelPerfil.vModificar.setVisible(false);
 			}
 		});
 		
