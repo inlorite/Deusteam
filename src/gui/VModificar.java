@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +19,9 @@ public class VModificar extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	
-	List<Game> listJuegos;
+	public static List<Game> listJuegos;
+	JButton bBorrar = new JButton("Borrar");
+	JButton bEditar = new JButton("Editar");
 	public static DefaultTableModel dtmJuegos;
 	public static JTable tJuegos;
 	public static JPanel panelTablaJuegos;
@@ -27,7 +31,9 @@ public class VModificar extends JFrame {
 	public VModificar() {
 		
 		JPanel cp = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
-		
+		JPanel pBoton = new JPanel(new GridLayout(1, 2));
+		pBoton.add(bBorrar);
+		pBoton.add(bEditar);
 		
 		
 		JPanel panelInfo = new JPanel(new GridLayout(1, 1));
@@ -52,6 +58,7 @@ public class VModificar extends JFrame {
 		
 		
 		cp.add(panelInfo, BorderLayout.CENTER);
+		cp.add(pBoton,BorderLayout.SOUTH);
 		
 		this.setContentPane(cp);
 		
@@ -62,5 +69,22 @@ public class VModificar extends JFrame {
 		this.setResizable(false);
 		this.setVisible(true);
 		
+		bBorrar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Game game = listJuegos.get(tJuegos.getSelectedRow());
+				VLogin.dbManager.deleteDataGames(game);
+				
+			}
+		});
+		
+		bEditar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VEditar vEditar = new VEditar();
+			}
+		});
 	}
 }
