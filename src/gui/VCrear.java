@@ -120,6 +120,7 @@ public class VCrear extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				String id = lID.getText();
 				String nombre = tfNombre.getText();
 				String propietario = lPropietario.getText();
@@ -128,34 +129,50 @@ public class VCrear extends JFrame{
 				GameGenre genre2 = (GameGenre) cbGenre2.getSelectedItem();
 				String precio = tfPrecio.getText();
 				String descripcion = tfDescription.getText();
-				String imglink = tfImglink.getText();				
-				if(VLogin.dbManager.getGame(nombre) != null) {
-					JOptionPane.showMessageDialog(null, "Nombre ocupado");	
-				} 
+				String imglink = tfImglink.getText();
+				
+				boolean error = false;
+				String errores = "";
+				
 				Game game = new Game();
 				game.setId(Integer.parseInt(id));
 				game.setName(nombre);
+				if (VLogin.dbManager.getGame(nombre) != null) {
+					errores += "Nombre ocupado\n";
+					error = true;
+				}
 				game.setOwner(propietario);
 				game.setPegi(pegi);
-				game.setGenre1(genre1);
-				game.setGenre2(genre2);
-				try
-				{
-					game.setPrice(Double.parseDouble(precio));
+				if (pegi.equals(Pegi.NULL)) {
+					errores += "PEGI incorrecto\n";
+					error = true;
 				}
-				catch(NumberFormatException e1)
-				{
-					JOptionPane.showMessageDialog(null, "Precio incorrecto");
+				game.setGenre1(genre1);
+				if (genre1.equals(GameGenre.NULL)) {
+					errores += "Introduce al menos un genero\n";
+					error = true;
+				}
+				game.setGenre2(genre2);
+				try {
+					game.setPrice(Double.parseDouble(precio));
+				} catch(NumberFormatException e1) {
+					errores += "Precio incorrecto\n";
+					error = true;
 				}
 				game.setDescription(descripcion);
 				game.setImgLink(imglink);
-				VLogin.dbManager.insertDataGames(game);
+				
+				if (!error) {
+					VLogin.dbManager.insertDataGames(game);
+					
+					DPanelPerfil.vCrear.setVisible(false);
+				} else {
+					JOptionPane.showMessageDialog(null, errores);	
+				}
 				
 				for (Game g : VLogin.dbManager.obtainDataGames()) {
 					System.out.println(g);
 				}
-				DPanelPerfil.vCrear.setVisible(false);
-				
 			}
 		});
 		
