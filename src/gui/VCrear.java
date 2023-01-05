@@ -137,7 +137,7 @@ public class VCrear extends JFrame{
 				Game game = new Game();
 				game.setId(Integer.parseInt(id));
 				game.setName(nombre);
-				if (VLogin.dbManager.getGame(nombre) != null) {
+				if (VLogin.dbManager.getGame(nombre) != null && !nombre.equals("")) {
 					errores += "Nombre ocupado\n";
 					error = true;
 				}
@@ -164,14 +164,11 @@ public class VCrear extends JFrame{
 				
 				if (!error) {
 					VLogin.dbManager.insertDataGames(game);
+					VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, game);
 					
 					DPanelPerfil.vCrear.setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(null, errores);	
-				}
-				
-				for (Game g : VLogin.dbManager.obtainDataGames()) {
-					System.out.println(g);
 				}
 			}
 		});

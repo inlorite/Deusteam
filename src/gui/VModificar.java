@@ -27,6 +27,8 @@ public class VModificar extends JFrame {
 	public static JTable tJuegos;
 	public static JPanel panelTablaJuegos;
 	
+	public static VEditar vEditar;
+	
 	public static boolean modo = true;
 	
 	public VModificar() {
@@ -84,7 +86,7 @@ public class VModificar extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				VEditar vEditar = new VEditar();
+				vEditar = new VEditar();
 			}
 		});
 	}

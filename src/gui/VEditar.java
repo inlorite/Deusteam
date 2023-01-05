@@ -113,7 +113,7 @@ public class VEditar extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DPanelPerfil.vCrear.setVisible(false);
+				VModificar.vEditar.setVisible(false);
 				
 			}
 		});
