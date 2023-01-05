@@ -24,11 +24,12 @@ public class UserTest {
 	private double balance = 0.0;
 	private ArrayList<Integer> friends;
 	private ArrayList<Game> games;
+	private ArrayList<Merch> merch;
 	
 	@Before
 	public void setUp() throws Exception {
-		user = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, balance, friends, games);
-		user2 = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, balance, friends, games);
+		user = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, balance, friends, games, merch);
+		user2 = new User(id, username, email, password, country, lastTimePlayed, totalTimePlayed, balance, friends, games, merch);
 	}
 
 	@After
@@ -123,6 +124,21 @@ public class UserTest {
 		user.setGames(games);
 		
 		assertEquals(games, user.getGames());
+	}
+	
+	@Test
+	public void testGetMerch() {
+		assertEquals(merch, user.getMerch());
+	}
+
+	@Test
+	public void testSetMerch() {
+		ArrayList<Merch> merch = new ArrayList<>();
+		Merch m = new Merch(13, "Hollow Knight Artbook", "Yeray", MerchType.Artbook, 24.99);
+		merch.add(m);
+		user.setMerch(merch);
+		
+		assertEquals(merch, user.getMerch());
 	}
 
 	@Test

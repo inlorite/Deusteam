@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.StringTokenizer;
 
+import gui.VLogin;
+import gui.customComponents.DPanelTienda;
+
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -21,6 +24,7 @@ public class User implements Serializable {
 	protected double balance;
 	protected ArrayList<Integer> friends;
 	protected ArrayList<Game> games;
+	protected ArrayList<Merch> merch;
 	
 	/** Creates a new User class object
 	 * @param id					Integer of the user id
@@ -32,9 +36,10 @@ public class User implements Serializable {
 	 * @param totalTimePlayed		Integer of the total time played, in miliseconds
 	 * @param friends				List<Integer> with ids of the user's friends
 	 * @param games					List<Games> with games of the user
+	 * @param merch					List<Merch> with merch of the user
 	 */
 	public User(int id, String username, String email, String password, Country country, Date lastTimePlayed,
-			int totalTimePlayed, double balance, ArrayList<Integer> friends, ArrayList<Game> games) {
+			int totalTimePlayed, double balance, ArrayList<Integer> friends, ArrayList<Game> games, ArrayList<Merch> merch) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -46,6 +51,7 @@ public class User implements Serializable {
 		this.balance = balance;
 		this.friends = friends;
 		this.games = games;
+		this.merch = merch;
 	}
 	
 	/** Creates a new User class object with default values
@@ -62,6 +68,7 @@ public class User implements Serializable {
 		this.balance = 0.0;
 		this.friends = null;
 		this.games = null;
+		this.merch = null;
 	}
 
 	public int getId() {
@@ -104,6 +111,13 @@ public class User implements Serializable {
 		this.games = games;
 	}
 	
+	public ArrayList<Merch> getMerch() {
+		return merch;
+	}
+
+	public void setMerch(ArrayList<Merch> merch) {
+		this.merch = merch;
+	}
 
 	public Country getCountry() {
 		return country;
@@ -191,10 +205,19 @@ public class User implements Serializable {
 				
 //		"Usuario [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
 //		+ ", country=" + country + ", lastTimePlayed=" + lastTimePlayed + ", totalTimePlayed=" + totalTimePlayed
-//		+ ", balance=" + balance + ", friends=" + friends + ", games=" + games + "]";
+//		+ ", balance=" + balance + ", friends=" + friends + ", games=" + games + ", merch=" + merch + "]";
 	}
+	
 	public void addGame(Game game) {
+		VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()).getPrice());
+		VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()));
 		this.games.add(game);
+	}
+	
+	public void addMerch(Merch merch) {
+		VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()).getPrice());
+		VLogin.dbManager.insertDataPropertyMerch(VLogin.loggedUser, DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()));
+		this.merch.add(merch);
 	}
 	
 }

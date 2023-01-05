@@ -190,8 +190,10 @@ public class DPanelTienda extends JPanel {
 				repaint();
 			}
 		};*/
-		loadTablaJuegos();
-		
+		//loadTablaJuegos();
+		for (Game game : listJuegos) {
+			dtmJuegos.addRow( new Object[] { game.getName(), game.getOwner(), game.getPrice() + "$" } );
+		}
 		
 		panelTablaMerch = new JPanel(new BorderLayout());
 		panelTablaMerch.setBorder(new TitledBorder("Merch disponible"));
@@ -418,16 +420,14 @@ public class DPanelTienda extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
-					if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
-						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listJuegos.get(tJuegos.getSelectedRow()).getPrice());
+					if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()
+							&& VLogin.dbManager.isGamePropertyOfUser(VLogin.loggedUser.getId(), listJuegos.get(tJuegos.getSelectedRow()).getId())) {
 						VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
-						VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, listJuegos.get(tJuegos.getSelectedRow()));
-						
 					}
 				} else if (listMerch.get(tMerch.getSelectedRow()) != null) {
-					if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
-						VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - listMerch.get(tMerch.getSelectedRow()).getPrice());
-						//VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
+					if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()
+							&& VLogin.dbManager.isMerchPropertyOfUser(VLogin.loggedUser.getId(), listMerch.get(tMerch.getSelectedRow()).getId())) {
+						VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
 					}
 				}
 				
@@ -517,68 +517,72 @@ public class DPanelTienda extends JPanel {
 			if (!tBuscador.getText().equals("")) {
 				
 				if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1()))) && cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1()))) && cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if (cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if (cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat2.getSelectedItem().equals(game.getGenre1()) || cCat2.getSelectedItem().equals(game.getGenre2())) && nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if ((cCat2.getSelectedItem().equals(game.getGenre1()) || cCat2.getSelectedItem().equals(game.getGenre2())) && nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2())) && nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2())) && nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1()))) && nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1()))) && nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat2.getSelectedItem().equals(game.getGenre2()) || cCat2.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if ((cCat2.getSelectedItem().equals(game.getGenre2()) || cCat2.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi()) && nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if (nombre.toString().startsWith(tBuscador.getText())) {
-						return true && !isProperty;
+					if (nombre.toString().startsWith(tBuscador.getText()) && !isProperty) {
+						return true;
 					}
 				}
 				
 			} else {
 				
 				if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1()))) && cPegi.getSelectedItem().equals(game.getPegi())) {
-						return true && !isProperty;
+					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1()))) && cPegi.getSelectedItem().equals(game.getPegi()) && !isProperty) {
+						return true;
 					}
 				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if (cPegi.getSelectedItem().equals(game.getPegi())) {
-						return true && !isProperty;
+					if (cPegi.getSelectedItem().equals(game.getPegi()) && !isProperty) {
+						return true;
 					}
 				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat2.getSelectedItem().equals(game.getGenre1()) || cCat2.getSelectedItem().equals(game.getGenre2()))) {
-						return true && !isProperty;
+					if ((cCat2.getSelectedItem().equals(game.getGenre1()) || cCat2.getSelectedItem().equals(game.getGenre2())) && !isProperty) {
+						return true;
 					}
 				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2()))) {
-						return true && !isProperty;
+					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2())) && !isProperty) {
+						return true;
 					}
 				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1())))) {
-						return true && !isProperty;
+					if (((cCat1.getSelectedItem().equals(game.getGenre1()) && cCat2.getSelectedItem().equals(game.getGenre2())) || (cCat1.getSelectedItem().equals(game.getGenre2()) && cCat2.getSelectedItem().equals(game.getGenre1()))) && !isProperty) {
+						return true;
 					}
 				} else if (!cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi())) {
-						return true && !isProperty;
+					if ((cCat1.getSelectedItem().equals(game.getGenre1()) || cCat1.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi()) && !isProperty) {
+						return true;
 					}
 				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && !cCat2.getSelectedItem().equals(GameGenre.NULL) && !cPegi.getSelectedItem().equals(Pegi.NULL)) {
-					if ((cCat2.getSelectedItem().equals(game.getGenre1()) || cCat2.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi())) {
-						return true && !isProperty;
+					if ((cCat2.getSelectedItem().equals(game.getGenre1()) || cCat2.getSelectedItem().equals(game.getGenre2())) && cPegi.getSelectedItem().equals(game.getPegi()) && !isProperty) {
+						return true;
+					}
+				} else if (cCat1.getSelectedItem().equals(GameGenre.NULL) && cCat2.getSelectedItem().equals(GameGenre.NULL) && cPegi.getSelectedItem().equals(Pegi.NULL)) {
+					if (!isProperty) {
+						return true;
 					}
 				}
 				

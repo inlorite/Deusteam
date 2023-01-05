@@ -50,9 +50,9 @@ public class VRecomendar extends JFrame {
 			ArrayList<Game> lista = new ArrayList<>();
 			
 			for (Game game : DPanelTienda.listJuegos) {
-				//if (DPanelTienda.highlighted(game, (String) DPanelTienda.tJuegos.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(game), 0))) {
+				if (DPanelTienda.highlighted(game, (String) DPanelTienda.tJuegos.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(game), 0))) {
 					lista.add(game);
-				//}
+				}
 			}
 			
 			List<List<Game>> listaCombinaciones = combinacionesGames(lista, VLogin.loggedUser.getBalance());
@@ -65,9 +65,9 @@ public class VRecomendar extends JFrame {
 			ArrayList<Merch> lista = new ArrayList<>();
 			
 			for (Merch merch : DPanelTienda.listMerch) {
-				//if (DPanelTienda.highlighted(merch, (String) DPanelTienda.tMerch.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(merch), 0))) {
+				if (DPanelTienda.highlighted(merch, (String) DPanelTienda.tMerch.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(merch), 0))) {
 					lista.add(merch);
-				//}
+				}
 			}
 						
 			List<List<Merch>> listaCombinaciones = combinacionesMerch(lista, VLogin.loggedUser.getBalance());
