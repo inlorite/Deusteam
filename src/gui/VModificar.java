@@ -23,6 +23,7 @@ public class VModificar extends JFrame {
 	public static List<Game> listJuegos;
 	JButton bBorrar = new JButton("Borrar");
 	JButton bEditar = new JButton("Editar");
+	public static List<Game> listJuegosOwner;
 	public static DefaultTableModel dtmJuegos;
 	public static JTable tJuegos;
 	public static JPanel panelTablaJuegos;
@@ -48,10 +49,11 @@ public class VModificar extends JFrame {
 		panelTablaJuegos.add(new JScrollPane(tJuegos), BorderLayout.CENTER);
 		panelInfo.add(panelTablaJuegos);
 		listJuegos = VLogin.dbManager.obtainDataGames();
+		listJuegosOwner = new ArrayList<Game>();
 		
 		for (Game game : listJuegos) {
 			if(game.getOwner().equals(VLogin.loggedUser.getUsername())) {
-				
+				listJuegosOwner.add(game);
 				String nombre = game.getName();
 				String creador = game.getOwner();
 				Double precio = game.getPrice();
@@ -77,7 +79,8 @@ public class VModificar extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Game game = listJuegos.get(tJuegos.getSelectedRow());
-				VLogin.dbManager.deleteDataGames(game);
+				Game game2 = listJuegosOwner.get(tJuegos.getSelectedRow());
+				VLogin.dbManager.deleteDataGames(game2);
 				DPanelPerfil.vModificar.setVisible(false);
 			}
 		});

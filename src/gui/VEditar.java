@@ -42,7 +42,7 @@ public class VEditar extends JFrame{
 		
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
-		Game game = VModificar.listJuegos.get(VModificar.tJuegos.getSelectedRow());
+		Game game = VModificar.listJuegosOwner.get(VModificar.tJuegos.getSelectedRow());
 		
 		this.setMinimumSize(new Dimension(800, 600));
 		// LOGO
@@ -131,7 +131,7 @@ public class VEditar extends JFrame{
 				String precio = tfPrecio.getText();
 				String descripcion = tfDescription.getText();
 				String imglink = tfImglink.getText();				
-				if(VLogin.dbManager.getGame(nombre) != null) {
+				if(VLogin.dbManager.getGame(nombre) != null && nombre != game.getName()) {
 					JOptionPane.showMessageDialog(null, "Nombre ocupado");	
 				} 
 				VLogin.dbManager.updateGameName(game, nombre);
