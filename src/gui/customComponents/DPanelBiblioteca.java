@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import gui.VDeusteam;
@@ -248,8 +249,7 @@ public class DPanelBiblioteca extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				System.out.println("artbook");
 			}
 		});
 		
@@ -258,8 +258,7 @@ public class DPanelBiblioteca extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				System.out.println("soundtrack");
 			}
 		});
 		
@@ -278,8 +277,41 @@ public class DPanelBiblioteca extends JPanel {
 		JPanel panel = new JPanel(new BorderLayout(VDeusteam.GAP/2, VDeusteam.GAP/2));
 		
 		dtmMerch = new DefaultTableModel(new Object[] { "Nombre", "Creador", "Tipo", "Opcion" }, 0);
-		tMerch = new JTable(dtmMerch);
+		tMerch = new JTable(dtmMerch) {
+			private static final long serialVersionUID = 1L;
+
+	        public boolean isCellEditable(int row, int column) {                
+	                return false;               
+	        };
+		};
 		panel.add(new JScrollPane(tMerch), BorderLayout.CENTER);
+		
+		DefaultTableCellRenderer buttonRenderer = new DefaultTableCellRenderer() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+				JButton button = (JButton) value;
+												
+				return button;
+			}
+		};
+		
+		tMerch.getColumnModel().getColumn(3).setCellRenderer(buttonRenderer);
+		
+		tMerch.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tMerch.rowAtPoint(e.getPoint());
+				int col = tMerch.columnAtPoint(e.getPoint());
+				
+				if (col == 3) {
+					JButton boton = (JButton) tMerch.getValueAt(row, col);
+					boton.doClick();
+				}
+			}
+		});
 		
 		return panel;
 	}
