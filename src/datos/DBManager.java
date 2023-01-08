@@ -1379,6 +1379,32 @@ public class DBManager {
 		}
 	}
 	
+	public Merch getMerchById(Integer id) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			// Statement execution
+			String sql = "SELECT * FROM MERCH WHERE ID_MERCH = " + id + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			Merch merch = new Merch();
+			
+			merch.setId(rs.getInt("ID_MERCH"));
+			merch.setName(rs.getString("NAME"));
+			merch.setOwner(rs.getString("OWNER"));
+			merch.setType(rs.getString("TYPE"));
+			merch.setPrice(rs.getInt("PRICE"));
+			
+			System.out.println(String.format("- Merch retrieved"));
+			return merch;
+		} catch (Exception ex) {
+			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//ex.printStackTrace();
+			return null;
+		}
+	}
+	
 	/** Updates the name for a set merch in the MERCH chart
 	 * @param merch		Merch class object
 	 * @param name		String of the name
@@ -1476,7 +1502,7 @@ public class DBManager {
 			System.out.println("- Adding merch to user's library...");
 			
 			// Info is added to the chart
-			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, user.getId(), merch.getId()))) {					
+			if (1 == stmt.executeUpdate(String.format(sql, user.getId(), merch.getId()))) {					
 				System.out.println(String.format(" - Merch added to library: %s", user.getUsername(), merch.getName()));
 			} else {
 				System.out.println(String.format(" - Merch could not be added to library: %s", user.getUsername(), merch.getName()));
@@ -1510,6 +1536,41 @@ public class DBManager {
 				} else {
 					userMerch.put(rs.getInt("ID_USER"), new ArrayList<Integer>(rs.getInt("ID_MERCH")));
 				}
+				
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- %d user's merch retrieved...", userMerch.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return userMerch;
+	}
+	
+	/** Obtains a list with the specified user's merch
+	 * @return userMerch	List<Merch>
+	 */
+	public List<Merch> obtainDataPropertyMerchUser(Integer id_user) {
+		List<Merch> userMerch = new ArrayList<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			String sql = "SELECT * FROM PROPERTY_MERCH WHERE ID_USER = " + id_user + ";";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding IDs to map
+			while (rs.next()) {
+				
+				Merch merch = getMerchById(rs.getInt("ID_MERCH"));
+				
+				userMerch.add(merch);
 				
 			}
 			

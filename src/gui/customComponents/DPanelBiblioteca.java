@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
@@ -14,10 +15,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import gui.VDeusteam;
 import gui.VLogin;
-import negocio.Game;
+import negocio.*;
 
 public class DPanelBiblioteca extends JPanel {
 
@@ -36,6 +38,12 @@ public class DPanelBiblioteca extends JPanel {
 	protected JProgressBar pbInstalar;
 	protected JButton bInstalar;
 	
+	// Center Merch
+	protected JTable tMerch;
+	protected static DefaultTableModel dtmMerch;
+	protected static JButton bArtbook;
+	protected static JButton bSoundtrack;
+	
 	public DPanelBiblioteca() {
 		super();
 		
@@ -43,14 +51,30 @@ public class DPanelBiblioteca extends JPanel {
 	}
 	
 	public void setup() {
-		this.setLayout(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
-		this.setBorder(new EmptyBorder(VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP, VDeusteam.GAP));
+		this.setLayout(new BorderLayout());
+		this.setBorder(new EmptyBorder(VDeusteam.GAP/2, VDeusteam.GAP/2, VDeusteam.GAP/2, VDeusteam.GAP/2));
 		
-		JPanel pListaJuegos = getWestListaJuegos();
+		JTabbedPane tpBiblioteca = new JTabbedPane();
+		
+		JPanel pJuegos = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
+		pJuegos.setBorder(new EmptyBorder(VDeusteam.GAP/2, VDeusteam.GAP/2, VDeusteam.GAP/2, VDeusteam.GAP/2));
+		
 		JPanel pInfoJuego = getCenterInfoJuego();
+		JPanel pListaJuegos = getWestListaJuegos();
+		pJuegos.add(pListaJuegos, BorderLayout.WEST);
+		pJuegos.add(pInfoJuego, BorderLayout.CENTER);
 		
-		this.add(pListaJuegos, BorderLayout.WEST);
-		this.add(pInfoJuego, BorderLayout.CENTER);
+		JPanel pMerch = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
+		
+		JPanel pCenterMerch = getCenterMerch();
+		pMerch.add(pCenterMerch, BorderLayout.CENTER);
+		
+		tpBiblioteca.addTab("Juegos", pJuegos);
+		tpBiblioteca.addTab("Merch", pMerch);
+		
+		loadDataModels();
+		
+		this.add(tpBiblioteca, BorderLayout.CENTER);
 	}
 	
 	public JPanel getWestListaJuegos() {
@@ -69,8 +93,6 @@ public class DPanelBiblioteca extends JPanel {
 		lJuegosDisponibles = new JList<>(dlmJuegosDisponibles);
 		lJuegosDisponibles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panelDisponibles.add(new JScrollPane(lJuegosDisponibles), BorderLayout.CENTER);
-		
-		loadDataModels();
 		
 		MouseAdapter ml = new MouseAdapter() {
 			
@@ -99,6 +121,7 @@ public class DPanelBiblioteca extends JPanel {
 						
 						ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
 						lBanner.setIcon(ii);
+						lBanner.setHorizontalAlignment(SwingConstants.CENTER);
 						lInfo.setText(g.getDescription());
 						
 						if (list == lJuegosDisponibles) {
@@ -125,6 +148,12 @@ public class DPanelBiblioteca extends JPanel {
 		
 		panel.add(panelInstalados);
 		panel.add(panelDisponibles);
+		
+		if (lJuegosInstalados.getModel().getSize() > 0) {
+			lJuegosInstalados.setSelectedIndex(0);
+		} else if (lJuegosDisponibles.getModel().getSize() > 0) {
+			lJuegosDisponibles.setSelectedIndex(0);
+		}
 		
 		return panel;
 	}
@@ -200,6 +229,7 @@ public class DPanelBiblioteca extends JPanel {
 	public static void loadDataModels() {
 		dlmJuegosInstalados.clear();
 		dlmJuegosDisponibles.clear();
+		dtmMerch.setRowCount(0);
 		
 		Map<Game, Boolean> userGames = VLogin.dbManager.obtainDataPropertyUserInstalledGames(VLogin.loggedUser.getId());
 		
@@ -210,6 +240,48 @@ public class DPanelBiblioteca extends JPanel {
 				dlmJuegosDisponibles.addElement(game);
 			}
 		}
+		
+		List<Merch> userMerch = VLogin.dbManager.obtainDataPropertyMerchUser(VLogin.loggedUser.getId());
+		
+		bArtbook = new JButton("Mirar artbook");
+		bArtbook.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		bSoundtrack = new JButton("Escuchar soundtrack");
+		bSoundtrack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		for (Merch merch : userMerch) {
+			if (merch.getType().equals(MerchType.Soundtrack)) {
+				dtmMerch.addRow(new Object[] {merch.getName(), merch.getOwner(), merch.getType().toString(), bSoundtrack});
+			} else if (merch.getType().equals(MerchType.Artbook)) {
+				dtmMerch.addRow(new Object[] {merch.getName(), merch.getOwner(), merch.getType().toString(), bArtbook});
+			} else {
+				dtmMerch.addRow(new Object[] {merch.getName(), merch.getOwner(), merch.getType().toString(), "---"});
+			}
+		}
+	}
+	
+	public JPanel getCenterMerch() {
+		JPanel panel = new JPanel(new BorderLayout(VDeusteam.GAP/2, VDeusteam.GAP/2));
+		
+		dtmMerch = new DefaultTableModel(new Object[] { "Nombre", "Creador", "Tipo", "Opcion" }, 0);
+		tMerch = new JTable(dtmMerch);
+		panel.add(new JScrollPane(tMerch), BorderLayout.CENTER);
+		
+		return panel;
 	}
 
 }

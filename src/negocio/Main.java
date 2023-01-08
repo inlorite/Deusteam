@@ -41,6 +41,8 @@ public class Main {
 		gestor.updatePropertyGamesInstalled(users.get(1).getId(), games.get(1).getId(), 1);
 		gestor.updatePropertyGamesInstalled(users.get(2).getId(), games.get(0).getId(), 1);
 		
+		initPropertyMerch(users, merch);
+		
 		initFriends(users);
 		
 		// Select: 
@@ -230,6 +232,15 @@ public class Main {
 		gestor.insertDataFriends(users.get(1), users.get(0));
 		gestor.insertDataFriends(users.get(1), users.get(2));
 		gestor.insertDataFriends(users.get(1), users.get(3));
+		
+	}
+	
+	public static void initPropertyMerch(List<User> users, List<Merch> merch) {
+		
+		gestor.insertDataPropertyMerch(users.get(1), merch.get(0));
+		gestor.insertDataPropertyMerch(users.get(1), merch.get(3));
+		gestor.insertDataPropertyMerch(users.get(1), merch.get(2));
+		gestor.insertDataPropertyMerch(users.get(1), merch.get(1));
 		
 	}
 	
