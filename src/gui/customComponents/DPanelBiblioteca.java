@@ -249,7 +249,7 @@ public class DPanelBiblioteca extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("artbook");
+				JOptionPane.showMessageDialog(null, "Cargando artbook...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
@@ -258,7 +258,7 @@ public class DPanelBiblioteca extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("soundtrack");
+				JOptionPane.showMessageDialog(null, "Reproduciendo soundtrack...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		
