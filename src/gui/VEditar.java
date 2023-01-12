@@ -39,7 +39,6 @@ public class VEditar extends JFrame{
 	JComboBox<GameGenre> cbGenre2;
 
 	public VEditar() {
-		
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		Game game = VModificar.listJuegosOwner.get(VModificar.tJuegos.getSelectedRow());

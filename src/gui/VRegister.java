@@ -15,7 +15,6 @@ import negocio.Main;
 import negocio.User;
 
 public class VRegister extends JFrame{
-	public static DBManager dbManager;
 	public static VDeusteam vDeusteam;
 	public static VRegister vRegister;
 	private static final long serialVersionUID = 1L;
@@ -34,9 +33,6 @@ public class VRegister extends JFrame{
 	JComboBox<Country> cbCountry;
 
 	public VRegister(DBManager dbmanager) {
-		DBManager manager = new DBManager();
-		VRegister.dbManager = dbmanager;
-		
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		
@@ -93,7 +89,7 @@ public class VRegister extends JFrame{
 				Country country = (Country) cbCountry.getSelectedItem();
 				String password = tfPassword.getText();
 				String confirmPassword = tfPasswordConfirm.getText();
-				User userVerification = VRegister.dbManager.getUser(username);
+				User userVerification = VLogin.dbManager.getUser(username);
 				if (userVerification != null ) {
 					JOptionPane.showMessageDialog(null, "Usuario ocupado");				
 					
@@ -112,11 +108,7 @@ public class VRegister extends JFrame{
 					user.setTotalTimePlayed(0);
 					user.setFriends(new ArrayList<Integer>());
 					user.setGames(new ArrayList<Game>());
-					Main.gestor.insertDataUsers(user);
-					
-					for (User u : Main.gestor.obtainDataUsers()) {
-						System.out.println(u);
-					}
+					VLogin.dbManager.insertDataUsers(user);
 					VLogin.vRegister.setVisible(false);
 					VLogin.vLogin.setVisible(true);
 				}

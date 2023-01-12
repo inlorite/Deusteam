@@ -39,9 +39,6 @@ public class VCrear extends JFrame{
 	JComboBox<GameGenre> cbGenre2;
 
 	public VCrear(DBManager dbmanager) {
-		DBManager manager = new DBManager();
-		VRegister.dbManager = dbmanager;
-		
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		
