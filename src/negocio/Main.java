@@ -142,7 +142,7 @@ public class Main {
 		game.setId(2);
 		game.setName("FIFA 23");
 		game.setOwner("Xabi");
-		game.setPegi(Pegi.PEGI7);
+		game.setPegi(Pegi.PEGI12);
 		game.setGenre1(GameGenre.Casual);
 		game.setGenre2(GameGenre.Arcade);
 		game.setPrice(25.0);
@@ -154,7 +154,7 @@ public class Main {
 		game.setId(3);
 		game.setName("Persona 5 Royal");
 		game.setOwner("Adrian");
-		game.setPegi(Pegi.PEGI12);
+		game.setPegi(Pegi.PEGI7);
 		game.setGenre1(GameGenre.Singleplayer);
 		game.setGenre2(GameGenre.Action);
 		game.setPrice(20.0);
@@ -166,7 +166,7 @@ public class Main {
 		game.setId(4);
 		game.setName("Vampire Survivors");
 		game.setOwner("Inigo");
-		game.setPegi(Pegi.PEGI16);
+		game.setPegi(Pegi.PEGI7);
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.Fantasy);
 		game.setPrice(12.0);

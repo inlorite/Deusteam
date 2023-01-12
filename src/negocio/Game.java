@@ -7,6 +7,8 @@ public class Game implements Serializable, Comparable<Game> {
 	
 	private static final long serialVersionUID = 1L;
 	
+	protected int idAux;
+
 	protected int id;
 	protected String name;
 	protected String owner;
@@ -139,6 +141,14 @@ public class Game implements Serializable, Comparable<Game> {
 
 	public void setImgLink(String imgLink) {
 		this.imgLink = imgLink;
+	}
+	
+	public int getIdAux() {
+		return idAux;
+	}
+
+	public void setIdAux(int idAux) {
+		this.idAux = idAux;
 	}
 
 	@Override

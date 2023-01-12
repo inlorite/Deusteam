@@ -48,10 +48,12 @@ public class VRecomendar extends JFrame {
 		
 		if (modo) {
 			ArrayList<Game> lista = new ArrayList<>();
-			
+			int index = 1;
 			for (Game game : DPanelTienda.listJuegos) {
 				if (DPanelTienda.highlighted(game, (String) DPanelTienda.tJuegos.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(game), 0))) {
+					game.setIdAux(index);
 					lista.add(game);
+					index ++;
 				}
 				
 			}
@@ -126,12 +128,13 @@ public class VRecomendar extends JFrame {
 			}
 		} else {
 			for (Game g : elementos) {
+				System.out.println(g.getIdAux());
 				if (!temp.contains(g)) {
 					temp.add(g);
 					combinacionesGames(result, elementos, importe - g.getPrice(), temp);
 					temp.remove(temp.size() - 1);
 				}
-				if(g.getId()==elementos.size()) {
+				if(g.getIdAux() ==elementos.size()) {
 					combinacionesGames(result, elementos, 0, temp);
 				}
 			}
