@@ -79,6 +79,7 @@ public class Main {
 		user.setBalance(200);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
+		user.setMerch(new ArrayList<Merch>());
 		users.add(user);
 		
 		user= new User();
@@ -92,6 +93,7 @@ public class Main {
 		user.setBalance(500);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
+		user.setMerch(new ArrayList<Merch>());
 		users.add(user);
 		
 		user= new User();
@@ -105,6 +107,7 @@ public class Main {
 		user.setBalance(200);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
+		user.setMerch(new ArrayList<Merch>());
 		users.add(user);
 		
 		user= new User();
@@ -118,6 +121,7 @@ public class Main {
 		user.setBalance(200);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
+		user.setMerch(new ArrayList<Merch>());
 		users.add(user);
 		
 		return users;
@@ -240,7 +244,6 @@ public class Main {
 		gestor.insertDataPropertyMerch(users.get(1), merch.get(0));
 		gestor.insertDataPropertyMerch(users.get(1), merch.get(3));
 		gestor.insertDataPropertyMerch(users.get(1), merch.get(2));
-		gestor.insertDataPropertyMerch(users.get(1), merch.get(1));
 		
 	}
 	

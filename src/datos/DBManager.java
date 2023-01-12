@@ -644,6 +644,7 @@ public class DBManager {
 			user.setBalance(rs.getDouble("BALANCE"));
 			user.setFriends(obtainDataFriendsUser(rs.getInt("ID_USER")));
 			user.setGames(obtainDataPropertyGamesUser(rs.getInt("ID_USER")));
+			user.setMerch(obtainDataPropertyMerchUser(rs.getInt("ID_USER")));
 			
 			System.out.println(String.format("- User retrieved"));
 			return user;
@@ -680,6 +681,7 @@ public class DBManager {
 			user.setBalance(rs.getDouble("BALANCE"));
 			user.setFriends(obtainDataFriendsUser(rs.getInt("ID_USER")));
 			user.setGames(obtainDataPropertyGamesUser(rs.getInt("ID_USER")));
+			user.setMerch(obtainDataPropertyMerchUser(rs.getInt("ID_USER")));
 			
 			System.out.println(String.format("- User retrieved"));
 			return user;
@@ -1554,8 +1556,8 @@ public class DBManager {
 	/** Obtains a list with the specified user's merch
 	 * @return userMerch	List<Merch>
 	 */
-	public List<Merch> obtainDataPropertyMerchUser(Integer id_user) {
-		List<Merch> userMerch = new ArrayList<>();
+	public ArrayList<Merch> obtainDataPropertyMerchUser(Integer id_user) {
+		ArrayList<Merch> userMerch = new ArrayList<>();
 		
 		// Connection is established and the Statement is obtained
 		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));

@@ -18,6 +18,8 @@ public class VRecomendar extends JFrame {
 	JTable tRecomendado;
 	DefaultTableModel dtmRecomendado;
 	
+	/** True si la tienda esta en modo juegos, false si esta en modo merch
+	 */
 	public static boolean modo = true;
 	
 	public VRecomendar() {

@@ -419,13 +419,17 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
-					if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
-						VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
+				if (VRecomendar.modo) {
+					if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
+						if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+							VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
+						}
 					}
-				} else if (listMerch.get(tMerch.getSelectedRow()) != null) {
-					if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
-						VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
+				} else {
+					if (listMerch.get(tMerch.getSelectedRow()) != null) {
+						if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+							VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
+						}
 					}
 				}
 				
