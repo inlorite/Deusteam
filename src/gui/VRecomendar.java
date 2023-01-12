@@ -53,7 +53,10 @@ public class VRecomendar extends JFrame {
 				if (DPanelTienda.highlighted(game, (String) DPanelTienda.tJuegos.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(game), 0))) {
 					lista.add(game);
 				}
+				
 			}
+			
+			System.out.println("Lista juegos: " + lista);
 			
 			List<List<Game>> listaCombinaciones = combinacionesGames(lista, VLogin.loggedUser.getBalance());
 			
@@ -127,6 +130,9 @@ public class VRecomendar extends JFrame {
 					temp.add(g);
 					combinacionesGames(result, elementos, importe - g.getPrice(), temp);
 					temp.remove(temp.size() - 1);
+				}
+				if(g.getId()==elementos.size()) {
+					combinacionesGames(result, elementos, 0, temp);
 				}
 			}
 		}

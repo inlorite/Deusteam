@@ -89,7 +89,7 @@ public class Main {
 		user.setCountry(Country.Spain);
 		user.setLastTimePlayed(new Date());
 		user.setTotalTimePlayed(15);
-		user.setBalance(50);
+		user.setBalance(500);
 		user.setFriends(new ArrayList<Integer>());
 		user.setGames(new ArrayList<Game>());
 		users.add(user);
