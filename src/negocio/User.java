@@ -209,15 +209,19 @@ public class User implements Serializable {
 	}
 	
 	public void addGame(Game game) {
-		VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()).getPrice());
-		VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()));
-		this.games.add(game);
+		if (!this.games.contains(game)) {
+			VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()).getPrice());
+			VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()));
+			this.games.add(game);
+		}
 	}
 	
 	public void addMerch(Merch merch) {
-		VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()).getPrice());
-		VLogin.dbManager.insertDataPropertyMerch(VLogin.loggedUser, DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()));
-		this.merch.add(merch);
+		if (!this.merch.contains(merch)) {
+			VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()).getPrice());
+			VLogin.dbManager.insertDataPropertyMerch(VLogin.loggedUser, DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()));
+			this.merch.add(merch);
+		}
 	}
 	
 }
