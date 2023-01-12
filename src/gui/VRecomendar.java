@@ -68,13 +68,15 @@ public class VRecomendar extends JFrame {
 			}
 		} else {
 			ArrayList<Merch> lista = new ArrayList<>();
-			
+			int index = 1;
 			for (Merch merch : DPanelTienda.listMerch) {
-				if (DPanelTienda.highlighted(merch, (String) DPanelTienda.tMerch.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(merch), 0))) {
+				if (DPanelTienda.highlighted(merch, (String) DPanelTienda.tMerch.getModel().getValueAt(DPanelTienda.listMerch.indexOf(merch), 0))) {
+					merch.setIdAux(index);
 					lista.add(merch);
+					index ++;
 				}
 			}
-						
+		
 			List<List<Merch>> listaCombinaciones = combinacionesMerch(lista, VLogin.loggedUser.getBalance());
 						
 			for (List<Merch> list : listaCombinaciones) {
@@ -158,10 +160,14 @@ public class VRecomendar extends JFrame {
 			}
 		} else {
 			for (Merch m : elementos) {
+				System.out.println(m.getIdAux());
 				if (!temp.contains(m)) {
 					temp.add(m);
 					combinacionesMerch(result, elementos, importe - m.getPrice(), temp);
 					temp.remove(temp.size() - 1);
+				}
+				if(m.getIdAux() ==elementos.size()) {
+					combinacionesMerch(result, elementos, 0, temp);
 				}
 			}
 		}

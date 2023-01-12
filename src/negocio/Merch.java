@@ -4,6 +4,8 @@ import java.util.Objects;
 
 public class Merch implements Comparable<Merch> {
 
+	protected int idAux;
+
 	protected int id;
 	protected String name;
 	protected String owner;
@@ -81,7 +83,13 @@ public class Merch implements Comparable<Merch> {
 		this.price = price;
 	}
 
-	
+	public int getIdAux() {
+		return idAux;
+	}
+
+	public void setIdAux(int idAux) {
+		this.idAux = idAux;
+	}
 	
 	@Override
 	public int hashCode() {
