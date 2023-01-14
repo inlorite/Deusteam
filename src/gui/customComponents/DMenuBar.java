@@ -43,6 +43,10 @@ public class DMenuBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				bTienda.setEnabled(true);
+				bBiblioteca.setEnabled(false);
+				bPerfil.setEnabled(true);
+				
 				DPanelBiblioteca.loadDataModels();
 				VDeusteam.cl.show(VDeusteam.mainPanel, "BIBLIOTECA");
 				VLogin.vDeusteam.setTitle("Deusteam - Biblioteca");
@@ -53,6 +57,10 @@ public class DMenuBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				bTienda.setEnabled(false);
+				bBiblioteca.setEnabled(true);
+				bPerfil.setEnabled(true);
+				
 				DPanelTienda.loadTablaJuegos();
 				VDeusteam.cl.show(VDeusteam.mainPanel, "TIENDA");
 				VLogin.vDeusteam.setTitle("Deusteam - Tienda");
@@ -63,8 +71,12 @@ public class DMenuBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				bTienda.setEnabled(true);
+				bBiblioteca.setEnabled(true);
+				bPerfil.setEnabled(false);
+				
 				DPanelPerfil.loadListaAmigos();
-				DPanelPerfil.getCenterPerfilUsuario().repaint();
+				DPanelPerfil.getCenterPerfilUsuario();
 				VDeusteam.cl.show(VDeusteam.mainPanel, "PERFIL");
 				VLogin.vDeusteam.setTitle("Deusteam - Perfil");
 			}

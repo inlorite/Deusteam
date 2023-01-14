@@ -143,9 +143,7 @@ public class DPanelPerfil extends JPanel {
 		JLabel lFriends = new JLabel();
 		JLabel lGames = new JLabel();
 		JLabel lFavGen = new JLabel();
-		
-		
-		
+
 		panelPerfil.setBorder(new TitledBorder("Perfil"));
 		
 //		muestra el perfil propio si no se ha seleccionado ningun amigo
