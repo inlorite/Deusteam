@@ -63,6 +63,8 @@ public class DMenuBar extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				DPanelPerfil.loadListaAmigos();
+				DPanelPerfil.getCenterPerfilUsuario().repaint();
 				VDeusteam.cl.show(VDeusteam.mainPanel, "PERFIL");
 				VLogin.vDeusteam.setTitle("Deusteam - Perfil");
 			}

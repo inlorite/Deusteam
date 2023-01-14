@@ -23,14 +23,15 @@ public class DPanelPerfil extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	// West Lista Amigos
-	protected JList<User> listAmigos;
-	protected DefaultListModel<User> dlmAmigos;
+	protected static JList<User> listAmigos;
+	protected static DefaultListModel<User> dlmAmigos;
 	protected JButton bBusqueda;
 	protected JTextField tBuscador;
 	
 	
 	// Center Perfil Usuario
 	protected JLabel lPerfil;
+	protected static JPanel panelPerfil = new JPanel(new GridLayout(7,1));
 	
 	//Botones modificar
 	protected JButton bCrear = new JButton("Crear");
@@ -132,8 +133,9 @@ public class DPanelPerfil extends JPanel {
 		return panel;
 	}
 	
-	public JPanel getCenterPerfilUsuario() {
-		JPanel panel = new JPanel(new GridLayout(7,1));
+	public static JPanel getCenterPerfilUsuario() {
+		panelPerfil.removeAll();
+		
 		JLabel lNombre = new JLabel();
 		JLabel lCountry = new JLabel();
 		JLabel lLast= new JLabel();
@@ -142,7 +144,9 @@ public class DPanelPerfil extends JPanel {
 		JLabel lGames = new JLabel();
 		JLabel lFavGen = new JLabel();
 		
-		panel.setBorder(new TitledBorder("Perfil"));
+		
+		
+		panelPerfil.setBorder(new TitledBorder("Perfil"));
 		
 //		muestra el perfil propio si no se ha seleccionado ningun amigo
 		lNombre.setText("Nombre: " + VLogin.loggedUser.getUsername());
@@ -165,6 +169,7 @@ public class DPanelPerfil extends JPanel {
 		} else {
 			lGames.setText("Juegos comprados: " + VLogin.loggedUser.getGames());
 			lFavGen.setText("Genero favorito: " + generoFav(VLogin.loggedUser.getGames()));
+			
 		}
 		
 //		muestra el perfil del amigo seleccionado
@@ -199,29 +204,25 @@ public class DPanelPerfil extends JPanel {
 							lGames.setText("Juegos comprados: " + u.getGames());
 							lFavGen.setText("Genero favorito: " + generoFav(u.getGames()));
 						}
-						
-						
-						revalidate();
-						repaint();
 					}
 				}
 			}
 		};
 		
 		listAmigos.addListSelectionListener(lsl);
+
+		panelPerfil.add(lNombre);
+		panelPerfil.add(lCountry);
+		panelPerfil.add(lLast);
+		panelPerfil.add(lTotal);
+		panelPerfil.add(lFriends);
+		panelPerfil.add(lGames);
+		panelPerfil.add(lFavGen);
 		
-		panel.add(lNombre);
-		panel.add(lCountry);
-		panel.add(lLast);
-		panel.add(lTotal);
-		panel.add(lFriends);
-		panel.add(lGames);
-		panel.add(lFavGen);
-		
-		return panel;
+		return panelPerfil;
 	}
 	
-	public void loadListaAmigos() {
+	public static void loadListaAmigos() {
 		dlmAmigos.clear();
 	
 		ArrayList<Integer> friendsList = VLogin.dbManager.obtainDataFriendsUser(VLogin.loggedUser.getId());
@@ -232,7 +233,7 @@ public class DPanelPerfil extends JPanel {
 		
 	}
 	
-	public GameGenre generoFav(ArrayList<Game> list) {
+	public static GameGenre generoFav(ArrayList<Game> list) {
 		HashMap<GameGenre, Integer> mapa = new HashMap<>();
 		GameGenre fGenre = list.get(0).getGenre1();
 		for (int i = 0; i < list.size(); i++) {
