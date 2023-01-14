@@ -42,7 +42,7 @@ public class VEditar extends JFrame{
 		Container cp = this.getContentPane();
 		cp.setLayout(new BorderLayout());
 		Game game = VModificar.listJuegosOwner.get(VModificar.tJuegos.getSelectedRow());
-		
+						
 		this.setMinimumSize(new Dimension(800, 600));
 		// LOGO
 		iiLogo = new ImageIcon("data/logo.png");
@@ -121,6 +121,7 @@ public class VEditar extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				DPanelPerfil.vModificar.setVisible(false);
 				String id = lID.getText();
 				String nombre = tfNombre.getText();
 				String propietario = lPropietario.getText();
@@ -129,31 +130,55 @@ public class VEditar extends JFrame{
 				GameGenre genre2 = (GameGenre) cbGenre2.getSelectedItem();
 				String precio = tfPrecio.getText();
 				String descripcion = tfDescription.getText();
-				String imglink = tfImglink.getText();				
-				if(VLogin.dbManager.getGame(nombre) != null && nombre != game.getName()) {
-					JOptionPane.showMessageDialog(null, "Nombre ocupado");	
+				String imglink = tfImglink.getText();
+				
+				boolean error = false;
+				Double precioDouble = 0.0;
+				
+				if(VLogin.dbManager.getGame(nombre) != null && !nombre.equals(game.getName())) {
+					JOptionPane.showMessageDialog(null, "Nombre ocupado");
+					error = true;
 				} 
-				VLogin.dbManager.updateGameName(game, nombre);
-				VLogin.dbManager.updateGamePegi(game, pegi.toString());
-				VLogin.dbManager.updateGameGenre1(game, genre1.toString());
-				VLogin.dbManager.updateGameGenre2(game, genre2.toString());
+				
 				try
 				{
-					VLogin.dbManager.updateGamePrice(game, Double.parseDouble(precio));
+					precioDouble = Double.parseDouble(precio);
 				}
 				catch(NumberFormatException e1)
 				{
 					JOptionPane.showMessageDialog(null, "Precio incorrecto");
+					error = true;
 				}
 				
-				VLogin.dbManager.updateGameDescription(game, descripcion);
-				VLogin.dbManager.updateGameImgLink(game, imglink);
+				if (pegi.equals(Pegi.NULL)) {
+					JOptionPane.showMessageDialog(null, "Selecciona un PEGI");
+					error = true;
+				}
+				
+				if (genre1.equals(GameGenre.NULL)) {
+					JOptionPane.showMessageDialog(null, "Introduce un genero principal");
+					error = true;
+				}
+				if(!error) {
+					VLogin.dbManager.updateGameName(game, nombre);
+					VLogin.dbManager.updateGamePegi(game, pegi.toString());
+					VLogin.dbManager.updateGameGenre1(game, genre1.toString());
+					VLogin.dbManager.updateGameGenre2(game, genre2.toString());
+					VLogin.dbManager.updateGamePrice(game, precioDouble);
+					VLogin.dbManager.updateGameDescription(game, descripcion);
+					VLogin.dbManager.updateGameImgLink(game, imglink);
+					VModificar.vEditar.setVisible(false);
+					JOptionPane.showMessageDialog(null, "Juego modificado");
+				}
+
 				//VLogin.dbManager.insertDataGames(game);
 				
 				for (Game g : VLogin.dbManager.obtainDataGames()) {
 					System.out.println(g);
 				}
-				DPanelPerfil.vModificar.setVisible(false);
+				
+				
+				
 				
 			}
 		});

@@ -88,8 +88,9 @@ public class VModificar extends JFrame {
 		bEditar.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				vEditar = new VEditar();
+			public void actionPerformed(ActionEvent e) {			
+					vEditar = new VEditar();				
+				
 			}
 		});
 	}
