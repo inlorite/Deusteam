@@ -210,16 +210,16 @@ public class User implements Serializable {
 	
 	public void addGame(Game game) {
 		if (!this.getGames().contains(game)) {
-			VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()).getPrice());
-			VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, DPanelTienda.listJuegos.get(DPanelTienda.tJuegos.getSelectedRow()));
+			VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - game.getPrice());
+			VLogin.dbManager.insertDataPropertyGames(VLogin.loggedUser, game);
 			this.games.add(game);
 		}
 	}
 	
 	public void addMerch(Merch merch) {
 		if (!this.getMerch().contains(merch)) {
-			VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()).getPrice());
-			VLogin.dbManager.insertDataPropertyMerch(VLogin.loggedUser, DPanelTienda.listMerch.get(DPanelTienda.tMerch.getSelectedRow()));
+			VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() - merch.getPrice());
+			VLogin.dbManager.insertDataPropertyMerch(VLogin.loggedUser, merch);
 			this.merch.add(merch);
 		}
 	}

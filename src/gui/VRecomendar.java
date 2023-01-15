@@ -23,6 +23,8 @@ public class VRecomendar extends JFrame {
 	
 	JTable tRecomendado;
 	DefaultTableModel dtmRecomendado;
+	List<List<Game>> listaCombinacionesGames;
+	List<List<Merch>> listaCombinacionesMerch;
 	
 	protected JLabel tSaldo;
 	protected JButton bCancelar;
@@ -78,9 +80,9 @@ public class VRecomendar extends JFrame {
 				}
 			}
 			
-			List<List<Game>> listaCombinaciones = combinacionesGames(lista, VLogin.loggedUser.getBalance());
+			listaCombinacionesGames = combinacionesGames(lista, VLogin.loggedUser.getBalance());
 			
-			for (List<Game> list : listaCombinaciones) {
+			for (List<Game> list : listaCombinacionesGames) {
 				String nombres = getNombresJuegos(list);
 				dtmRecomendado.addRow(new Object[] {nombres});
 			}
@@ -105,9 +107,9 @@ public class VRecomendar extends JFrame {
 				}
 			}
 		
-			List<List<Merch>> listaCombinaciones = combinacionesMerch(lista, VLogin.loggedUser.getBalance());
+			listaCombinacionesMerch = combinacionesMerch(lista, VLogin.loggedUser.getBalance());
 						
-			for (List<Merch> list : listaCombinaciones) {
+			for (List<Merch> list : listaCombinacionesMerch) {
 				String nombres = getNombresMerch(list);
 				dtmRecomendado.addRow(new Object[] {nombres});
 			}
@@ -161,8 +163,24 @@ public class VRecomendar extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (tRecomendado.getSelectedRow() != -1) {
-					
+					if (modo) {
+						for (Game game : listaCombinacionesGames.get(tRecomendado.getSelectedRow())) {
+							VLogin.loggedUser.addGame(game);
+						}
+					} else {
+						for (Merch merch : listaCombinacionesMerch.get(tRecomendado.getSelectedRow())) {
+							VLogin.loggedUser.addMerch(merch);
+						}
+					}
 				}
+				
+				DPanelTienda.bSaldo.setText("Saldo: " + VLogin.loggedUser.getBalance() + "$");
+				
+				DPanelTienda.bSaldo.revalidate();
+				DPanelTienda.bSaldo.repaint();
+				
+				dispose();
+				vRecomendar = null;
 				
 			}
 		});
