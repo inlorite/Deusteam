@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,10 +32,16 @@ public class DPanelBiblioteca extends JPanel {
 	protected JList<Game> selectedList;
 	
 	// Center Info Juego
+	protected JLabel lTitle;
 	protected JLabel lBanner;
 	protected JLabel lInfo;
+	protected JCheckBox cbGenre1;
+	protected JCheckBox cbGenre2;
+	
+	// South Instalar
 	protected JProgressBar pbInstalar;
 	protected JButton bInstalar;
+	protected JButton bJugar;
 	
 	// Center Merch
 	protected JTable tMerch;
@@ -62,8 +66,14 @@ public class DPanelBiblioteca extends JPanel {
 		
 		JPanel pInfoJuego = getCenterInfoJuego();
 		JPanel pListaJuegos = getWestListaJuegos();
+		JPanel pInstalar = getSouthInstalar();
+		
+		JPanel hJuegos = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
+		hJuegos.add(pInfoJuego, BorderLayout.CENTER);
+		hJuegos.add(pInstalar, BorderLayout.SOUTH);
+		
 		pJuegos.add(pListaJuegos, BorderLayout.WEST);
-		pJuegos.add(pInfoJuego, BorderLayout.CENTER);
+		pJuegos.add(hJuegos, BorderLayout.CENTER);
 		
 		JPanel pMerch = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
 		
@@ -74,6 +84,14 @@ public class DPanelBiblioteca extends JPanel {
 		tpBiblioteca.addTab("Merch", pMerch);
 		
 		loadDataModels();
+		
+		if (lJuegosInstalados.getModel().getSize() > 0) {
+			lJuegosInstalados.setSelectedIndex(0);
+			updateGameData(lJuegosInstalados.getSelectedValue());
+		} else if (lJuegosDisponibles.getModel().getSize() > 0) {
+			lJuegosDisponibles.setSelectedIndex(0);
+			updateGameData(lJuegosDisponibles.getSelectedValue());
+		}
 		
 		this.add(tpBiblioteca, BorderLayout.CENTER);
 	}
@@ -97,6 +115,7 @@ public class DPanelBiblioteca extends JPanel {
 		
 		MouseAdapter ml = new MouseAdapter() {
 			
+			@SuppressWarnings("unchecked")
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				selectedList = (JList<Game>) e.getSource();
@@ -111,6 +130,7 @@ public class DPanelBiblioteca extends JPanel {
 		
 		ListSelectionListener lsl = new ListSelectionListener() {
 			
+			@SuppressWarnings("unchecked")
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				
@@ -120,14 +140,13 @@ public class DPanelBiblioteca extends JPanel {
 					if (list.getSelectedIndex() > -1) {
 						Game g = list.getSelectedValue();
 						
-						ImageIcon ii = new ImageIcon("data/game_banners/" + g.getId() + ".jpg");
-						lBanner.setIcon(ii);
-						lBanner.setHorizontalAlignment(SwingConstants.CENTER);
-						lInfo.setText(g.getDescription());
+						updateGameData(g);
 						
 						if (list == lJuegosDisponibles) {
+							bJugar.setVisible(false);
 							bInstalar.setText("Instalar");
 						} else if (list == lJuegosInstalados) {
+							bJugar.setVisible(true);
 							bInstalar.setText("Desinstalar");
 						}
 						
@@ -150,35 +169,65 @@ public class DPanelBiblioteca extends JPanel {
 		panel.add(panelInstalados);
 		panel.add(panelDisponibles);
 		
-		if (lJuegosInstalados.getModel().getSize() > 0) {
-			lJuegosInstalados.setSelectedIndex(0);
-		} else if (lJuegosDisponibles.getModel().getSize() > 0) {
-			lJuegosDisponibles.setSelectedIndex(0);
-		}
-		
 		return panel;
 	}
 	
 	public JPanel getCenterInfoJuego() {
-		JPanel panel = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
+		JPanel panel = new JPanel(new BorderLayout());
 		
+		JPanel pTitle = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
+		lTitle = new JLabel("");
+		lTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		pTitle.add(lTitle, BorderLayout.CENTER);
+		pTitle.add(new JSeparator(), BorderLayout.SOUTH);
+		
+		JPanel pInfo = new JPanel(new GridLayout(2, 1, VDeusteam.GAP, VDeusteam.GAP));
+		pInfo.setBorder(new EmptyBorder(VDeusteam.GAP*2, 0, 0, 0));
+		JPanel pDescGenre = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
+		JPanel pGenres = new JPanel(new FlowLayout(FlowLayout.LEADING, VDeusteam.GAP, 0));
 		lBanner = new JLabel("");
 		lInfo = new JLabel("info");
+		cbGenre1 = new JCheckBox("", true);
+		cbGenre1.setEnabled(false);
+		cbGenre2 = new JCheckBox("", true);
+		cbGenre2.setEnabled(false);
+		pGenres.add(new JLabel("Generos: "));
+		pGenres.add(cbGenre1);
+		pGenres.add(cbGenre2);
+		pDescGenre.add(pGenres, BorderLayout.NORTH);
+		pDescGenre.add(lInfo, BorderLayout.CENTER);
+		pInfo.add(lBanner, BorderLayout.NORTH);
+		pInfo.add(pDescGenre, BorderLayout.CENTER);
 		
-		JPanel pInst = new JPanel(new GridLayout(1, 2, VDeusteam.GAP, VDeusteam.GAP));
+		panel.add(pTitle, BorderLayout.NORTH);
+		panel.add(pInfo, BorderLayout.CENTER);
+		
+		return panel;
+	}
+	
+	public JPanel getSouthInstalar() {
+		JPanel panel = new JPanel(new GridLayout(1, 3, VDeusteam.GAP, VDeusteam.GAP));
+		
 		pbInstalar = new JProgressBar();
 		pbInstalar.setValue(0);
 		pbInstalar.setStringPainted(true);
 		pbInstalar.setForeground(Color.GREEN);
 		pbInstalar.setVisible(false);
+		
+		bJugar = new JButton("Jugar");
+		bJugar.setVisible(false);
+		
 		bInstalar = new JButton("Instalar");
 		bInstalar.setEnabled(false);
-		pInst.add(pbInstalar);
-		pInst.add(bInstalar);
 		
-		panel.add(lBanner, BorderLayout.NORTH);
-		panel.add(lInfo, BorderLayout.CENTER);
-		panel.add(pInst, BorderLayout.SOUTH);
+		bJugar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Game game = selectedList.getSelectedValue();
+				System.out.println("Jugando a " + game.getName());
+			}
+		});
 		
 		bInstalar.addActionListener(new ActionListener() {
 			
@@ -194,6 +243,7 @@ public class DPanelBiblioteca extends JPanel {
 						lJuegosDisponibles.setEnabled(false);
 						lJuegosInstalados.setEnabled(false);
 						bInstalar.setEnabled(false);
+						bJugar.setVisible(false);
 						pbInstalar.setVisible(true);
 						
 						try {
@@ -223,6 +273,10 @@ public class DPanelBiblioteca extends JPanel {
 				barThread.start();
 			}
 		});
+		
+		panel.add(pbInstalar);
+		panel.add(bJugar);
+		panel.add(bInstalar);
 		
 		return panel;
 	}
@@ -270,6 +324,28 @@ public class DPanelBiblioteca extends JPanel {
 			} else {
 				dtmMerch.addRow(new Object[] {merch.getName(), merch.getOwner(), merch.getType().toString(), "---"});
 			}
+		}
+	}
+	
+	public void updateGameData(Game game) {
+		if (game != null) {
+			lTitle.setText(game.getName() + " [" + game.getPegi().toString() + "]");
+			lTitle.setHorizontalAlignment(SwingConstants.CENTER);
+			lTitle.setFont(new Font(lTitle.getFont().getName(), Font.BOLD, 21));
+			
+			ImageIcon ii = new ImageIcon("data/game_banners/" + game.getId() + ".jpg");
+			lBanner.setIcon(ii);
+			lBanner.setHorizontalAlignment(SwingConstants.CENTER);
+			
+			cbGenre1.setText(game.getGenre1().toString());
+			cbGenre1.setSelected(true);
+			cbGenre1.setEnabled(false);
+			
+			cbGenre2.setText(game.getGenre2().toString());
+			cbGenre2.setSelected(true);
+			cbGenre2.setEnabled(false);
+			
+			lInfo.setText(game.getDescription());
 		}
 	}
 	
