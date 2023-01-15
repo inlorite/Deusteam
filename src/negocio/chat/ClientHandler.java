@@ -99,6 +99,7 @@ public class ClientHandler {
 			//e.printStackTrace();
 		}
 		removeHandler();
+		System.out.println(ClientHandler.clientHandlers);
 	}
 	
 	public void removeHandler() {

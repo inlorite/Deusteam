@@ -24,6 +24,7 @@ import negocio.Merch;
 import negocio.MerchType;
 import negocio.Pegi;
 import negocio.User;
+import negocio.chat.Message;
 
 public class DBManager {
 	
@@ -117,6 +118,15 @@ public class DBManager {
 					   + " ID_MERCH INTEGER NOT NULL,\n"
 					   + " FOREIGN KEY(ID_USER) REFERENCES USERS(ID_USER) ON DELETE CASCADE,\n"
 					   + " FOREIGN KEY(ID_MERCH) REFERENCES MERCH(ID_MERCH) ON DELETE CASCADE\n"
+					   + ");");
+		
+		tables.add("CREATE TABLE IF NOT EXISTS MESSAGES (\n"
+					   + " FROM_USER INTEGER NOT NULL,\n"
+					   + " TO_USER INTEGER NOT NULL,\n"
+					   + " MESSAGE TEXT NOT NULL,\n"
+					   + " DATE TEXT NOT NULL,\n"
+					   + " FOREIGN KEY(FROM_USER) REFERENCES USERS(ID_USER) ON DELETE CASCADE,\n"
+					   + " FOREIGN KEY(TO_USER) REFERENCES USERS(ID_USER) ON DELETE CASCADE\n"
 					   + ");");
 			
 		for (String table : tables) {
@@ -1619,6 +1629,65 @@ public class DBManager {
 		}		
 		
 		return false;
+	}
+	
+	///////// MESSAGES DATABASE /////////
+	
+	public void insertDataMessages(Message message) {
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			
+			// SQL sentence is defined
+			String sql = "INSERT INTO MESSAGES (FROM_USER, TO_USER, MESSAGE, DATE) VALUES ('%x', '%x', '%s', '%s');";
+			
+			System.out.println("- Adding message to the table...");
+			
+			// Info is added to the chart
+			if (1 == stmt.executeUpdate(String.format(sql, message.getFrom().getId(), message.getTo().getId(), message.getMessage(), message.getDate()+""))) {					
+				System.out.println(String.format(" - Message added to table: %s", message.toString()));
+			} else {
+				System.out.println(String.format(" - Message could not be added to table: %s", message.toString()));
+			}
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error adding the message: %s", ex.getMessage()));
+			ex.printStackTrace();				
+		}
+	}
+	
+	public List<Message> obtainDataUserMessages(Integer user1, Integer user2) {
+		List<Message> messages = new ArrayList<>();
+		
+		// Connection is established and the Statement is obtained
+		try (Connection con = DriverManager.getConnection(properties.getProperty("CONNECTION_STRING"));
+		     Statement stmt = con.createStatement()) {
+			
+			String sql = "SELECT * FROM MESSAGES WHERE (FROM_USER = " + user1 + " OR FROM_USER = " + user2 + ") AND (TO_USER = " + user1 + " OR TO_USER = " + user2 + ") ORDER BY DATE ASC;";
+			
+			// Sentence execution and ResultSet creation
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			// Adding Games to map
+			while (rs.next()) {
+				
+				User from = getUser(rs.getInt("FROM_USER"));
+				User to = getUser(rs.getInt("TO_USER"));
+				String message = rs.getString("MESSAGE");
+				Long date = Long.parseLong(rs.getString("DATE"));
+				
+				messages.add(new Message(from, to, message, date));
+			}
+			
+			// ResultSet closing
+			rs.close();
+			
+			System.out.println(String.format("- %d messages retrieved...", messages.size()));			
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			ex.printStackTrace();						
+		}		
+		
+		return messages;
 	}
 	
 }

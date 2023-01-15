@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -45,6 +46,7 @@ public class VChat extends JFrame {
 		
 		this.setContentPane(cp);
 		
+		this.setMinimumSize(new Dimension(400, 500));
 		this.setTitle("Deusteam chat");
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
@@ -75,9 +77,9 @@ public class VChat extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					dlmChatbox.clear();
 					
-					// aqui leeria los mensajes previos con ese usuario concreto y los cargaria desde la base de datos
+					loadMessages();
+					
 				}
 			}
 		});
@@ -107,6 +109,7 @@ public class VChat extends JFrame {
 				return label;
 			}
 		});
+		loadMessages();
 		JScrollPane sp = new JScrollPane(lChatbox);
 		
 		panel.add(sp, BorderLayout.CENTER);
@@ -134,6 +137,7 @@ public class VChat extends JFrame {
 					User to = VLogin.dbManager.getUser((String) cbAmigos.getSelectedItem());
 					Message message = new Message(VLogin.loggedUser, to, text, new Date().getTime());
 					
+					VLogin.dbManager.insertDataMessages(message);
 					VDeusteam.client.sendMessage(message);
 					
 					tfMessage.setText("");
@@ -142,6 +146,14 @@ public class VChat extends JFrame {
 		});
 		
 		return panel;
+	}
+	
+	public void loadMessages() {
+		dlmChatbox.clear();
+		
+		List<Message> messages = VLogin.dbManager.obtainDataUserMessages(VLogin.loggedUser.getId(), friends.get(cbAmigos.getSelectedItem()));
+		
+		dlmChatbox.addAll(messages);
 	}
 
 }

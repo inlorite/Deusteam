@@ -14,49 +14,49 @@ public class Main {
 		
 		
 		gestor = new DBManager();
-		gestor.deleteDatabase();
-		
-		// Create: Creacion de la BD
-		gestor.createDatabase();
-		
-		// Insert: Insercion de usuarios y juegos en la BD
-		
-		// Usuarios
-		List<User> users = initUsers();
-		gestor.insertDataUsers(users.toArray(new User[users.size()]));
-		
-		// Juegos
-		List<Game> games = initGames();
-		gestor.insertDataGames(games.toArray(new Game[games.size()]));
-		
-		// Merch
-		List<Merch> merch = initMerch();
-		gestor.insertDataMerch(merch.toArray(new Merch[merch.size()]));
-			
-		// Update: Modificacion de usuarios y juegos en la BD
-		//gestor.updateGamePrice(games.get(0), 9.85);
-		gestor.incrementUserTotalTimePlayed(users.get(0).getId(), 50);
-		
-		initPropertyGames(users, games);
-		gestor.updatePropertyGamesInstalled(users.get(1).getId(), games.get(1).getId(), 1);
-		gestor.updatePropertyGamesInstalled(users.get(2).getId(), games.get(0).getId(), 1);
-		
-		initPropertyMerch(users, merch);
-		
-		initFriends(users);
-		
-		// Select: 
-		for (User u : gestor.obtainDataUsers()) {
-			System.out.println(u);
-		}
-		
-		for (Game g : gestor.obtainDataGames()) {
-			System.out.println(g);
-		}
-		
-		for (Merch m : gestor.obtainDataMerch()) {
-			System.out.println(m);
-		}
+//		gestor.deleteDatabase();
+//		
+//		// Create: Creacion de la BD
+//		gestor.createDatabase();
+//		
+//		// Insert: Insercion de usuarios y juegos en la BD
+//		
+//		// Usuarios
+//		List<User> users = initUsers();
+//		gestor.insertDataUsers(users.toArray(new User[users.size()]));
+//		
+//		// Juegos
+//		List<Game> games = initGames();
+//		gestor.insertDataGames(games.toArray(new Game[games.size()]));
+//		
+//		// Merch
+//		List<Merch> merch = initMerch();
+//		gestor.insertDataMerch(merch.toArray(new Merch[merch.size()]));
+//			
+//		// Update: Modificacion de usuarios y juegos en la BD
+//		//gestor.updateGamePrice(games.get(0), 9.85);
+//		gestor.incrementUserTotalTimePlayed(users.get(0).getId(), 50);
+//		
+//		initPropertyGames(users, games);
+//		gestor.updatePropertyGamesInstalled(users.get(1).getId(), games.get(1).getId(), 1);
+//		gestor.updatePropertyGamesInstalled(users.get(2).getId(), games.get(0).getId(), 1);
+//		
+//		initPropertyMerch(users, merch);
+//		
+//		initFriends(users);
+//		
+//		// Select: 
+//		for (User u : gestor.obtainDataUsers()) {
+//			System.out.println(u);
+//		}
+//		
+//		for (Game g : gestor.obtainDataGames()) {
+//			System.out.println(g);
+//		}
+//		
+//		for (Merch m : gestor.obtainDataMerch()) {
+//			System.out.println(m);
+//		}
 		
 		//VDeusteam v = new VDeusteam();
 		VLogin v = new VLogin(gestor);
@@ -162,7 +162,7 @@ public class Main {
 		game.setGenre1(GameGenre.Singleplayer);
 		game.setGenre2(GameGenre.Action);
 		game.setPrice(20.0);
-		game.setDescription("Ponte la mascara, acompana a los Ladrones Fantasma de Corazones en sus asaltos ¡e infiltrate en la mente de los corruptos para hacerles cambiar de opinion!");
+		game.setDescription("Ponte la mascara, acompana a los Ladrones Fantasma de Corazones en sus asaltos ï¿½e infiltrate en la mente de los corruptos para hacerles cambiar de opinion!");
 		game.setImgLink("data/game_banners/3.jpg");
 		games.add(game);
 		
@@ -174,7 +174,7 @@ public class Main {
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.Fantasy);
 		game.setPrice(12.0);
-		game.setDescription("¡Aniquila a miles de criaturas de la noche y sobrevive hasta el amanecer! Vampire Survivors es un juego casual de terror gotico con elementos «roguelite» donde tus decisiones te permitirán aumentar tu poder exponencialmente mientras luchas contra cientos de monstruos.");
+		game.setDescription("ï¿½Aniquila a miles de criaturas de la noche y sobrevive hasta el amanecer! Vampire Survivors es un juego casual de terror gotico con elementos ï¿½rogueliteï¿½ donde tus decisiones te permitirï¿½n aumentar tu poder exponencialmente mientras luchas contra cientos de monstruos.");
 		game.setImgLink("data/game_banners/4.jpg");
 		games.add(game);
 		

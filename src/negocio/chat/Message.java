@@ -11,9 +11,9 @@ public class Message implements Serializable {
 	protected User from;
 	protected User to;
 	protected String message;
-	protected long date;
+	protected Long date;
 	
-	public Message(User from, User to, String message, long date) {
+	public Message(User from, User to, String message, Long date) {
 		super();
 		this.from = from;
 		this.to = to;
@@ -33,7 +33,7 @@ public class Message implements Serializable {
 		return message;
 	}
 
-	public long getDate() {
+	public Long getDate() {
 		return date;
 	}
 
