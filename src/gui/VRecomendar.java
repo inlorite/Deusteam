@@ -1,6 +1,10 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,8 +19,14 @@ public class VRecomendar extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static VRecomendar vRecomendar;
+	
 	JTable tRecomendado;
 	DefaultTableModel dtmRecomendado;
+	
+	protected JLabel tSaldo;
+	protected JButton bCancelar;
+	protected JButton bComprar;
 	
 	/** True si la tienda esta en modo juegos, false si esta en modo merch
 	 */
@@ -27,10 +37,10 @@ public class VRecomendar extends JFrame {
 		JPanel cp = new JPanel(new BorderLayout(VDeusteam.GAP, VDeusteam.GAP));
 		
 		JPanel center = getCenterTable();
-		//JPanel south = getSouthSender();
+		JPanel south = getSouthPanel();
 		
 		cp.add(center, BorderLayout.CENTER);
-		//cp.add(south, BorderLayout.SOUTH);
+		cp.add(south, BorderLayout.SOUTH);
 		
 		this.setContentPane(cp);
 		
@@ -55,12 +65,18 @@ public class VRecomendar extends JFrame {
 				if (DPanelTienda.highlighted(game, (String) DPanelTienda.tJuegos.getModel().getValueAt(DPanelTienda.listJuegos.indexOf(game), 0))) {
 					game.setIdAux(index);
 					lista.add(game);
-					index ++;
+					index++;
 				}
 				
 			}
 			
-			System.out.println("Lista juegos: " + lista);
+			if (lista.isEmpty()) {
+				for (Game game : DPanelTienda.listJuegos) {
+					game.setIdAux(index);
+					lista.add(game);
+					index++;
+				}
+			}
 			
 			List<List<Game>> listaCombinaciones = combinacionesGames(lista, VLogin.loggedUser.getBalance());
 			
@@ -68,6 +84,7 @@ public class VRecomendar extends JFrame {
 				String nombres = getNombresJuegos(list);
 				dtmRecomendado.addRow(new Object[] {nombres});
 			}
+			
 		} else {
 			ArrayList<Merch> lista = new ArrayList<>();
 			int index = 1;
@@ -75,7 +92,16 @@ public class VRecomendar extends JFrame {
 				if (DPanelTienda.highlighted(merch, (String) DPanelTienda.tMerch.getModel().getValueAt(DPanelTienda.listMerch.indexOf(merch), 0))) {
 					merch.setIdAux(index);
 					lista.add(merch);
-					index ++;
+					index++;
+				}
+				
+			}
+			
+			if (lista.isEmpty()) {
+				for (Merch merch : DPanelTienda.listMerch) {
+					merch.setIdAux(index);
+					lista.add(merch);
+					index++;
 				}
 			}
 		
@@ -85,6 +111,7 @@ public class VRecomendar extends JFrame {
 				String nombres = getNombresMerch(list);
 				dtmRecomendado.addRow(new Object[] {nombres});
 			}
+			
 		}
 		
 		tRecomendado = new JTable(dtmRecomendado);
@@ -93,8 +120,52 @@ public class VRecomendar extends JFrame {
 		return panel;
 	}
 	
-	public JPanel getSouthButton() {
+	public JPanel getSouthPanel() {
 		JPanel panel = new JPanel(new BorderLayout());
+		
+		tSaldo = new JLabel("Saldo actual: " + VLogin.loggedUser.getBalance() + "$");
+		panel.add(tSaldo, BorderLayout.NORTH);
+		
+		JPanel panelBotones = new JPanel(new GridLayout(1, 2));
+		
+		bComprar = new JButton("Comprar recomendacion");
+		panelBotones.add(bComprar, BorderLayout.SOUTH);
+		
+		bCancelar = new JButton("Cancelar");
+		panelBotones.add(bCancelar, BorderLayout.SOUTH);
+		
+		panel.add(panelBotones);
+		
+		// Listeners
+		
+		this.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				vRecomendar = null;
+			}
+		});
+		
+		bCancelar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				vRecomendar = null;
+			}
+		});
+		
+		bComprar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (tRecomendado.getSelectedRow() != -1) {
+					
+				}
+				
+			}
+		});
 		
 		return panel;
 	}

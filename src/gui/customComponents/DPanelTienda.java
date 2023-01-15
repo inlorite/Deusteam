@@ -64,11 +64,11 @@ public class DPanelTienda extends JPanel {
 	public static JPanel panelTablaMerch;
 	public static JButton bSaldo;
 	protected JButton bRecomendar;
-	protected JButton bComprar;
+	protected static JButton bComprar;
 	protected JButton bJuegos;
 	protected JButton bMerch;
-	protected JLabel lBanner;
-	protected JLabel lInfo;
+	protected static JLabel lBanner;
+	protected static JLabel lInfo;
 	protected JPanel panelDatos;
 	
 	public static List<Game> listJuegos;
@@ -243,6 +243,7 @@ public class DPanelTienda extends JPanel {
 						ImageIcon ii = new ImageIcon(g.getImgLink());
 						lBanner.setIcon(ii);
 						lInfo.setText(g.getDescription());
+						bComprar.setEnabled(true);
 						
 						revalidate();
 						repaint();
@@ -261,6 +262,7 @@ public class DPanelTienda extends JPanel {
 						
 						lBanner.setIcon(null);
 						lInfo.setText(m.toString());
+						bComprar.setEnabled(true);
 						
 						revalidate();
 						repaint();
@@ -338,6 +340,7 @@ public class DPanelTienda extends JPanel {
 		// PanelCompras
 		
 		bComprar = new JButton("Comprar"); // Aqui hay que traer el dato desde la BD, cambiar a modo JTable
+		bComprar.setEnabled(false);
 		bRecomendar = new JButton("Recomendar");
 		bSaldo = new JButton("Saldo: " + VLogin.loggedUser.getBalance() + "$");
 		
@@ -378,6 +381,8 @@ public class DPanelTienda extends JPanel {
 				panelInfo.add(panelTablaJuegos);
 				panelInfo.add(panelDatos);
 				
+				bComprar.setEnabled(false);
+				
 				revalidate();
 				repaint();
 			}
@@ -410,6 +415,8 @@ public class DPanelTienda extends JPanel {
 				panelInfo.add(panelTablaMerch);
 				panelInfo.add(panelDatos);
 				
+				bComprar.setEnabled(false);
+				
 				revalidate();
 				repaint();
 			}
@@ -419,18 +426,22 @@ public class DPanelTienda extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (VRecomendar.modo) {
-					if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
-						if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
-							VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
+				try {
+					if (VRecomendar.modo) {
+						if (listJuegos.get(tJuegos.getSelectedRow()) != null) {
+							if (listJuegos.get(tJuegos.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+								VLogin.loggedUser.addGame(listJuegos.get(tJuegos.getSelectedRow()));
+							}
+						}
+					} else {
+						if (listMerch.get(tMerch.getSelectedRow()) != null) {
+							if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
+								VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
+							}
 						}
 					}
-				} else {
-					if (listMerch.get(tMerch.getSelectedRow()) != null) {
-						if (listMerch.get(tMerch.getSelectedRow()).getPrice() <= VLogin.loggedUser.getBalance()) {
-							VLogin.loggedUser.addMerch(listMerch.get(tMerch.getSelectedRow()));
-						}
-					}
+				} catch (Exception e2) {
+					System.err.println("No se ha seleccionado ningun elemento");
 				}
 				
 				bSaldo.setText("Saldo: " + VLogin.loggedUser.getBalance() + "$");
@@ -445,7 +456,9 @@ public class DPanelTienda extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				VRecomendar v = new VRecomendar();
+				if (VRecomendar.vRecomendar == null) {
+					VRecomendar.vRecomendar = new VRecomendar();
+				}
 			}
 		});
 		

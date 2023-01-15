@@ -138,7 +138,7 @@ public class Main {
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.RPG);
 		game.setPrice(45.0);
-		game.setDescription("description1");
+		game.setDescription("Alzate, Sinluz, y que la gracia te guie para abrazar el poder del Circulo de Elden y encumbrarte como senor del Circulo en las Tierras Intermedias.");
 		game.setImgLink("data/game_banners/1.jpg");
 		games.add(game);
 		
@@ -150,7 +150,7 @@ public class Main {
 		game.setGenre1(GameGenre.Casual);
 		game.setGenre2(GameGenre.Arcade);
 		game.setPrice(25.0);
-		game.setDescription("description2");
+		game.setDescription("Vive la emocion del mayor torneo futbolistico con EA SPORTS FIFA 23 y la actualizacion de la FIFA World Cup masculina.");
 		game.setImgLink("data/game_banners/2.jpg");
 		games.add(game);
 		
@@ -162,7 +162,7 @@ public class Main {
 		game.setGenre1(GameGenre.Singleplayer);
 		game.setGenre2(GameGenre.Action);
 		game.setPrice(20.0);
-		game.setDescription("description3");
+		game.setDescription("Ponte la mascara, acompana a los Ladrones Fantasma de Corazones en sus asaltos ¡e infiltrate en la mente de los corruptos para hacerles cambiar de opinion!");
 		game.setImgLink("data/game_banners/3.jpg");
 		games.add(game);
 		
@@ -174,7 +174,7 @@ public class Main {
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.Fantasy);
 		game.setPrice(12.0);
-		game.setDescription("description4");
+		game.setDescription("¡Aniquila a miles de criaturas de la noche y sobrevive hasta el amanecer! Vampire Survivors es un juego casual de terror gotico con elementos «roguelite» donde tus decisiones te permitirán aumentar tu poder exponencialmente mientras luchas contra cientos de monstruos.");
 		game.setImgLink("data/game_banners/4.jpg");
 		games.add(game);
 		
@@ -221,13 +221,19 @@ public class Main {
 	
 	public static void initPropertyGames(List<User> users, List<Game> games) {
 		
+		gestor.insertDataPropertyGames(users.get(0), games.get(1));
+		gestor.insertDataPropertyGames(users.get(0), games.get(3));
+		
 		gestor.insertDataPropertyGames(users.get(1), games.get(0));
 		gestor.insertDataPropertyGames(users.get(1), games.get(1));
-		gestor.insertDataPropertyGames(users.get(1), games.get(3));
+		gestor.insertDataPropertyGames(users.get(1), games.get(2));
 		
 		gestor.insertDataPropertyGames(users.get(2), games.get(0));
 		gestor.insertDataPropertyGames(users.get(2), games.get(2));
 		gestor.insertDataPropertyGames(users.get(2), games.get(3));
+		
+		gestor.insertDataPropertyGames(users.get(3), games.get(1));
+		gestor.insertDataPropertyGames(users.get(3), games.get(3));
 		
 	}
 	
@@ -241,9 +247,14 @@ public class Main {
 	
 	public static void initPropertyMerch(List<User> users, List<Merch> merch) {
 		
+		gestor.insertDataPropertyMerch(users.get(0), merch.get(1));
+		
 		gestor.insertDataPropertyMerch(users.get(1), merch.get(0));
 		gestor.insertDataPropertyMerch(users.get(1), merch.get(3));
 		gestor.insertDataPropertyMerch(users.get(1), merch.get(2));
+		
+		gestor.insertDataPropertyMerch(users.get(2), merch.get(0));
+		gestor.insertDataPropertyMerch(users.get(2), merch.get(3));
 		
 	}
 	

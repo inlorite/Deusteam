@@ -39,6 +39,8 @@ public class DMenuBar extends JPanel {
 		bPerfil = new JButton("Perfil");
 		bChat = new JButton("Chat");
 		
+		bTienda.setEnabled(false);
+		
 		bBiblioteca.addActionListener(new ActionListener() {
 			
 			@Override
@@ -60,6 +62,10 @@ public class DMenuBar extends JPanel {
 				bTienda.setEnabled(false);
 				bBiblioteca.setEnabled(true);
 				bPerfil.setEnabled(true);
+				
+				DPanelTienda.lBanner.setIcon(null);
+				DPanelTienda.lInfo.setText("");
+				DPanelTienda.bComprar.setEnabled(false);
 				
 				DPanelTienda.loadTablaJuegos();
 				VDeusteam.cl.show(VDeusteam.mainPanel, "TIENDA");
