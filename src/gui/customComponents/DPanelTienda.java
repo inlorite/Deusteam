@@ -242,7 +242,7 @@ public class DPanelTienda extends JPanel {
 						
 						ImageIcon ii = new ImageIcon(g.getImgLink());
 						lBanner.setIcon(ii);
-						lInfo.setText(g.getDescription());
+						lInfo.setText("<html><p>" + g.getDescription() + "</p></html>");
 						bComprar.setEnabled(true);
 						
 						revalidate();
@@ -261,7 +261,7 @@ public class DPanelTienda extends JPanel {
 						Merch m = listMerch.get(tMerch.getSelectedRow());
 						
 						lBanner.setIcon(null);
-						lInfo.setText(m.toString());
+						lInfo.setText("<html><p>" + m.toString() + "</p></html>");
 						bComprar.setEnabled(true);
 						
 						revalidate();

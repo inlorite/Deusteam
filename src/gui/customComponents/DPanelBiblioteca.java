@@ -345,7 +345,7 @@ public class DPanelBiblioteca extends JPanel {
 			cbGenre2.setSelected(true);
 			cbGenre2.setEnabled(false);
 			
-			lInfo.setText(game.getDescription());
+			lInfo.setText("<html><p>" + game.getDescription() + "</p></html>");
 		}
 	}
 	
