@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
@@ -92,11 +93,16 @@ public class VChat extends JFrame {
 		
 		dlmChatbox = new DefaultListModel<>();
 		lChatbox = new JList<>(dlmChatbox);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
 		lChatbox.setCellRenderer(new ListCellRenderer<Message>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Message> list, Message message, int index, boolean isSelected, boolean cellHasFocus) {
 				
 				JLabel label = new JLabel(message.getFrom().getUsername() + ": " + message.getMessage());
+				
+				label.setToolTipText(sdf.format(new Date(message.getDate())));
 				
 				if (message.getFrom().equals(VLogin.loggedUser)) {
 					label.setBackground(new Color(172, 242, 215));
@@ -109,6 +115,7 @@ public class VChat extends JFrame {
 				return label;
 			}
 		});
+		
 		loadMessages();
 		JScrollPane sp = new JScrollPane(lChatbox);
 		
