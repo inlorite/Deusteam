@@ -1,8 +1,11 @@
 package negocio;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Merch implements Comparable<Merch> {
+public class Merch implements Serializable, Comparable<Merch> {
+
+	private static final long serialVersionUID = 1L;
 
 	protected int idAux;
 

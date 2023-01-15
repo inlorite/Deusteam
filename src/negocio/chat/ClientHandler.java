@@ -31,7 +31,7 @@ public class ClientHandler {
 			clientHandlers.add(this);
 			
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			closeHandler(socket, oos, ois);
 		}
 	}
@@ -52,7 +52,7 @@ public class ClientHandler {
 						sendToReceiver(messageFromClient);
 						
 					} catch (IOException | ClassNotFoundException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 						closeHandler(socket, oos, ois);
 						break;
 					}
@@ -79,7 +79,7 @@ public class ClientHandler {
 				receiver.oos.writeObject(message);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			closeHandler(socket, oos, ois);
 		}
 	}
@@ -96,7 +96,7 @@ public class ClientHandler {
 				ois.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		removeHandler();
 	}

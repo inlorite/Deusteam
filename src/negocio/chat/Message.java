@@ -21,6 +21,22 @@ public class Message implements Serializable {
 		this.date = date;
 	}
 
+	public User getFrom() {
+		return from;
+	}
+
+	public User getTo() {
+		return to;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
 	@Override
 	public String toString() {
 		return "Message [from=" + from + ", to=" + to + ", message=" + message + ", date=" + date + "]";

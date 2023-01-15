@@ -32,7 +32,7 @@ public class Client {
 			listenForMessage();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			closeClient(socket, oos, ois);
 		}
 	}
@@ -41,7 +41,7 @@ public class Client {
 		try {
 			oos.writeObject(messageToSend);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			closeClient(socket, oos, ois);
 		}
 	}
@@ -60,7 +60,7 @@ public class Client {
 						dlmChatbox.addElement(messageFromChat);
 						
 					} catch (IOException | ClassNotFoundException e) {
-						e.printStackTrace();
+						//e.printStackTrace();
 						closeClient(socket, oos, ois);
 					}
 				}
@@ -83,7 +83,7 @@ public class Client {
 				ois.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	

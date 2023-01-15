@@ -17,7 +17,7 @@ public class Server {
 			startServer();
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	
@@ -36,7 +36,7 @@ public class Server {
 				System.out.println(ClientHandler.clientHandlers);
 				
 			} catch (IOException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				closeServer();
 			}
 		}
@@ -48,7 +48,7 @@ public class Server {
 				serverSocket.close();
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 	

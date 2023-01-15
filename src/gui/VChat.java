@@ -90,6 +90,23 @@ public class VChat extends JFrame {
 		
 		dlmChatbox = new DefaultListModel<>();
 		lChatbox = new JList<>(dlmChatbox);
+		lChatbox.setCellRenderer(new ListCellRenderer<Message>() {
+			@Override
+			public Component getListCellRendererComponent(JList<? extends Message> list, Message message, int index, boolean isSelected, boolean cellHasFocus) {
+				
+				JLabel label = new JLabel(message.getFrom().getUsername() + ": " + message.getMessage());
+				
+				if (message.getFrom().equals(VLogin.loggedUser)) {
+					label.setBackground(new Color(172, 242, 215));
+				} else {
+					label.setBackground(Color.WHITE);
+				}
+
+				label.setOpaque(true);
+				
+				return label;
+			}
+		});
 		JScrollPane sp = new JScrollPane(lChatbox);
 		
 		panel.add(sp, BorderLayout.CENTER);
