@@ -122,11 +122,23 @@ public class DPanelPerfil extends JPanel {
 		loadListaAmigos();
 		
 		JPanel panelBusqueda = new JPanel(new GridLayout(2,1));
-		panelBusqueda.setBorder(new TitledBorder("Buscador de amigos"));
-		tBuscador = new JTextField("Introduce un termino de busqueda");
+		panelBusqueda.setBorder(new TitledBorder("Añadir amigo"));
+		tBuscador = new JTextField();
+		tBuscador.setColumns(10);
 		panelBusqueda.add(tBuscador);
 		bBusqueda = new JButton("Buscar");
 		panelBusqueda.add(bBusqueda);
+		
+		bBusqueda.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				VLogin.dbManager.insertDataFriends(VLogin.loggedUser, VLogin.dbManager.getUser(tBuscador.getText()));
+				
+				
+			}
+		});
 		
 		panel.add(panelAmigos);
 		panel.add(panelBusqueda);

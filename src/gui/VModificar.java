@@ -89,7 +89,9 @@ public class VModificar extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {			
+				if(tJuegos.getSelectedRow() != -1) {
 					vEditar = new VEditar();				
+				}
 				
 			}
 		});

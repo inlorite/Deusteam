@@ -31,7 +31,7 @@ public class Main {
 		}
 		
 		gestor = new DBManager();
-		/*
+		
 		gestor.deleteDatabase();
 		
 		// Create: Creacion de la BD
@@ -75,7 +75,7 @@ public class Main {
 		for (Merch m : gestor.obtainDataMerch()) {
 			System.out.println(m);
 		}
-		*/
+		
 		
 		// creacion de ficheros
 //		guardarFicheroUsers();
