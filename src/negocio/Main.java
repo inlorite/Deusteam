@@ -5,12 +5,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import datos.DBManager;
 import gui.*;
@@ -21,13 +23,22 @@ public class Main {
 	
 	protected static Properties properties;
 	
+	public static Logger logger = Logger.getLogger("Deusteam");
+	
 	public static void main(String[] args) {
+		
+		try (FileInputStream fis = new FileInputStream("conf/logger.properties")) {
+            LogManager.getLogManager().readConfiguration(fis);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "No se pudo cargar el fichero de configuracion del logger.");
+        }
 		
 		try {
 			properties = new Properties();
 			properties.load(new FileReader("conf/config.properties"));
+			logger.log(Level.INFO, "Fichero properties cargado correctamente.");
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error iniciando properties: %s", ex.getMessage()));
+			logger.log(Level.WARNING, String.format("* Error iniciando properties: %s", ex.getMessage()));
 		}
 		
 		gestor = new DBManager();
@@ -297,11 +308,12 @@ public class Main {
 			
 			userList = (ArrayList<User>) ois.readObject();
 			
+			logger.log(Level.ALL, "Fichero de usuarios cargado correctamente.");
+			
 			ois.close();
 			
 		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.err.println("Error cargando el fichero de usuarios");
+			logger.log(Level.WARNING, String.format("* Error cargando fichero de usuarios: %s", e.getMessage()));
 		}
 		
 		return userList;

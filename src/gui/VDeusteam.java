@@ -21,7 +21,7 @@ public class VDeusteam extends JFrame {
 	public static DPanelTienda pTienda;
 	public static DPanelPerfil pPerfil;
 	
-	public static boolean networking = true;
+	public static boolean networking = false;
 	public static VChat vChat;
 	public static Client client;
 	
