@@ -98,8 +98,11 @@ public class VRegister extends JFrame{
 					
 					
 				} else if (!password.equals(confirmPassword)) {
-					JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");				
-				} 	else {
+					JOptionPane.showMessageDialog(null, "Las contrasenas no coinciden");				
+				}else if(username.equals("") || password.equals("") || email.equals("")) {
+					JOptionPane.showMessageDialog(null, "Campos vacios");	
+				}
+				else {
 					User user = new User();
 					user.setUsername(username);
 					user.setEmail(email);
