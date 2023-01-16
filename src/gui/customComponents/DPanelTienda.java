@@ -717,13 +717,15 @@ public class DPanelTienda extends JPanel {
 		
 		if (cbPosesion.isSelected()) {
 			
+			boolean isProperty = VLogin.dbManager.isMerchPropertyOfUser(VLogin.loggedUser.getId(), merch.getId());
+			
 			if (cCatMerch.getSelectedItem().equals(MerchType.NULL)) {
-				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
-					return true && !VLogin.dbManager.isMerchPropertyOfUser(VLogin.loggedUser.getId(), merch.getId());
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")  && !isProperty) {
+					return true;
 				}
 			} else {
-				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")) {
-					return true && !VLogin.dbManager.isMerchPropertyOfUser(VLogin.loggedUser.getId(), merch.getId()) && cCatMerch.getSelectedItem().equals(merch.getType());
+				if (nombre.toString().startsWith(tBuscador.getText()) && !tBuscador.getText().equals("")  && !isProperty) {
+					return true;
 				}
 			}
 			
