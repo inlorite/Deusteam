@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -90,9 +91,10 @@ public class VSaldo extends JFrame {
 					VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() + Double.parseDouble(tCantidad.getText()));
 					
 					DPanelTienda.bSaldo.setText("Saldo: " + VLogin.loggedUser.getBalance() + "$");
-					VSaldo.vSaldo.setVisible(false);
+					dispose();
+					vSaldo = null;
 				} catch (Exception e1) {
-					System.err.println("* Error al procesar el pago");
+					JOptionPane.showMessageDialog(null, "Error al introducir el saldo");
 				}
 			}
 		});
