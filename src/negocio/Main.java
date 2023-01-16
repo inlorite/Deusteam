@@ -1,8 +1,12 @@
 package negocio;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +23,12 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
+		try {
+			properties = new Properties();
+			properties.load(new FileReader("conf/config.properties"));
+		} catch (Exception ex) {
+			System.err.println(String.format("* Error iniciando properties: %s", ex.getMessage()));
+		}
 		
 		gestor = new DBManager();
 		/*
@@ -66,6 +76,16 @@ public class Main {
 			System.out.println(m);
 		}
 		*/
+		
+		// creacion de ficheros
+//		guardarFicheroUsers();
+//		guardarFicheroGames();
+//		guardarFicheroMerch();
+		
+		// comprobacion de inicializacion
+//		System.out.println(initFicheroUsers());
+//		System.out.println(initFicheroGames());
+//		System.out.println(initFicheroMerch());
 		
 		//VDeusteam v = new VDeusteam();
 		VLogin v = new VLogin(gestor);
@@ -267,7 +287,7 @@ public class Main {
 		
 	}
 	
-	public ArrayList<User> initFicheroUsers() {
+	public static ArrayList<User> initFicheroUsers() {
 		
 		ArrayList<User> userList = new ArrayList<>();
 		
@@ -288,7 +308,7 @@ public class Main {
 		
 	}
 	
-	public ArrayList<Game> initFicheroGames() {
+	public static ArrayList<Game> initFicheroGames() {
 		
 		ArrayList<Game> gameList = new ArrayList<>();
 		
@@ -309,7 +329,7 @@ public class Main {
 		
 	}
 
-	public ArrayList<Merch> initFicheroMerch() {
+	public static ArrayList<Merch> initFicheroMerch() {
 		
 		ArrayList<Merch> merchList = new ArrayList<>();
 		
@@ -330,4 +350,39 @@ public class Main {
 		
 	}
 	
+	public static void guardarFicheroUsers() {
+		
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(properties.getProperty("FICHERO_USERS")))) {
+		
+			oos.writeObject(gestor.obtainDataUsers());
+			
+		} catch (Exception e) {
+			System.err.println("Error guardando el fichero de users");
+		}
+		
+	}
+	
+	public static void guardarFicheroGames() {
+		
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(properties.getProperty("FICHERO_GAMES")))) {
+		
+			oos.writeObject(gestor.obtainDataGames());
+			
+		} catch (Exception e) {
+			System.err.println("Error guardando el fichero de games");
+		}
+		
+	}
+
+	public static void guardarFicheroMerch() {
+	
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(properties.getProperty("FICHERO_MERCH")))) {
+		
+			oos.writeObject(gestor.obtainDataMerch());
+			
+		} catch (Exception e) {
+			System.err.println("Error guardando el fichero de merch");
+		}
+	
+	}
 }
