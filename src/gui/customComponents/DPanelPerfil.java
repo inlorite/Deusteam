@@ -126,7 +126,7 @@ public class DPanelPerfil extends JPanel {
 		tBuscador = new JTextField();
 		tBuscador.setColumns(10);
 		panelBusqueda.add(tBuscador);
-		bBusqueda = new JButton("Buscar");
+		bBusqueda = new JButton("Añadir");
 		panelBusqueda.add(bBusqueda);
 		
 		bBusqueda.addActionListener(new ActionListener() {
@@ -134,8 +134,18 @@ public class DPanelPerfil extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				VLogin.dbManager.insertDataFriends(VLogin.loggedUser, VLogin.dbManager.getUser(tBuscador.getText()));
-				
+				if (VLogin.dbManager.getUser(tBuscador.getText()) != null) {
+					if (VLogin.dbManager.getUser(tBuscador.getText()).equals(VLogin.loggedUser)) {
+						JOptionPane.showMessageDialog(null, "No te puedes añadir a ti mismo.");
+					} else if(VLogin.loggedUser.getFriends().contains((Object) VLogin.dbManager.getUser(tBuscador.getText()).getId())) {
+						JOptionPane.showMessageDialog(null, "El usuario " + tBuscador.getText() + " ya es tu amigo.");
+					} else if (VLogin.dbManager.getUser(tBuscador.getText()) != null) {
+						VLogin.dbManager.insertDataFriends(VLogin.loggedUser, VLogin.dbManager.getUser(tBuscador.getText()));
+						loadListaAmigos();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null,"El usuario " + tBuscador.getText() + " no se ha encontrado.");
+				}
 				
 			}
 		});
