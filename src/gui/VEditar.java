@@ -44,6 +44,7 @@ public class VEditar extends JFrame{
 		Game game = VModificar.listJuegosOwner.get(VModificar.tJuegos.getSelectedRow());
 						
 		this.setMinimumSize(new Dimension(800, 600));
+
 		// LOGO
 		iiLogo = new ImageIcon("data/logo.png");
 		lLogo = new JLabel(iiLogo);
@@ -88,6 +89,7 @@ public class VEditar extends JFrame{
 		tfPrecio = new JTextField(String.valueOf(game.getPrice()));
 		pData.add(tfPrecio);
 		tfDescription = new JTextField(game.getDescription());
+		tfDescription.setColumns(20);
 		pData.add(tfDescription);
 		tfImglink = new JTextField(game.getImgLink());
 		pData.add(tfImglink);

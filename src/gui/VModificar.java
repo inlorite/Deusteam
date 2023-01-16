@@ -78,10 +78,14 @@ public class VModificar extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Game game = listJuegos.get(tJuegos.getSelectedRow());
-				Game game2 = listJuegosOwner.get(tJuegos.getSelectedRow());
-				VLogin.dbManager.deleteDataGames(game2);
-				DPanelPerfil.vModificar.setVisible(false);
+				if(tJuegos.getSelectedRow() != -1) {
+					Game game = listJuegos.get(tJuegos.getSelectedRow());
+					Game game2 = listJuegosOwner.get(tJuegos.getSelectedRow());
+					VLogin.dbManager.deleteDataGames(game2);
+					DPanelPerfil.vModificar.setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(null, "Seleccione el juego que quiere borrar");
+				}
 			}
 		});
 		
@@ -91,6 +95,8 @@ public class VModificar extends JFrame {
 			public void actionPerformed(ActionEvent e) {			
 				if(tJuegos.getSelectedRow() != -1) {
 					vEditar = new VEditar();				
+				}else {
+					JOptionPane.showMessageDialog(null, "Seleccione el juego a editar");
 				}
 				
 			}
