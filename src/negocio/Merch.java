@@ -113,7 +113,7 @@ public class Merch implements Serializable, Comparable<Merch> {
 
 	@Override
 	public String toString() {
-		return "Merch [id=" + id + ", name=" + name + ", owner=" + owner + ", type=" + type + ", price=" + price + "]";
+		return name;
 	}
 	
 	public String getDescription() {
