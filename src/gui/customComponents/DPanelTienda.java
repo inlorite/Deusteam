@@ -261,7 +261,7 @@ public class DPanelTienda extends JPanel {
 						Merch m = listMerch.get(tMerch.getSelectedRow());
 						
 						lBanner.setIcon(null);
-						lInfo.setText("<html><p>" + m.toString() + "</p></html>");
+						lInfo.setText("<html><p>" + m.getDescription() + "</p></html>");
 						bComprar.setEnabled(true);
 						
 						revalidate();
