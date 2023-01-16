@@ -1,8 +1,12 @@
 package negocio;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import datos.DBManager;
 import gui.*;
@@ -10,6 +14,9 @@ import gui.*;
 public class Main {
 	public static ArrayList<User> users;
 	public static DBManager gestor;
+	
+	protected static Properties properties;
+	
 	public static void main(String[] args) {
 		
 		
@@ -257,6 +264,69 @@ public class Main {
 		
 		gestor.insertDataPropertyMerch(users.get(2), merch.get(0));
 		gestor.insertDataPropertyMerch(users.get(2), merch.get(3));
+		
+	}
+	
+	public ArrayList<User> initFicheroUsers() {
+		
+		ArrayList<User> userList = new ArrayList<>();
+		
+		try {
+			
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(properties.getProperty("FICHERO_USERS")));
+			
+			userList = (ArrayList<User>) ois.readObject();
+			
+			ois.close();
+			
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error cargando el fichero de usuarios");
+		}
+		
+		return userList;
+		
+	}
+	
+	public ArrayList<Game> initFicheroGames() {
+		
+		ArrayList<Game> gameList = new ArrayList<>();
+		
+		try {
+			
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(properties.getProperty("FICHERO_GAMES")));
+			
+			gameList = (ArrayList<Game>) ois.readObject();
+			
+			ois.close();
+			
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error cargando el fichero de juegos");
+		}
+		
+		return gameList;
+		
+	}
+
+	public ArrayList<Merch> initFicheroMerch() {
+		
+		ArrayList<Merch> merchList = new ArrayList<>();
+		
+		try {
+			
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(properties.getProperty("FICHERO_MERCH")));
+			
+			merchList = (ArrayList<Merch>) ois.readObject();
+			
+			ois.close();
+			
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error cargando el fichero de merch");
+		}
+		
+		return merchList;
 		
 	}
 	
