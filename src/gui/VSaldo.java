@@ -90,6 +90,7 @@ public class VSaldo extends JFrame {
 					VLogin.loggedUser.setBalance(VLogin.loggedUser.getBalance() + Double.parseDouble(tCantidad.getText()));
 					
 					DPanelTienda.bSaldo.setText("Saldo: " + VLogin.loggedUser.getBalance() + "$");
+					VSaldo.vSaldo.setVisible(false);
 				} catch (Exception e1) {
 					System.err.println("* Error al procesar el pago");
 				}

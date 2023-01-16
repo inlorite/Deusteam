@@ -469,6 +469,8 @@ public class DPanelTienda extends JPanel {
 				
 				if (VSaldo.vSaldo == null) {
 					VSaldo.vSaldo = new VSaldo();
+				}else {
+					VSaldo.vSaldo.setVisible(true);
 				}
 				
 			}
