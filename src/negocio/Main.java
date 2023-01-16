@@ -308,7 +308,7 @@ public class Main {
 			
 			userList = (ArrayList<User>) ois.readObject();
 			
-			logger.log(Level.ALL, "Fichero de usuarios cargado correctamente.");
+			logger.log(Level.INFO, "Fichero de usuarios cargado correctamente.");
 			
 			ois.close();
 			
@@ -330,11 +330,12 @@ public class Main {
 			
 			gameList = (ArrayList<Game>) ois.readObject();
 			
+			logger.log(Level.INFO, "Fichero de juegos cargado correctamente.");
+			
 			ois.close();
 			
 		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.err.println("Error cargando el fichero de juegos");
+			logger.log(Level.WARNING, String.format("* Error cargando fichero de juegos: %s", e.getMessage()));
 		}
 		
 		return gameList;
@@ -351,11 +352,12 @@ public class Main {
 			
 			merchList = (ArrayList<Merch>) ois.readObject();
 			
+			logger.log(Level.INFO, "Fichero de merch cargado correctamente.");
+			
 			ois.close();
 			
 		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			System.err.println("Error cargando el fichero de merch");
+			logger.log(Level.WARNING, String.format("* Error cargando fichero de merch: %s", e.getMessage()));
 		}
 		
 		return merchList;
@@ -368,8 +370,10 @@ public class Main {
 		
 			oos.writeObject(gestor.obtainDataUsers());
 			
+			logger.log(Level.INFO, "Fichero de usuarios guardado correctamente.");
+			
 		} catch (Exception e) {
-			System.err.println("Error guardando el fichero de users");
+			logger.log(Level.WARNING, String.format("* Error guardando fichero de usuarios: %s", e.getMessage()));
 		}
 		
 	}
@@ -380,8 +384,10 @@ public class Main {
 		
 			oos.writeObject(gestor.obtainDataGames());
 			
+			logger.log(Level.INFO, "Fichero de juegos guardado correctamente.");
+			
 		} catch (Exception e) {
-			System.err.println("Error guardando el fichero de games");
+			logger.log(Level.WARNING, String.format("* Error guardando fichero de juegos: %s", e.getMessage()));
 		}
 		
 	}
@@ -392,8 +398,10 @@ public class Main {
 		
 			oos.writeObject(gestor.obtainDataMerch());
 			
+			logger.log(Level.INFO, "Fichero de merch guardado correctamente.");
+			
 		} catch (Exception e) {
-			System.err.println("Error guardando el fichero de merch");
+			logger.log(Level.WARNING, String.format("* Error guardando fichero de merch: %s", e.getMessage()));
 		}
 	
 	}

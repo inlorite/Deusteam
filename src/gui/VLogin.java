@@ -3,11 +3,13 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Iterator;
+import java.util.logging.Level;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import datos.DBManager;
+import negocio.Main;
 import negocio.User;
 
 public class VLogin extends JFrame {
@@ -96,7 +98,7 @@ public class VLogin extends JFrame {
 				if (login) {
 					vLogin.setVisible(false);
 					loggedUser = VLogin.dbManager.getUser(user);
-					System.out.println(loggedUser);
+					Main.logger.log(Level.INFO, "Usuario " + loggedUser.getUsername() + " ha iniciado sesion.");
 					vDeusteam = new VDeusteam();
 				} else {
 					System.out.println("datos incorrectos");

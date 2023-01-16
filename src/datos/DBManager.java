@@ -14,12 +14,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
+import java.util.logging.Level;
 import java.sql.ResultSet;
 
 import negocio.Country;
 import negocio.Game;
 import negocio.GameGenre;
+import negocio.Main;
 import negocio.Merch;
 import negocio.MerchType;
 import negocio.Pegi;
@@ -43,8 +44,7 @@ public class DBManager {
 			// SQLite diver charging
 			Class.forName(properties.getProperty("DRIVER_NAME"));
 		} catch (ClassNotFoundException ex) {
-			System.err.println(String.format("* Error charging database driver: %s", ex.getMessage()));
-			ex.printStackTrace();
+			Main.logger.log(Level.WARNING, String.format("* Error loading database driver: %s", ex.getMessage()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -145,10 +145,10 @@ public class DBManager {
 		        
 		        // Chart-creating sentence is executed
 		        if (!stmt.execute(sql)) {
-		        	System.out.println("- Table (" + sql.split(" ")[5] + ") successfully created.");
+		        	Main.logger.log(Level.INFO, "- Table (" + sql.split(" ")[5] + ") successfully created.");
 		        }
 			} catch (Exception ex) {
-				System.err.println(String.format("* Error creating table: %s", ex.getMessage()));
+				Main.logger.log(Level.WARNING, String.format("* Error creating table: %s", ex.getMessage()));
 				ex.printStackTrace();			
 			}
 	}
@@ -172,9 +172,9 @@ public class DBManager {
 		try {
 			// Database file is erased
 			Files.delete(Paths.get(properties.getProperty("DATABASE_FILE")));
-			System.out.println("- Database file successfully deleted.");
+			Main.logger.log(Level.INFO, "- Database file successfully deleted.");
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error deleting the database file: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error deleting the database file: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
 	}
@@ -186,10 +186,10 @@ public class DBManager {
 			
 	        // Chart-deleting sentence is executed
 	        if (!stmt.execute(sql)) {
-	        	System.out.println("- Table (" + (sql.split(" ")[4]).split(";")[0] + ") successfully dropped.");
+	        	Main.logger.log(Level.INFO, "- Table (" + (sql.split(" ")[4]).split(";")[0] + ") successfully dropped.");
 	        }
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error dropping table: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error dropping table: %s", ex.getMessage()));
 			ex.printStackTrace();			
 		}
 	}
@@ -207,7 +207,7 @@ public class DBManager {
 			String sql = "INSERT INTO GAMES (NAME, OWNER, PEGI, GENRE1, GENRE2, PRICE, DESCRIPTION, IMG_LINK) "
 					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%f','%s', '%s');";
 			
-			System.out.println("- Adding games...");
+			Main.logger.log(Level.INFO, "- Adding games...");
 			
 			// Info is added to the chart
 			for (Game game : games) {
@@ -215,13 +215,13 @@ public class DBManager {
 						game.getOwner(), game.getPegi(), game.getGenre1(), 
 						game.getGenre2(), game.getPrice(), game.getDescription(), 
 						game.getImgLink()))) {					
-					System.out.println(String.format(" - Game added: %s", game.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Game added: %s", game.toString()));
 				} else {
-					System.out.println(String.format(" - Game could not be added: %s", game.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Game could not be added: %s", game.toString()));
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error adding the game data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}	
 	}
@@ -262,9 +262,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d games retrieved...", games.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d games retrieved...", games.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -281,18 +281,18 @@ public class DBManager {
 			// SQL sentence is defined
 			String sql = "DELETE FROM GAMES WHERE ID_GAME = '%d';";
 			
-			System.out.println("- Deleting games...");
+			Main.logger.log(Level.INFO, "- Deleting games...");
 			
 			// Games are deleted from the table
 			for (Game game : games) {
 				if (1 == stmt.executeUpdate(String.format(sql, game.getId()))) {					
-					System.out.println(String.format(" - Game deleted: %s", game.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Game deleted: %s", game.toString()));
 				} else {
-					System.out.println(String.format(" - Game could not be deleted: %s", game.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Game could not be deleted: %s", game.toString()));
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error deleting the game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error deleting the game data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
 	}
@@ -323,10 +323,10 @@ public class DBManager {
 			game.setDescription(rs.getString("DESCRIPTION"));
 			game.setImgLink(rs.getString("IMG_LINK"));
 			
-			System.out.println(String.format("- Game retrieved"));
+			Main.logger.log(Level.INFO, String.format("- Game retrieved"));
 			return game;
 		} catch (Exception ex) {
-			//System.err.println(String.format("* Error retrieving game data: %s", ex.getMessage()));
+			//Main.logger.log(Level.WARNING, String.format("* Error retrieving game data: %s", ex.getMessage()));
 			//ex.printStackTrace();
 			return null;
 		}
@@ -358,10 +358,10 @@ public class DBManager {
 			game.setDescription(rs.getString("DESCRIPTION"));
 			game.setImgLink(rs.getString("IMG_LINK"));
 			
-			System.out.println(String.format("- Game retrieved"));
+			Main.logger.log(Level.INFO, String.format("- Game retrieved"));
 			return game;
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error retrieving game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error retrieving game data: %s", ex.getMessage()));
 			ex.printStackTrace();
 			return null;
 		}
@@ -380,9 +380,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, name, game.getId()));
 			
-			System.out.println(String.format("- Game name updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game name updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -400,9 +400,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, owner, game.getId()));
 			
-			System.out.println(String.format("- Game owner updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game owner updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -420,9 +420,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, pegi, game.getId()));
 			
-			System.out.println(String.format("- Game pegi updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game pegi updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -440,9 +440,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, genre, game.getId()));
 			
-			System.out.println(String.format("- Game's primary genre updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game's primary genre updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -460,9 +460,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, genre, game.getId()));
 			
-			System.out.println(String.format("- Game's secondary genre updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game's secondary genre updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -480,9 +480,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, price, game.getId()));
 			
-			System.out.println(String.format("- Game price updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game price updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -500,9 +500,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, description, game.getId()));
 			
-			System.out.println(String.format("- Game description updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game description updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -520,9 +520,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, imgLink, game.getId()));
 			
-			System.out.println(String.format("- Game's image link updated", result));
+			Main.logger.log(Level.INFO, String.format("- Game's image link updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating game data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating game data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -540,20 +540,20 @@ public class DBManager {
 			String sql = "INSERT INTO USERS (USERNAME, EMAIL, PASSWORD, COUNTRY, LAST_TIME_PLAYED, TOTAL_TIME_PLAYED, BALANCE) "
 					+ "VALUES ('%s', '%s', '%s','%s', '%s', '%d', '%f');";
 			
-			System.out.println("- Adding users...");
+			Main.logger.log(Level.INFO, "- Adding users...");
 			
 			// Info is added to the chart
 			for (User user : usuarios) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getUsername(),
 						user.getEmail(), user.getPassword(), user.getCountry(), 
 						user.getLastTimePlayedFormat(), user.getTotalTimePlayed(), user.getBalance()))) {					
-					System.out.println(String.format(" - User added: %s", user.toString()));
+					Main.logger.log(Level.INFO, String.format(" - User added: %s", user.toString()));
 				} else {
-					System.out.println(String.format(" - User could not be added: %s", user.toString()));
+					Main.logger.log(Level.INFO, String.format(" - User could not be added: %s", user.toString()));
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the user data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error adding the user data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}	
 	}
@@ -593,9 +593,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d users retrieved...", users.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d users retrieved...", users.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -612,18 +612,18 @@ public class DBManager {
 			// SQL sentence is defined
 			String sql = "DELETE FROM USERS WHERE ID_USER = '%d';";
 			
-			System.out.println("- Deleting users...");
+			Main.logger.log(Level.INFO, "- Deleting users...");
 			
 			// Users are deleted from the table
 			for (User user: users) {
 				if (1 == stmt.executeUpdate(String.format(sql, user.getId()))) {					
-					System.out.println(String.format(" - User deleted: %s", user.toString()));
+					Main.logger.log(Level.INFO, String.format(" - User deleted: %s", user.toString()));
 				} else {
-					System.out.println(String.format(" - User could not be deleted: %s", user.toString()));
+					Main.logger.log(Level.INFO, String.format(" - User could not be deleted: %s", user.toString()));
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error deleting the user data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error deleting the user data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
 	}
@@ -656,10 +656,10 @@ public class DBManager {
 			user.setGames(obtainDataPropertyGamesUser(rs.getInt("ID_USER")));
 			user.setMerch(obtainDataPropertyMerchUser(rs.getInt("ID_USER")));
 			
-			System.out.println(String.format("- User retrieved"));
+			Main.logger.log(Level.INFO, String.format("- User retrieved"));
 			return user;
 		} catch (Exception ex) {
-			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//Main.logger.log(Level.WARNING, String.format("* Error retrieving user data: %s", ex.getMessage()));
 			//ex.printStackTrace();
 			return null;
 		}
@@ -693,10 +693,10 @@ public class DBManager {
 			user.setGames(obtainDataPropertyGamesUser(rs.getInt("ID_USER")));
 			user.setMerch(obtainDataPropertyMerchUser(rs.getInt("ID_USER")));
 			
-			System.out.println(String.format("- User retrieved"));
+			Main.logger.log(Level.INFO, String.format("- User retrieved"));
 			return user;
 		} catch (Exception ex) {
-			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//Main.logger.log(Level.WARNING, String.format("* Error retrieving user data: %s", ex.getMessage()));
 			//ex.printStackTrace();
 			return null;
 		}
@@ -719,14 +719,14 @@ public class DBManager {
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			if (rs.getString("PASSWORD").equals(password)) {
-				System.out.println(String.format("- User verified"));
+				Main.logger.log(Level.INFO, String.format("- User verified"));
 				return true;
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Could not verify user: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Could not verify user: %s", ex.getMessage()));
 			ex.printStackTrace();
 		}
-		System.out.println(String.format("- Incorrect login"));
+		Main.logger.log(Level.INFO, String.format("- Incorrect login"));
 		return false;
 	}
 	
@@ -743,9 +743,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, username, user.getId()));
 			
-			System.out.println(String.format("- User name updated", result));
+			Main.logger.log(Level.INFO, String.format("- User name updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user name: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating user name: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}
 	}
@@ -763,9 +763,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, email, user.getId()));
 			
-			System.out.println(String.format("- User email updated", result));
+			Main.logger.log(Level.INFO, String.format("- User email updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user email: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating user email: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}
 	}
@@ -783,9 +783,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, password, user.getId()));
 			
-			System.out.println(String.format("- User password updated", result));
+			Main.logger.log(Level.INFO, String.format("- User password updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user password: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating user password: %s", ex.getMessage()));
 				ex.printStackTrace();					
 		}
 	}
@@ -803,9 +803,9 @@ public class DBManager {
 					
 			int result = stmt.executeUpdate(String.format(sql, country.toString(), user.getId()));
 					
-			System.out.println(String.format("- User country updated", result));
+			Main.logger.log(Level.INFO, String.format("- User country updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user country: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating user country: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}
 	}
@@ -823,9 +823,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, sdf.format(date), user.getId()));
 			
-			System.out.println(String.format("- User's last time played updated", result));
+			Main.logger.log(Level.INFO, String.format("- User's last time played updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating user data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -850,9 +850,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, time + previousTime, id_user));
 			
-			System.out.println(String.format("- User's total time played updated", result));
+			Main.logger.log(Level.INFO, String.format("- User's total time played updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating user data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -870,9 +870,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, balance, user.getId()));
 			
-			System.out.println(String.format("- User balance updated", result));
+			Main.logger.log(Level.INFO, String.format("- User balance updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating user balance: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating user balance: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}
 	}
@@ -891,16 +891,16 @@ public class DBManager {
 			String sql = "INSERT INTO PROPERTY_GAMES (INSTALLED, TIME_PLAYED, ID_USER, ID_GAME) "
 					+ "VALUES ('%x', '%x', '%x','%x');";
 			
-			System.out.println("- Adding game to user's library...");
+			Main.logger.log(Level.INFO, "- Adding game to user's library...");
 			
 			// Info is added to the chart
 			if (1 == stmt.executeUpdate(String.format(sql, 0, 0, user.getId(), game.getId()))) {					
-				System.out.println(String.format(" - Game added to library: %s", user.getUsername(), game.getName()));
+				Main.logger.log(Level.INFO, String.format(" - Game added to library: %s", user.getUsername(), game.getName()));
 			} else {
-				System.out.println(String.format(" - Game could not be added to library: %s", user.getUsername(), game.getName()));
+				Main.logger.log(Level.INFO, String.format(" - Game could not be added to library: %s", user.getUsername(), game.getName()));
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the game/user data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error adding the game/user data: %s", ex.getMessage()));
 			ex.printStackTrace();				
 		}
 	}
@@ -934,9 +934,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d user's games retrieved...", userGames.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d user's games retrieved...", userGames.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -968,9 +968,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- User (%d)'s games retrieved...", id_user));			
+			Main.logger.log(Level.INFO, String.format("- User (%d)'s games retrieved...", id_user));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1010,9 +1010,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d user's games retrieved...", userGames.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d user's games retrieved...", userGames.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1034,9 +1034,9 @@ public class DBManager {
 			// Installed if true = 1, if false = 0
 			int result = stmt.executeUpdate(String.format(sql, installed, id_user, id_game));
 			
-			System.out.println(String.format("- Property game installation updated", result));
+			Main.logger.log(Level.INFO, String.format("- Property game installation updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating property game installation: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating property game installation: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -1065,9 +1065,9 @@ public class DBManager {
 			// Update of the user's individual data
 			incrementUserTotalTimePlayed(id_user, timePlayed);
 			
-			System.out.println(String.format("- Property game time played updated", result));
+			Main.logger.log(Level.INFO, String.format("- Property game time played updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating property game time played: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating property game time played: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -1096,9 +1096,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- User (%d)'s games retrieved...", id_user));			
+			Main.logger.log(Level.INFO, String.format("- User (%d)'s games retrieved...", id_user));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1119,16 +1119,16 @@ public class DBManager {
 			String sql = "INSERT INTO FRIENDS (ID_USER1, ID_USER2) "
 					+ "VALUES ('%x', '%x');";
 			
-			System.out.println("- Adding friend to user's friendlist...");
+			Main.logger.log(Level.INFO, "- Adding friend to user's friendlist...");
 			
 			// Info is added to the chart
 			if (1 == stmt.executeUpdate(String.format(sql, user1.getId(), user2.getId())) && 1 == stmt.executeUpdate(String.format(sql, user2.getId(), user1.getId()))) {					
-				System.out.println(String.format(" - Friends added correctly: %s", user1.getUsername(), user2.getUsername()));
+				Main.logger.log(Level.INFO, String.format(" - Friends added correctly: %s", user1.getUsername(), user2.getUsername()));
 			} else {
-				System.out.println(String.format(" - Friends could not be added: %s", user1.getUsername(), user2.getUsername()));
+				Main.logger.log(Level.INFO, String.format(" - Friends could not be added: %s", user1.getUsername(), user2.getUsername()));
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the users data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error adding the users data: %s", ex.getMessage()));
 			ex.printStackTrace();				
 		}
 	}
@@ -1162,9 +1162,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d user's friends retrieved...", friends.size()));	
+			Main.logger.log(Level.INFO, String.format("- %d user's friends retrieved...", friends.size()));	
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1195,9 +1195,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- User (%d)'s friends retrieved...", id_user));	
+			Main.logger.log(Level.INFO, String.format("- User (%d)'s friends retrieved...", id_user));	
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1229,9 +1229,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- User (%d)'s friends retrieved...", id_user));	
+			Main.logger.log(Level.INFO, String.format("- User (%d)'s friends retrieved...", id_user));	
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1249,16 +1249,16 @@ public class DBManager {
 			// SQL sentence is defined
 			String sql = "DELETE FROM FRIENDS WHERE ID_USER1 = '%x' AND ID_USER2 = '%x';";
 			
-			System.out.println("- Deleting friend...");
+			Main.logger.log(Level.INFO, "- Deleting friend...");
 			
 			// Friend is deleted from the table
 			if (1 == stmt.executeUpdate(String.format(sql, user1, user2)) && 1 == stmt.executeUpdate(String.format(sql, user2, user1))) {					
-				System.out.println(String.format(" - Friend deleted: %s", user1, user2));
+				Main.logger.log(Level.INFO, String.format(" - Friend deleted: %s", user1, user2));
 			} else {
-				System.out.println(String.format(" - Friend could not be deleted: %s", user1, user2));
+				Main.logger.log(Level.INFO, String.format(" - Friend could not be deleted: %s", user1, user2));
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error deleting the friend data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error deleting the friend data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
 	}
@@ -1276,19 +1276,19 @@ public class DBManager {
 			String sql = "INSERT INTO MERCH (NAME, OWNER, TYPE, PRICE) "
 					+ "VALUES ('%s', '%s', '%s', '%f');";
 			
-			System.out.println("- Adding merch...");
+			Main.logger.log(Level.INFO, "- Adding merch...");
 			
 			// Info is added to the chart
 			for (Merch merch : merchlist) {
 				if (1 == stmt.executeUpdate(String.format(sql, merch.getName(),
 						merch.getOwner(), merch.getType(), merch.getPrice()))) {					
-					System.out.println(String.format(" - Merch added: %s", merch.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Merch added: %s", merch.toString()));
 				} else {
-					System.out.println(String.format(" - Merch could not be added: %s", merch.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Merch could not be added: %s", merch.toString()));
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the merch data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error adding the merch data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}	
 	}
@@ -1325,9 +1325,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d merch products retrieved...", merchlist.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d merch products retrieved...", merchlist.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1344,18 +1344,18 @@ public class DBManager {
 			// SQL sentence is defined
 			String sql = "DELETE FROM MERCH WHERE ID_MERCH = '%x';";
 			
-			System.out.println("- Deleting merch...");
+			Main.logger.log(Level.INFO, "- Deleting merch...");
 			
 			// Merch products are deleted from the table
 			for (Merch merch: merchlist) {
 				if (1 == stmt.executeUpdate(String.format(sql, merch.getId()))) {					
-					System.out.println(String.format(" - Merch product deleted: %s", merch.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Merch product deleted: %s", merch.toString()));
 				} else {
-					System.out.println(String.format(" - Merch product could not be deleted: %s", merch.toString()));
+					Main.logger.log(Level.INFO, String.format(" - Merch product could not be deleted: %s", merch.toString()));
 				}
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error deleting the merch data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error deleting the merch data: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}
 	}
@@ -1382,10 +1382,10 @@ public class DBManager {
 			merch.setType(rs.getString("TYPE"));
 			merch.setPrice(rs.getInt("PRICE"));
 			
-			System.out.println(String.format("- User retrieved"));
+			Main.logger.log(Level.INFO, String.format("- User retrieved"));
 			return merch;
 		} catch (Exception ex) {
-			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//Main.logger.log(Level.WARNING, String.format("* Error retrieving user data: %s", ex.getMessage()));
 			//ex.printStackTrace();
 			return null;
 		}
@@ -1408,10 +1408,10 @@ public class DBManager {
 			merch.setType(rs.getString("TYPE"));
 			merch.setPrice(rs.getInt("PRICE"));
 			
-			System.out.println(String.format("- Merch retrieved"));
+			Main.logger.log(Level.INFO, String.format("- Merch retrieved"));
 			return merch;
 		} catch (Exception ex) {
-			//System.err.println(String.format("* Error retrieving user data: %s", ex.getMessage()));
+			//Main.logger.log(Level.WARNING, String.format("* Error retrieving user data: %s", ex.getMessage()));
 			//ex.printStackTrace();
 			return null;
 		}
@@ -1430,9 +1430,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, name, merch.getId()));
 			
-			System.out.println(String.format("- Merch name updated", result));
+			Main.logger.log(Level.INFO, String.format("- Merch name updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating merch data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -1450,9 +1450,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, owner, merch.getId()));
 			
-			System.out.println(String.format("- Merch owner updated", result));
+			Main.logger.log(Level.INFO, String.format("- Merch owner updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating merch data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}	
 	}
@@ -1470,9 +1470,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, type, merch.getId()));
 			
-			System.out.println(String.format("- Merch type updated", result));
+			Main.logger.log(Level.INFO, String.format("- Merch type updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating merch data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}	
 	}
@@ -1490,9 +1490,9 @@ public class DBManager {
 			
 			int result = stmt.executeUpdate(String.format(sql, price, merch.getId()));
 			
-			System.out.println(String.format("- Merch price updated", result));
+			Main.logger.log(Level.INFO, String.format("- Merch price updated", result));
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error updating merch data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error updating merch data: %s", ex.getMessage()));
 			ex.printStackTrace();					
 		}		
 	}
@@ -1511,16 +1511,16 @@ public class DBManager {
 			String sql = "INSERT INTO PROPERTY_MERCH (ID_USER, ID_MERCH) "
 					+ "VALUES ('%x', '%x');";
 			
-			System.out.println("- Adding merch to user's library...");
+			Main.logger.log(Level.INFO, "- Adding merch to user's library...");
 			
 			// Info is added to the chart
 			if (1 == stmt.executeUpdate(String.format(sql, user.getId(), merch.getId()))) {					
-				System.out.println(String.format(" - Merch added to library: %s", user.getUsername(), merch.getName()));
+				Main.logger.log(Level.INFO, String.format(" - Merch added to library: %s", user.getUsername(), merch.getName()));
 			} else {
-				System.out.println(String.format(" - Merch could not be added to library: %s", user.getUsername(), merch.getName()));
+				Main.logger.log(Level.INFO, String.format(" - Merch could not be added to library: %s", user.getUsername(), merch.getName()));
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the merch/user data: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error adding the merch/user data: %s", ex.getMessage()));
 			ex.printStackTrace();				
 		}
 	}
@@ -1554,9 +1554,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d user's merch retrieved...", userMerch.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d user's merch retrieved...", userMerch.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1589,9 +1589,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d user's merch retrieved...", userMerch.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d user's merch retrieved...", userMerch.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1622,9 +1622,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- User (%d)'s merch retrieved...", id_user));			
+			Main.logger.log(Level.INFO, String.format("- User (%d)'s merch retrieved...", id_user));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
@@ -1641,16 +1641,16 @@ public class DBManager {
 			// SQL sentence is defined
 			String sql = "INSERT INTO MESSAGES (FROM_USER, TO_USER, MESSAGE, DATE) VALUES ('%x', '%x', '%s', '%s');";
 			
-			System.out.println("- Adding message to the table...");
+			Main.logger.log(Level.INFO, "- Adding message to the table...");
 			
 			// Info is added to the chart
 			if (1 == stmt.executeUpdate(String.format(sql, message.getFrom().getId(), message.getTo().getId(), message.getMessage(), message.getDate()+""))) {					
-				System.out.println(String.format(" - Message added to table: %s", message.toString()));
+				Main.logger.log(Level.INFO, String.format(" - Message added to table: %s", message.toString()));
 			} else {
-				System.out.println(String.format(" - Message could not be added to table: %s", message.toString()));
+				Main.logger.log(Level.INFO, String.format(" - Message could not be added to table: %s", message.toString()));
 			}
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error adding the message: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error adding the message: %s", ex.getMessage()));
 			ex.printStackTrace();				
 		}
 	}
@@ -1681,9 +1681,9 @@ public class DBManager {
 			// ResultSet closing
 			rs.close();
 			
-			System.out.println(String.format("- %d messages retrieved...", messages.size()));			
+			Main.logger.log(Level.INFO, String.format("- %d messages retrieved...", messages.size()));			
 		} catch (Exception ex) {
-			System.err.println(String.format("* Error obtaining data from database: %s", ex.getMessage()));
+			Main.logger.log(Level.WARNING, String.format("* Error obtaining data from database: %s", ex.getMessage()));
 			ex.printStackTrace();						
 		}		
 		
