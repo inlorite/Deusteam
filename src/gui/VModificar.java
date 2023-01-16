@@ -68,6 +68,7 @@ public class VModificar extends JFrame {
 		this.setContentPane(cp);
 		
 		this.setTitle("Deusteam modificacion");
+		this.setIconImage(new ImageIcon("data/icon.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);

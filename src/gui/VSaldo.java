@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -56,6 +58,7 @@ public class VSaldo extends JFrame {
 		cp.add(pBotones, BorderLayout.SOUTH);
 		
 		this.setTitle("Deusteam - Recargar saldo");
+		this.setIconImage(new ImageIcon("data/icon.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null); // centers window on execution
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);

@@ -103,6 +103,7 @@ public class VEditar extends JFrame{
 		
 		
 		this.setTitle("Deusteam Games");
+		this.setIconImage(new ImageIcon("data/icon.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null); // centers window on execution
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);

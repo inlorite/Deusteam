@@ -74,6 +74,7 @@ public class VRegister extends JFrame{
 		cp.add(pData);
 		
 		this.setTitle("Deusteam Login");
+		this.setIconImage(new ImageIcon("data/icon.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null); // centers window on execution
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -107,6 +107,7 @@ public class VLogin extends JFrame {
 		});
 		
 		this.setTitle("Deusteam Login");
+		this.setIconImage(new ImageIcon("data/icon.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

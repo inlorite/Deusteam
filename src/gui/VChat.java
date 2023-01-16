@@ -49,6 +49,7 @@ public class VChat extends JFrame {
 		
 		this.setMinimumSize(new Dimension(400, 500));
 		this.setTitle("Deusteam chat");
+		this.setIconImage(new ImageIcon("data/icon.png").getImage());
 		this.pack();
 		this.setLocationRelativeTo(null); // para centrar la ventana al ejecutarla
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
