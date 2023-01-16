@@ -170,7 +170,7 @@ public class Game implements Serializable, Comparable<Game> {
 
 	@Override
 	public String toString() {
-		return "id=" + id + "- " + name ;
+		return "id=" + id + " - " + name ;
 		
 	//	"Juego [id=" + id + ", name=" + name + ", owner=" + owner + ", pegi=" + pegi + ", genre1="
 	//	+ genre1 + ", genre2=" + genre2 + ", price=" + price + ", description=" + description + ", imgLink="
