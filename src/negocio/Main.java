@@ -174,7 +174,7 @@ public class Main {
 		game.setGenre1(GameGenre.Action);
 		game.setGenre2(GameGenre.Fantasy);
 		game.setPrice(12.0);
-		game.setDescription("�Aniquila a miles de criaturas de la noche y sobrevive hasta el amanecer! Vampire Survivors es un juego casual de terror gotico con elementos �roguelite� donde tus decisiones te permitir�n aumentar tu poder exponencialmente mientras luchas contra cientos de monstruos.");
+		game.setDescription("Aniquila a miles de criaturas de la noche y sobrevive hasta el amanecer! Vampire Survivors es un juego casual de terror gotico con elementos roguelite donde tus decisiones te permitiran aumentar tu poder exponencialmente mientras luchas contra cientos de monstruos.");
 		game.setImgLink("data/game_banners/4.jpg");
 		games.add(game);
 		
