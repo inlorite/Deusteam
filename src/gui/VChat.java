@@ -47,6 +47,14 @@ public class VChat extends JFrame {
 		
 		this.setContentPane(cp);
 		
+		this.addComponentListener(new ComponentAdapter() {
+			
+			@Override
+			public void componentShown(ComponentEvent e) {
+				loadFriends();
+			}
+		});
+		
 		this.setMinimumSize(new Dimension(400, 500));
 		this.setTitle("Deusteam chat");
 		this.setIconImage(new ImageIcon("data/icon.png").getImage());
@@ -162,6 +170,16 @@ public class VChat extends JFrame {
 		List<Message> messages = VLogin.dbManager.obtainDataUserMessages(VLogin.loggedUser.getId(), friends.get(cbAmigos.getSelectedItem()));
 		
 		dlmChatbox.addAll(messages);
+	}
+	
+	public void loadFriends() {
+		cbAmigos.removeAllItems();
+		
+		friends = VLogin.dbManager.obtainDataFriendsUserMap(VLogin.loggedUser.getId());
+		
+		for (String friend : friends.keySet()) {
+			cbAmigos.addItem(friend);
+		}
 	}
 
 }

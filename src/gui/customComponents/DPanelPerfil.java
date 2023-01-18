@@ -146,7 +146,7 @@ public class DPanelPerfil extends JPanel {
 				} else {
 					JOptionPane.showMessageDialog(null,"El usuario " + tBuscador.getText() + " no se ha encontrado.");
 				}
-				
+				tBuscador.setText("");
 			}
 		});
 		

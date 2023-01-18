@@ -88,15 +88,17 @@ public class DMenuBar extends JPanel {
 			}
 		});
 		
-		if (VDeusteam.networking) {
-			bChat.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
+		bChat.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (VDeusteam.networking) {
 					VDeusteam.vChat.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Error al cargar el chat.\n(Probablemente servidor no inicializado)", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-			});
-		}
+			}
+		});
 		
 		this.add(bBiblioteca);
 		this.add(bTienda);

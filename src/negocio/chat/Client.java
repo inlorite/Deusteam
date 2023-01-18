@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
 
 import javax.swing.DefaultListModel;
 
+import gui.VDeusteam;
+import negocio.Main;
 import negocio.User;
 
 public class Client {
@@ -33,7 +36,9 @@ public class Client {
 			
 		} catch (IOException e) {
 			//e.printStackTrace();
+			Main.logger.log(Level.WARNING, String.format("* Error al cargar el chat: %s", e.getMessage()));
 			closeClient(socket, oos, ois);
+			VDeusteam.networking = false;
 		}
 	}
 	

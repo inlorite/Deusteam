@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import negocio.User;
 
@@ -47,7 +48,7 @@ public class ClientHandler {
 						
 						Message messageFromClient = (Message) ois.readObject();
 						
-						System.out.println("[HANDLER] New message received: " + messageFromClient);
+						Server.logger.log(Level.INFO, "[HANDLER] New message received: " + messageFromClient);
 						
 						sendToReceiver(messageFromClient);
 						
@@ -69,11 +70,11 @@ public class ClientHandler {
 			ClientHandler receiver = getReceiverHandler(message.to);
 			
 			if (receiver == null) {
-				System.out.println("[HANDLER] " + message.to.getUsername() + " is offline");
+				Server.logger.log(Level.INFO, "[HANDLER] " + message.to.getUsername() + " is offline");
 				
 				this.oos.writeObject(message);
 			} else {
-				System.out.println("[HANDLER] " + receiver.user.getUsername() + " is online. Sending message from " + message.from.getUsername());
+				Server.logger.log(Level.INFO, "[HANDLER] " + receiver.user.getUsername() + " is online. Sending message from " + message.from.getUsername());
 				
 				this.oos.writeObject(message);
 				receiver.oos.writeObject(message);
