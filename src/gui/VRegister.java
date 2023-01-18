@@ -11,7 +11,6 @@ import javax.swing.border.EmptyBorder;
 import datos.DBManager;
 import negocio.Country;
 import negocio.Game;
-import negocio.Main;
 import negocio.User;
 
 public class VRegister extends JFrame{
@@ -83,6 +82,7 @@ public class VRegister extends JFrame{
 		
 		bRegister.addActionListener(new ActionListener() {
 			
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String username = tfUser.getText();
@@ -92,10 +92,7 @@ public class VRegister extends JFrame{
 				String confirmPassword = tfPasswordConfirm.getText();
 				User userVerification = VLogin.dbManager.getUser(username);
 				if (userVerification != null ) {
-					JOptionPane.showMessageDialog(null, "Usuario ocupado");				
-					
-					// New user creation
-					
+					JOptionPane.showMessageDialog(null, "Usuario ocupado");
 					
 				} else if (!password.equals(confirmPassword)) {
 					JOptionPane.showMessageDialog(null, "Las contrasenas no coinciden");				
@@ -116,10 +113,6 @@ public class VRegister extends JFrame{
 					VLogin.vRegister.setVisible(false);
 					VLogin.vLogin.setVisible(true);
 				}
-					
-				
-					
-				
 			}
 		});
 		bBack.addActionListener(new ActionListener() {

@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Iterator;
 import java.util.logging.Level;
 
 import javax.swing.*;
@@ -55,17 +54,9 @@ public class VLogin extends JFrame {
 		pData.add(new JLabel("Username: "));
 		tfUser = new JTextField();
 		
-		/// TEMPORAL ///
-		tfUser.setText("Adrian");
-		////////////////
-		
 		pData.add(tfUser);
 		pData.add(new JLabel("Password: "));
 		tfPassword = new JPasswordField();
-		
-		/// TEMPORAL ///
-		tfPassword.setText("adrianmartinez");
-		////////////////
 		
 		pData.add(tfPassword);
 		bRegister = new JButton("Register");
@@ -88,6 +79,7 @@ public class VLogin extends JFrame {
 
 		bLogin.addActionListener(new ActionListener() {
 			
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String user = tfUser.getText();

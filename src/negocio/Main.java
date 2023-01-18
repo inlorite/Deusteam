@@ -1,5 +1,6 @@
 package negocio;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -43,50 +44,37 @@ public class Main {
 		
 		gestor = new DBManager();
 		
-		gestor.deleteDatabase();
-		
-		// Create: Creacion de la BD
-		gestor.createDatabase();
-		
-		// Insert: Insercion de usuarios y juegos en la BD
-		
-		// Usuarios
-		List<User> users = initUsers();
-		gestor.insertDataUsers(users.toArray(new User[users.size()]));
-		
-		// Juegos
-		List<Game> games = initGames();
-		gestor.insertDataGames(games.toArray(new Game[games.size()]));
-		
-		// Merch
-		List<Merch> merch = initMerch();
-		gestor.insertDataMerch(merch.toArray(new Merch[merch.size()]));
+		File dbFile = new File(properties.getProperty("DATABASE_FILE"));
+		if (!dbFile.exists()) {
+			// Create: Creacion de la BD
+			gestor.createDatabase();
 			
-		// Update: Modificacion de usuarios y juegos en la BD
-		//gestor.updateGamePrice(games.get(0), 9.85);
-		gestor.incrementUserTotalTimePlayed(users.get(0).getId(), 50);
-		
-		initPropertyGames(users, games);
-		gestor.updatePropertyGamesInstalled(users.get(1).getId(), games.get(1).getId(), 1);
-		gestor.updatePropertyGamesInstalled(users.get(2).getId(), games.get(0).getId(), 1);
-		
-		initPropertyMerch(users, merch);
-		
-		initFriends(users);
-		
-		// Select: 
-		for (User u : gestor.obtainDataUsers()) {
-			System.out.println(u);
+			// Insert: Insercion de usuarios y juegos en la BD
+			
+			// Usuarios
+			List<User> users = initUsers();
+			gestor.insertDataUsers(users.toArray(new User[users.size()]));
+			
+			// Juegos
+			List<Game> games = initGames();
+			gestor.insertDataGames(games.toArray(new Game[games.size()]));
+			
+			// Merch
+			List<Merch> merch = initMerch();
+			gestor.insertDataMerch(merch.toArray(new Merch[merch.size()]));
+				
+			// Update: Modificacion de usuarios y juegos en la BD
+			//gestor.updateGamePrice(games.get(0), 9.85);
+			gestor.incrementUserTotalTimePlayed(users.get(0).getId(), 50);
+			
+			initPropertyGames(users, games);
+			gestor.updatePropertyGamesInstalled(users.get(1).getId(), games.get(1).getId(), 1);
+			gestor.updatePropertyGamesInstalled(users.get(2).getId(), games.get(0).getId(), 1);
+			
+			initPropertyMerch(users, merch);
+			
+			initFriends(users);
 		}
-		
-		for (Game g : gestor.obtainDataGames()) {
-			System.out.println(g);
-		}
-		
-		for (Merch m : gestor.obtainDataMerch()) {
-			System.out.println(m);
-		}
-		
 		
 		// creacion de ficheros
 //		guardarFicheroUsers();
@@ -298,6 +286,7 @@ public class Main {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static ArrayList<User> initFicheroUsers() {
 		
 		ArrayList<User> userList = new ArrayList<>();
@@ -320,6 +309,7 @@ public class Main {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static ArrayList<Game> initFicheroGames() {
 		
 		ArrayList<Game> gameList = new ArrayList<>();
@@ -342,6 +332,7 @@ public class Main {
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	public static ArrayList<Merch> initFicheroMerch() {
 		
 		ArrayList<Merch> merchList = new ArrayList<>();
