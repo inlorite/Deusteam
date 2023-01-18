@@ -46,6 +46,8 @@ public class Main {
 		
 		File dbFile = new File(properties.getProperty("DATABASE_FILE"));
 		if (!dbFile.exists()) {
+			logger.log(Level.INFO, "No existe fichero de base de datos, se creara uno.");
+			
 			// Create: Creacion de la BD
 			gestor.createDatabase();
 			

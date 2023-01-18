@@ -340,7 +340,7 @@ public class DPanelBiblioteca extends JPanel {
 			lTitle.setHorizontalAlignment(SwingConstants.CENTER);
 			lTitle.setFont(new Font(lTitle.getFont().getName(), Font.BOLD, 21));
 			
-			ImageIcon ii = new ImageIcon("data/game_banners/" + game.getId() + ".jpg");
+			ImageIcon ii = new ImageIcon(game.getImgLink());
 			lBanner.setIcon(ii);
 			lBanner.setHorizontalAlignment(SwingConstants.CENTER);
 			
