@@ -100,14 +100,14 @@ public class DPanelBiblioteca extends JPanel {
 		JPanel panel = new JPanel(new GridLayout(2, 1));
 		
 		JPanel panelInstalados = new JPanel(new BorderLayout());
-		panelInstalados.setBorder(new TitledBorder("Juegos instalados"));
+		panelInstalados.setBorder(new TitledBorder("Instalados"));
 		dlmJuegosInstalados = new DefaultListModel<>();
 		lJuegosInstalados = new JList<>(dlmJuegosInstalados);
 		lJuegosInstalados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panelInstalados.add(new JScrollPane(lJuegosInstalados), BorderLayout.CENTER);
 		
 		JPanel panelDisponibles = new JPanel(new BorderLayout());
-		panelDisponibles.setBorder(new TitledBorder("Juegos Disponibles"));
+		panelDisponibles.setBorder(new TitledBorder("Disponibles"));
 		dlmJuegosDisponibles = new DefaultListModel<>();
 		lJuegosDisponibles = new JList<>(dlmJuegosDisponibles);
 		lJuegosDisponibles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -140,22 +140,24 @@ public class DPanelBiblioteca extends JPanel {
 					if (list.getSelectedIndex() > -1) {
 						Game g = list.getSelectedValue();
 						
-						updateGameData(g);
-						
-						if (list == lJuegosDisponibles) {
-							bJugar.setVisible(false);
-							bInstalar.setText("Instalar");
-						} else if (list == lJuegosInstalados) {
-							bJugar.setVisible(true);
-							bInstalar.setText("Desinstalar");
+						if (g != null) {
+							updateGameData(g);
+							
+							if (list == lJuegosDisponibles) {
+								bJugar.setVisible(false);
+								bInstalar.setText("Instalar");
+							} else if (list == lJuegosInstalados) {
+								bJugar.setVisible(true);
+								bInstalar.setText("Desinstalar");
+							}
+							
+							if (!bInstalar.isEnabled()) {
+								bInstalar.setEnabled(true);
+							}
+							
+							revalidate();
+							repaint();
 						}
-						
-						if (!bInstalar.isEnabled()) {
-							bInstalar.setEnabled(true);
-						}
-						
-						revalidate();
-						repaint();
 					}
 				}
 			}
@@ -225,7 +227,10 @@ public class DPanelBiblioteca extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Game game = selectedList.getSelectedValue();
-				System.out.println("Jugando a " + game.getName());
+				
+				if (game != null) {
+					JOptionPane.showMessageDialog(null, "Jugando a " + game.getName() + "...", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		
@@ -240,34 +245,36 @@ public class DPanelBiblioteca extends JPanel {
 						JList<Game> list = selectedList;
 						Game game = list.getSelectedValue();
 						
-						lJuegosDisponibles.setEnabled(false);
-						lJuegosInstalados.setEnabled(false);
-						bInstalar.setEnabled(false);
-						bJugar.setVisible(false);
-						pbInstalar.setVisible(true);
-						
-						try {
-							for (int i = 1; i <= 100; i++) {
-								pbInstalar.setValue(i);
-								Thread.sleep(100);
+						if (game != null) {
+							lJuegosDisponibles.setEnabled(false);
+							lJuegosInstalados.setEnabled(false);
+							bInstalar.setEnabled(false);
+							bJugar.setVisible(false);
+							pbInstalar.setVisible(true);
+							
+							try {
+								for (int i = 1; i <= 100; i++) {
+									pbInstalar.setValue(i);
+									Thread.sleep(100);
+								}
+								
+								if (list == lJuegosDisponibles) {
+									VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 1);
+									loadDataModels();
+									JOptionPane.showMessageDialog(null, game.getName() + " instalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								} else if (list == lJuegosInstalados) {
+									VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 0);
+									loadDataModels();
+									JOptionPane.showMessageDialog(null, game.getName() + " desinstalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								}
+							} catch (InterruptedException e) {
+								e.printStackTrace();
 							}
 							
-							if (list == lJuegosDisponibles) {
-								VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 1);
-								loadDataModels();
-								JOptionPane.showMessageDialog(null, game.getName() + " instalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-							} else if (list == lJuegosInstalados) {
-								VLogin.dbManager.updatePropertyGamesInstalled(VLogin.loggedUser.getId(), game.getId(), 0);
-								loadDataModels();
-								JOptionPane.showMessageDialog(null, game.getName() + " desinstalado correctamente.", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-							}
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+							lJuegosDisponibles.setEnabled(true);
+							lJuegosInstalados.setEnabled(true);
+							pbInstalar.setVisible(false);
 						}
-						
-						lJuegosDisponibles.setEnabled(true);
-						lJuegosInstalados.setEnabled(true);
-						pbInstalar.setVisible(false);
 					}
 				});
 				barThread.start();
